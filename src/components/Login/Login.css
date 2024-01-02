@@ -1,0 +1,45 @@
+/* Login Box */
+.login-box {
+    width: 400px;
+    margin: 0 auto;
+}
+
+/* Title */
+.login-box h2 {
+    font-family: 'Pretendard';
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 44px;
+    color: #FD7E14;
+}
+
+/* Subtitle */
+.login-box h2.subtitle {
+    font-family: 'Pretendard';
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 44px;
+    color: #343A40;
+}
+
+/* Social Buttons Container */
+.login-box .social-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+/* Naver Login Button */
+.login-box .naver-button,
+.login-box .google-button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    margin: 0 0.5rem;
+}
+
+.login-box .naver-button img,
+.login-box .google-button img {
+    width: 150px;
+    height: auto;
+}

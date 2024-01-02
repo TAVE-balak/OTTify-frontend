@@ -1,0 +1,79 @@
+/*전체 레이아웃*/
+/*Title*/
+.ott_title h1{
+  font-size: 36px;
+}
+
+.ott_title span{
+  color: var(--primary);
+}
+
+.change_ott{
+  width: 736px;
+  margin: 64px auto 160px;
+}
+
+/*OTT 나열*/
+.choose_ott{
+  display: grid;
+  grid-template-rows: 130px 130px 130px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.ott_pick_logo{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 166px;
+  height: 115px;
+  border-radius: 15px;
+  background-color: var(--neutral2);
+}
+
+.logo_img{
+  width: 30%;
+  height: 30%;
+  object-fit: contain;
+}
+
+.logo_name{
+  margin-top: 15px;
+  color: var(--gray_900);
+  font-size: 13px;
+}
+
+/*취소하기*/
+.all_delete{
+  display: flex;
+  width: 165px;
+  height: 40px;
+  background-color: var(--orange_100);
+  border-radius: 15px;
+  align-items: center;
+  justify-content: center;
+  margin: 128px auto 0;
+  border: none;
+}
+
+.delete_close{
+  width: 16px;
+  height: 16px;
+}
+
+.delete_word{
+  color: var(--secondary);
+  margin-left: 5px;
+  margin-bottom: 3px;
+}
+
+/*적용*/
+.apply_button{
+  width: 725px;
+  height: 40px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  margin-top: 16px;
+}

@@ -1,0 +1,104 @@
+/* 네비게이션 바 스타일 */
+.nav {
+    /* 고정된 너비와 높이 설정 */
+    width: 1920px;
+    height: 83px;
+
+    /* 축소 방지 */
+    flex-shrink: 0;
+
+    /* 배경 색상 */
+    background: var(--Neutral, #D9D9D9);
+
+    /* 필요한 다른 스타일은 여기에 추가 */
+}
+
+/* Styling for the white background */
+.nav__white {
+    background-color: white;
+}
+
+/* Styling for the logo */
+.nav__logo {
+    position: fixed;
+    left: 40px;
+    width: 80px;
+    object-fit: contain;
+}
+
+/* Styling for the avatar */
+.nav__avatar {
+    position: fixed;
+    right: 40px;
+    width: 30px;
+    object-fit: contain;
+}
+
+/* Styling for the input */
+.nav__input {
+    /* Positioning */
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Background color and styles */
+    background: var(--Neutral, rgba(217, 217, 217, 0.582));
+    /* Other styles */
+    border-radius: 5px;
+    color: white;
+    padding: 5px;
+    border: none;
+
+    /* Set width, remove fixed height, prevent shrinking */
+    width: 300px;
+    /* Adjust this width as needed */
+    height: auto;
+    /* Allow the height to adjust based on content */
+    flex-shrink: 0;
+}
+
+.nav-container {
+    /* 기존 스타일 유지 */
+    display: flex;
+    justify-content: space-between;
+    /* 좌우 정렬 */
+    align-items: center;
+    /* 수직 중앙 정렬 */
+}
+
+.nav-wrap {
+    display: flex;
+    align-items: center;
+}
+
+.nav-left-wrap {
+    display: flex;
+    align-items: center;
+}
+
+.nav-left-wrap ul {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-left-wrap ul li {
+    margin-right: 20px;
+}
+
+.nav__input {
+    /* Search input 스타일 */
+}
+
+.nav__login-button {
+    /* 로그인 버튼 스타일 */
+}
+
+/* 마이페이지 아이콘 스타일 */
+.nav__mypage-icon {
+    position: relative;
+    top: 5px;
+    right: 5px;
+}
