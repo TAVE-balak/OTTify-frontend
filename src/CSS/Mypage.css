@@ -1,0 +1,314 @@
+/*Mypage.css*/
+/*프로필*/
+
+.Mypage {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--neutral);
+}
+
+.my_profile {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: 736px;
+  height: 261px;
+  border-radius: 15px;
+  margin: 60px auto 0;
+}
+
+.profile_img {
+  width: 130px;
+  height: 130px;
+  border-radius: 100%;
+  margin: 32px 0 0 32px;
+}
+
+.profile_bottom {
+  display: flex;
+
+}
+
+.profile_info {
+  flex: 1;
+  width: 200px;
+  margin-top: 7px;
+  margin-left: 32px;
+}
+
+.info_nickname {
+  position: relative;
+}
+
+.name {
+  color: var(--gray_800);
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.badge {
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.info_email {
+  width: 200px;
+  overflow: hidden;
+}
+
+.email {
+  width: 200px;
+  font-size: 14px;
+  color: var(--gray_600);
+}
+
+.edit_btn {
+  width: 200px;
+  height: 23px;
+  border-radius: 7px;
+  border-style: none;
+  background-color: var(--gray_100);
+}
+
+.profile_ott {
+  flex: 1;
+  margin-left: 25px;
+  margin-top: 10px;
+}
+
+.ott_mine {
+  color: var(--gray_700);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.ott_imgs {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.ott_logo {
+  background-color: var(--gray_100);
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  padding: 7px;
+  margin-right: 7px;
+  box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1);
+}
+
+.arrow {
+  width: 12px;
+  height: 12px;
+  margin-left: 7px;
+}
+
+
+.profile_grade {
+  flex: 1;
+  float: right;
+  margin-right: 32px;
+  margin-top: 10px;
+}
+
+.grade_mine {
+  color: var(--gray_700);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.grade_num {
+  display: flex;
+  align-items: center;
+  float: right;
+}
+
+.grade_star {
+  margin-right: 5px;
+}
+
+.grade_point {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.grade_graph {
+  margin-top: 10px;
+}
+
+
+/*콘텐츠*/
+.my_content {
+  display: flex;
+  flex-direction: column;
+  width: 736px;
+  height: 538px;
+  border-radius: 15px;
+  background-color: white;
+  margin: 15px auto;
+}
+
+.content_div {
+  margin: auto 32px;
+}
+
+.content_subject {
+  display: flex;
+  align-items: center;
+}
+
+.content_mine {
+  color: var(--gray_900);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.content_select {
+  width: 175px;
+  height: 24px;
+  margin-left: 10px;
+  color: var(--primary);
+  border-radius: 5px;
+  border: 1px solid var(--gray_400);
+  padding: 1px;
+  font-size: 12px;
+
+}
+
+
+.content_select option {
+  padding: 1px;
+  font-size: 12px;
+  color: black;
+}
+
+.content_select option:hover {
+  background-color: red;
+}
+
+.content_select option:checked {
+  width: 175px;
+  height: 24px;
+  background-color: var(--orange_100);
+  color: var(--primary);
+  padding: 8px;
+}
+
+.content_select:focus {
+  padding: 1px;
+
+}
+
+.content_pick {
+  margin-top: 16px;
+  margin-bottom: 20px;
+}
+
+.pick {
+  display: inline-block;
+  font-size: 11px;
+  padding: 4px 8px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  border-radius: 15px;
+  border: var(--gray_200);
+}
+
+.content_like {
+  margin-bottom: 20px;
+}
+
+.like_title,
+.hate_title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--gray_900);
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.poster_img_like,
+.poster_img_hate {
+  width: 88px;
+  height: 125px;
+  border-radius: 15px;
+}
+
+.like_posters div,
+.hate_posters div {
+  display: inline-block;
+  width: 88px;
+  height: 125px;
+  margin-right: 8px;
+  position: relative;
+}
+
+.poster_favorite {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 12px;
+  height: 12px;
+}
+
+.poster_x {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  top: 10px;
+  right: 10px;
+  background-color: #212121;
+  padding: 2px;
+  border-radius: 3px;
+}
+
+
+/*리뷰*/
+.my_review {
+  display: flex;
+  flex-direction: column;
+  width: 736px;
+  height: 256px;
+  background-color: white;
+  border-radius: 15px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.my_review div {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  border-bottom: 1px solid var(--gray_200);
+}
+
+.my_review div:last-child {
+  border-bottom: none;
+}
+
+.my_review div img {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.my_review div a {
+  font-size: 16px;
+  color: var(--gray_700);
+}
+
+
+/*로그아웃 회원탈퇴*/
+.my_out {
+  margin: 32px auto;
+}
+
+.my_out a {
+  color: var(--grey);
+  font-size: 16px;
+  margin: 0 28px;
+}

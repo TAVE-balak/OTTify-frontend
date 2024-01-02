@@ -1,0 +1,184 @@
+/*내가 쓴 리뷰 모아보기 제목*/
+.MyWrite,
+.MyFavorite {
+    background-color: var(--neutral);
+}
+
+.mywrite_page {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding-top: 38px;
+    padding-bottom: 30px;
+    width: 736px;
+}
+
+.mywrite_title {
+    display: flex;
+}
+
+.mywrite_back {
+    width: 45px;
+    height: 45px;
+}
+
+.mywrite_title h2 {
+    color: var(--gray_800);
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+
+/*내가 좋아요한 리뷰 모아보기 제목*/
+.myfavorite_page {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding-top: 38px;
+    padding-bottom: 30px;
+    width: 736px;
+}
+
+.myfavorite_title {
+    display: flex;
+}
+
+.myfavorite_back {
+    width: 45px;
+    height: 45px;
+}
+
+.myfavorite_title h2 {
+    color: var(--gray_800);
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.ReviewList {
+    margin-top: 16px;
+}
+
+/*ReviewItem*/
+/*프로필, 닉네임, 날짜*/
+.ReviewItem {
+    width: 736px;
+    background-color: white;
+    border-radius: 15px;
+    height: auto;
+    overflow: hidden;
+    padding: 24px;
+    margin-bottom: 16px;
+}
+
+.reviewInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.writerInfo {
+    display: flex;
+    align-items: center;
+}
+
+.writer_profile {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.writer {
+    margin-left: 8px;
+}
+
+/*포스터, 제목, 별점, 태그, 내용, 좋아요 수*/
+.reviewMain {
+    margin: 16px 0;
+    padding-bottom: 8px;
+}
+
+.reviewPoster {
+    width: 119px;
+    height: 170px;
+    border-radius: 7px;
+}
+
+.reviewName {
+    color: var(--gray_800);
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.reviewPick {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+}
+
+.star {
+    width: 20px;
+    height: 20px;
+}
+
+.reviewNum {
+    color: var(--primary);
+    margin-left: 4px;
+}
+
+.tags {
+    margin-left: 12px;
+}
+
+.tags span {
+    background-color: var(--neutral);
+    border-radius: 7px;
+    padding: 4px 6px;
+    margin-right: 8px;
+    font-size: 12px;
+}
+
+.reviewContent {
+    margin-top: 22px;
+    font-size: 16px;
+}
+
+.reviewFavorite {
+    display: flex;
+    align-items: center;
+    margin-top: 14px;
+}
+
+.reviewthumb {
+    width: 14px;
+    height: 14px;
+}
+
+.thumbNum {
+    color: var(--gray_500);
+    margin-left: 2px;
+    padding-bottom: 3px;
+}
+
+
+/*좋아요 버튼*/
+.FavoriteBtn {
+    margin: 32px;
+    display: flex;
+    align-items: center;
+}
+
+.thumbBtn {
+    width: 24px;
+    height: 24px;
+}
+
+.nameBtn {
+    color: var(--gray_500);
+    margin-left: 8px;
+}
