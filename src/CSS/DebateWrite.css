@@ -1,5 +1,14 @@
 .debateWrite{
   background-color: var(--neutral);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.debateAuto{
+  margin-top: 30px;
+  margin-bottom: 364px;
 }
 
 .writeTop{
@@ -24,6 +33,7 @@
   border-radius: 15px;
   width: 736px;
   height: 444px;
+  margin-top: 16px;
 }
 
 .titleArea{
@@ -32,6 +42,7 @@
   border-radius: 7px;
   background-color: var(--neutral2);
   border: none;
+  margin: 32px 32px 0;
 }
 
 .contentArea{
@@ -40,11 +51,14 @@
   border-radius: 7px;
   background-color: var(--neutral2);
   border: none;
+  margin: 16px 32px 0;
+  resize: none;
 }
 
 .writeImg{
   display: flex;
   align-items: center;
+  margin: 8px 0 0 32px;
 }
 
 .photo_select{
@@ -56,6 +70,7 @@
   color: var(--gray_500);
   font-size: 12px;
   font-weight: 500;
+  margin-bottom: 2px;
 }
 
 .completeBtn{
@@ -64,4 +79,5 @@
   border-radius: 7px;
   background-color: var(--neutral);
   border: none;
+  margin: 32px 33px;
 }
