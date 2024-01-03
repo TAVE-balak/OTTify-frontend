@@ -1,14 +1,20 @@
+import { useNavigate } from 'react-router-dom';
+
 import back from '../img/back.png';
 import photo_select from '../img/photo_select.png';
 
 import '../CSS/DebateWrite.css';
 
 const DebateWrite = () => {
+  const navigate = useNavigate();
+  const goToDebateOne = () => {
+    navigate('/DebateOne');
+  }
   return (
     <div className="debateWrite">
       <div className='debateAuto'>
         <div className="writeTop">
-          <img src = {back} className='writeBack'></img>
+          <img src = {back} className='writeBack' onClick={goToDebateOne}></img>
           <span class = "topTitle">토론 열기</span>
         </div>
         <div className ="writeMain">
