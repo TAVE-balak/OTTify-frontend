@@ -1,0 +1,67 @@
+.debateWrite{
+  background-color: var(--neutral);
+}
+
+.writeTop{
+  display: flex;
+  align-items: center;
+}
+
+.writeBack{
+  width: 45px;
+  height: 45px;
+}
+
+.topTitle{
+  color: var(--gray_800);
+  font-size: 24px;
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+.writeMain{
+  background-color: white;
+  border-radius: 15px;
+  width: 736px;
+  height: 444px;
+}
+
+.titleArea{
+  width: 672px;
+  height: 45px;
+  border-radius: 7px;
+  background-color: var(--neutral2);
+  border: none;
+}
+
+.contentArea{
+  width: 672px;
+  height: 219px;
+  border-radius: 7px;
+  background-color: var(--neutral2);
+  border: none;
+}
+
+.writeImg{
+  display: flex;
+  align-items: center;
+}
+
+.photo_select{
+  width: 16px;
+  height: 16px;
+}
+
+.photo_name{
+  color: var(--gray_500);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.completeBtn{
+  width: 671px;
+  height: 44px;
+  border-radius: 7px;
+  background-color: var(--neutral);
+  border: none;
+}

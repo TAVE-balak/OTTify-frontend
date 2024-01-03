@@ -1,6 +1,8 @@
 import back from '../img/back.png';
 import photo_select from '../img/photo_select.png';
 
+import '../CSS/DebateWrite.css';
+
 const DebateWrite = () => {
   return (
     <div className="debateWrite">
@@ -10,17 +12,17 @@ const DebateWrite = () => {
       </div>
       <div className ="writeMain">
         <div className='writeTitle'>
-          <textarea className='titleArea'></textarea>
+          <input className='titleArea' value={"제목"}></input>
         </div>
         <div className='writeContent'>
-          <textarea className='contentArea'></textarea>
+          <input className='contentArea' value={"작품에 대한 감상을 다른 분들과 공유해 보세요."}></input>
         </div>
         <div className='writeImg'>
           <img src = {photo_select} className='photo_select'></img>
           <span className='photo_name'>사진 추가</span>
         </div>
         <div className='writeBtn'>
-          <button classname = "completeBtn">작성 완료</button>
+          <button className = "completeBtn">작성 완료</button>
         </div>
       </div>
     </div>
