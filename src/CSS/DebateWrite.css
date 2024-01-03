@@ -81,3 +81,8 @@
   border: none;
   margin: 32px 33px;
 }
+
+.completeBtn.active {
+  background-color: var(--primary);
+  color: white;
+}
