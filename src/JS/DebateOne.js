@@ -13,6 +13,11 @@ const DebateOne = ({MovieTitle}) =>{
   const goToMypage = () => {
     navigate('/');
   }
+
+  const goToWrite = () => {
+    navigate('/DebateWrite');
+  }
+
   const dummyList = [
   {
     id: 1,
@@ -58,7 +63,7 @@ const DebateOne = ({MovieTitle}) =>{
         <div className = "debateone_title">
           <img src = {back} className = "debateone_back" alt = "뒤로 가기" onClick={goToMypage}/>
           <h2>{`토론 > ${MovieTitle}`}</h2>
-          <button className="debate_write">토론하기</button>
+          <button className="debate_write" onClick={goToWrite}>토론하기</button>
         </div>
         <DebateList debateList={dummyList}/>
       </div>
