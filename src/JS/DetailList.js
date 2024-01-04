@@ -1,14 +1,20 @@
 import React from 'react';
 import DetailItem from './DetailItem';
 
-const DetailList = ({ detailList }) => {
+import {useLocation} from 'react-router-dom';
+
+const DetailList = () => {
+  const location = useLocation();
+  const detailList = location?.state?.debateItem;
+
+
+  console.log(location.state.debateItem);
+  console.log(detailList);
 
   return (
     <div className="DetailList">
       <div>
-        {detailList.map((it) => (
-          <DetailItem key={it.id} {...it} />
-        ))}
+        <DetailItem {...detailList} />
       </div>
     </div>
   );

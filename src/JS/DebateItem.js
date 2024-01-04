@@ -1,10 +1,10 @@
 import thumb from '../img/thumb_up.png';
 import chat from '../img/chat.png';
-const DebateItem = ({debateTitle, movie, poster, content, created_date, comment, favorite, id}) =>{
+const DebateItem = ({debateTitle, movie, poster, content, created_date, comment, favorite, id, onClick}) =>{
   const imgClassName = poster.poster ? 'debateImg' : 'withoutImg';
   const MainClassName = poster.poster ? 'debateImgMain' : 'debateMain';
   return (
-    <div className = "DebateItem">
+    <div className = "DebateItem" onClick={onClick}>
       <div className="debateInfo">
         <div className="movieInfo">
           <span className='movie'>{movie}</span>

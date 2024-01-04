@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import '../CSS/MyDebate.css';
 import '../CSS/DebateDetail.css';
 import DetailList from './DetailList';
