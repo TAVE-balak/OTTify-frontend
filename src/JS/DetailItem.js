@@ -1,10 +1,12 @@
 import thumb from '../img/thumb_up.png';
 import chat from '../img/chat.png';
-const DebateItem = ({debateTitle, movie, poster, content, created_date, comment, favorite, id}) =>{
+
+
+const DetailItem = ({debateTitle, movie, poster, content, created_date, comment, favorite, id}) =>{
   const imgClassName = poster.poster ? 'debateImg' : 'withoutImg';
   const MainClassName = poster.poster ? 'debateImgMain' : 'debateMain';
   return (
-    <div className = "DebateItem">
+    <div className = "DetailItem">
       <div className="debateInfo">
         <div className="movieInfo">
           <span className='movie'>{movie}</span>
@@ -32,4 +34,4 @@ const DebateItem = ({debateTitle, movie, poster, content, created_date, comment,
   )
 }
 
-export default DebateItem;
+export default DetailItem;

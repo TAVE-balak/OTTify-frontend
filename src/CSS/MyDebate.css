@@ -1,10 +1,10 @@
 /*내가 참여한 토론 모아보기*/
 /*내가 주최한 토론 모아보기*/
-.MyParticipate, .MyHost, .DebateAll, .DebateOne{
+.MyParticipate, .MyHost, .DebateAll, .DebateOne, .DebateDetail{
   background-color: var(--neutral);
 }
 
-.myparticipate_page, .myhost_page, .debateall_page, .debateone_page{
+.myparticipate_page, .myhost_page, .debateall_page, .debateone_page, .debatedetail_page{
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -13,16 +13,16 @@
   width: 736px;
 }
 
-.myparticipate_title, .myhost_title, .debateall_title, .debateone_title{
+.myparticipate_title, .myhost_title, .debateall_title, .debateone_title, .debatedetail_title{
   display: flex;
 }
 
-.myparticipate_back, .myhost_back, .debateall_back, .debateone_back{
+.myparticipate_back, .myhost_back, .debateall_back, .debateone_back, .debatedetail_back{
   width: 45px;
   height: 45px;
 }
 
-.myparticipate_title h2, .myhost_title h2, .debateall_title h2, .debateone_title h2{
+.myparticipate_title h2, .myhost_title h2, .debateall_title h2, .debateone_title h2, .debatedetail_title h2{
   color: var(--gray_800);
   font-size: 24px;
   font-weight: 600;
@@ -44,12 +44,12 @@
   margin-left: 440px;
 }
 
-.DebateList{
+.DebateList, .DetailList{
   margin-top: 16px;
 }
 
 /*DebateItem*/
-.DebateItem{
+.DebateItem, .DetailItem{
   background-color: white;
   border-radius: 15px;
   margin-bottom: 16px;
