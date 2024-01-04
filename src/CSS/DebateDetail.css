@@ -1,0 +1,49 @@
+.debatedetail_comment{
+  position: relative;
+  width: 736px;
+  
+  border-radius: 15px;
+  
+  background-color: white;
+  box-shadow: 0px 1px 4px 0px var(--neutral2);
+  
+}
+
+.debate_comment{
+  width: 680px;
+  min-height: 62px;
+  overflow-y: hidden;
+  resize: none;
+  border: none;
+  padding: 16px;
+  border-radius: 15px;
+  
+  color: var(--gray_800);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.debate_comment::placeholder{
+  color: var(--gray_500);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.debate_comment:focus{
+  outline: none;
+}
+
+.comment_enroll{
+  width: 49px;
+  height: 30px;
+  border-radius: 7px;
+  border: none;
+  background-color: var(--neutral2);
+  color: var(--gray_500);
+  font-size: 14px;
+  font-weight: 600;
+
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
