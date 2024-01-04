@@ -10,9 +10,6 @@ const DebateOne = ({MovieTitle}) =>{
   MovieTitle =  "나폴레옹";
 
   const navigate = useNavigate();
-  const goToMypage = () => {
-    navigate('/');
-  }
 
   const goToWrite = () => {
     navigate('/DebateWrite');
@@ -61,7 +58,7 @@ const DebateOne = ({MovieTitle}) =>{
     <div className='DebateOne'>
       <div className = "debateone_page">
         <div className = "debateone_title">
-          <img src = {back} className = "debateone_back" alt = "뒤로 가기" onClick={goToMypage}/>
+          <img src = {back} className = "debateone_back" alt = "뒤로 가기" onClick={() => navigate(-1)}/>
           <h2>{`토론 > ${MovieTitle}`}</h2>
           <button className="debate_write" onClick={goToWrite}>토론하기</button>
         </div>
