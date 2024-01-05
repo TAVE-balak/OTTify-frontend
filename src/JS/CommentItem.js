@@ -1,13 +1,26 @@
 import '../CSS/DebateDetail.css';
+import more from '../img/more.png';
+import thumb from '../img/thumb_up.png';
 
-const CommentItem = ({author, content, favorite, created_date, id}) =>{
+
+const CommentItem = ({author, content, favorite, profile, created_date, id}) =>{
   return (
     <div className = "CommentItem">
-      <div className = "info">
-        <span>{author}</span>
-        <span>{content}</span>
-        <span>{favorite}</span>
-        <span>{created_date}</span>
+      <div className = "comments_info">
+        <img src = {profile} className="comment_profile"></img>
+        <span className="comment_author">{author}님</span>
+        <span className="comment_date">{created_date}</span>
+        <img src = {more} className ="comment_more"></img>
+      </div>
+
+      <div className = "comments_content">
+        <span className ="content_value">{content}</span>
+      </div>
+
+      <div className='comments_reaction'>
+        <img src = {thumb} className='comment_thumb'></img>
+        <span className='commentThumbNum'>{favorite}</span>
+        <span className='comment_comment'>대댓글</span>
       </div>
     </div>
   )

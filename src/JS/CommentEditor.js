@@ -2,6 +2,7 @@ import {useRef, useCallback, useState} from 'react';
 import '../CSS/DebateDetail.css';
 
 import CommentList from './CommentList';
+import profile from '../img/사진.jpg';
 
 const CommentEditor = ({onCreate})=>{
   const commentInput = useRef();
@@ -14,6 +15,7 @@ const CommentEditor = ({onCreate})=>{
     author: "김영리",
     content: "",
     favorite: "120",
+    profile: profile,
     created_date: "3달 전"
   })
 
@@ -29,11 +31,12 @@ const CommentEditor = ({onCreate})=>{
       commentInput.current.focus();
       return;
     }
-    onCreate(state.author, state.content, state.favorite, state.created_date); //onCreate 함수 호출
+    onCreate(state.author, state.content, state.favorite,  state.profile, state.created_date); //onCreate 함수 호출
     setState({ //저장 후 리셋
       author: "김영리",
       content: "",
       favorite: "120",
+      profile: profile,
       created_date: "3달 전"
     })
   }
@@ -43,7 +46,7 @@ const CommentEditor = ({onCreate})=>{
     <div className='commentEditor'>
       <div className='debatedetail_comment'>
         <textarea ref = {commentInput} name="content" value = {state.content}
-                  className='debate_comment' name = "content" placeholder='댓글을 작성해주세요' 
+                  className='debate_comment' placeholder='댓글을 작성해주세요' 
                   onInput = {handleResizeHeight} onChange = {handleChangeState}
         ></textarea>
         <button className='comment_enroll' onClick={handleSubmit}>등록</button>
