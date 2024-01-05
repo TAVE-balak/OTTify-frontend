@@ -16,10 +16,11 @@ const DebateDetail = () =>{
 
   const commentId = useRef(0)
 
-  const onCreate = (author, content, created_date) =>{
+  const onCreate = (author, content, favorite, created_date) =>{
     const newItem = {
       author,
       content,
+      favorite,
       created_date,
       id: commentId.current
     }

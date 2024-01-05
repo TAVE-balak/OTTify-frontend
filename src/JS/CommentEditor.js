@@ -13,6 +13,7 @@ const CommentEditor = ({onCreate})=>{
   const [state, setState] = useState({
     author: "김영리",
     content: "",
+    favorite: "120",
     created_date: "3달 전"
   })
 
@@ -28,10 +29,11 @@ const CommentEditor = ({onCreate})=>{
       commentInput.current.focus();
       return;
     }
-    onCreate(state.author, state.content, state.created_date); //onCreate 함수 호출
+    onCreate(state.author, state.content, state.favorite, state.created_date); //onCreate 함수 호출
     setState({ //저장 후 리셋
       author: "김영리",
       content: "",
+      favorite: "120",
       created_date: "3달 전"
     })
   }
