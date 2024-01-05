@@ -2,8 +2,8 @@ import CommentItem from './CommentItem';
 
 const CommentList = ({commentList}) => {
   return (
-    <div>
-      {commentList.map((it)=>(  //각각의 요소
+    <div className='CommentListAll'>
+      {commentList.slice(0).reverse().map((it)=>(  //각각의 요소
         <CommentItem key = {it.id} {...it} /> 
       ))}
     </div>

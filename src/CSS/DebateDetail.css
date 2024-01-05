@@ -1,3 +1,4 @@
+/*댓글창*/
 .debatedetail_comment{
   position: relative;
   width: 736px;
@@ -6,7 +7,8 @@
   
   background-color: white;
   box-shadow: 0px 1px 4px 0px var(--neutral2);
-  
+
+  margin-bottom: 16px;
 }
 
 .debate_comment{
@@ -46,4 +48,41 @@
   position: absolute;
   top: 16px;
   right: 16px;
+}
+
+/*댓글 리스트*/
+
+.CommentItem{
+  background-color: white;
+  padding: 24px;
+  border-bottom: 1px solid var(--neutral);
+}
+
+
+.CommentItem:first-child{
+  border-radius: 15px 15px 0 0;
+}
+
+.CommentItem:last-child{
+  border-radius: 0 0 15px 15px;
+}
+
+.CommentListAll :only-child{
+  border-radius: 15px;
+}
+
+.comment_profile{
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.comment_more{
+  width: 24px;
+  height: 24px;
+}
+
+.comment_thumb{
+  width: 14px;
+  height: 14px;
 }
