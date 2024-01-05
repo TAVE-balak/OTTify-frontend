@@ -15,7 +15,6 @@ const DebateList = ({debateList}) => {
 
     // navigate 함수 호출 시 직렬화 가능한 형태로 데이터 전달
     navigate('/DebateDetail', { state: { debateItem, eventData } });
-    console.log(debateItem);
   };
 
   return (

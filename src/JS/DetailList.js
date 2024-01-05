@@ -7,10 +7,6 @@ const DetailList = () => {
   const location = useLocation();
   const detailList = location?.state?.debateItem;
 
-
-  console.log(location.state.debateItem);
-  console.log(detailList);
-
   return (
     <div className="DetailList">
       <div>

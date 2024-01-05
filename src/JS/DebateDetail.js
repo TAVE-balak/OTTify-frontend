@@ -1,4 +1,4 @@
-import {useRef, useCallback} from 'react';
+import {useRef, useCallback, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import '../CSS/MyDebate.css';
@@ -6,15 +6,27 @@ import '../CSS/DebateDetail.css';
 import DetailList from './DetailList';
 
 import back from '../img/back.png';
+import CommentList from './CommentList';
+import CommentEditor from './CommentEditor';
 
 const DebateDetail = () =>{
-  const navigate = useNavigate();
+  const navigate = useNavigate();  
 
-  const textRef = useRef();
-  const handleResizeHeight = useCallback(() => {
-    textRef.current.style.height = textRef.current.scrollHeight + "px";
-  }, []);
-  
+  const [comment, setComment] = useState([]); //일기 데이터 빈 배열로 시작
+
+  const commentId = useRef(0)
+
+  const onCreate = (author, content, created_date) =>{
+    const newItem = {
+      author,
+      content,
+      created_date,
+      id: commentId.current
+    }
+
+    commentId.current += 1;
+    setComment([newItem, ...comment]); //newItem 뒤에 comment 붙이기
+  }
 
   return (
     <div className='DebateDetail'>
@@ -28,10 +40,12 @@ const DebateDetail = () =>{
           <DetailList/>
         </div>
 
-        <div className='debatedetail_comment'>
-          <textarea ref = {textRef} className='debate_comment' placeholder='댓글을 작성해주세요' onInput = {handleResizeHeight}></textarea>
-          <button className='comment_enroll'>등록</button>
+
+        <div className='comments'>
+          <CommentEditor onCreate = {onCreate}/>
+          <CommentList commentList = {comment}/>
         </div>
+        
       </div>
     </div>
   )
