@@ -26,12 +26,14 @@ const CommentEditor = ({onCreate})=>{
     });
   };
 
+  const changeClassName = useState("");
   const handleSubmit = () => { // 저장할 때
     if(state.content.length < 1){
       commentInput.current.focus();
       return;
     }
     onCreate(state.author, state.content, state.favorite,  state.profile, state.created_date); //onCreate 함수 호출
+    setCommentArea("");
     setState({ //저장 후 리셋
       author: "김영리",
       content: "",
@@ -40,16 +42,26 @@ const CommentEditor = ({onCreate})=>{
       created_date: "3달 전"
     })
   }
-  
+
+  const [commentArea, setCommentArea] = useState("");
+  const handleCommentChange = (event) => {
+    setCommentArea(event.target.value);
+  }
+
+
 
   return(
     <div className='commentEditor'>
       <div className='debatedetail_comment'>
         <textarea ref = {commentInput} name="content" value = {state.content}
                   className='debate_comment' placeholder='댓글을 작성해주세요' 
-                  onInput = {handleResizeHeight} onChange = {handleChangeState}
+                  onInput = {handleResizeHeight} 
+                  onChange = {(e) => {
+                    handleChangeState(e);
+                    handleCommentChange(e);
+                  }}
         ></textarea>
-        <button className='comment_enroll' onClick={handleSubmit}>등록</button>
+        <button className= {`comment_enroll ${commentArea ? 'active' : ''}`} onClick={handleSubmit}>등록</button>
       </div>
 
       <div className='wrap-comment'>
