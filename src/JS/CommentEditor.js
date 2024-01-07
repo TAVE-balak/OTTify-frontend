@@ -1,7 +1,6 @@
 import {useRef, useCallback, useState} from 'react';
 import '../CSS/DebateDetail.css';
 
-import CommentList from './CommentList';
 import profile from '../img/사진.jpg';
 
 const CommentEditor = ({onCreate})=>{
@@ -26,7 +25,6 @@ const CommentEditor = ({onCreate})=>{
     });
   };
 
-  const changeClassName = useState("");
   const handleSubmit = () => { // 저장할 때
     if(state.content.length < 1){
       commentInput.current.focus();
@@ -48,8 +46,6 @@ const CommentEditor = ({onCreate})=>{
     setCommentArea(event.target.value);
   }
 
-
-
   return(
     <div className='commentEditor'>
       <div className='debatedetail_comment'>
@@ -62,10 +58,6 @@ const CommentEditor = ({onCreate})=>{
                   }}
         ></textarea>
         <button className= {`comment_enroll ${commentArea ? 'active' : ''}`} onClick={handleSubmit}>등록</button>
-      </div>
-
-      <div className='wrap-comment'>
-        <CommentList/>
       </div>
     </div>
   )
