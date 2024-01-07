@@ -7,7 +7,7 @@ import thumb from '../img/thumb_up.png';
 import CommentReplyEditor from './CommentReplyEditor';
 
 
-const CommentItem = ({author, content, favorite, profile, created_date, id}) =>{
+const CommentItem = ({onDelete, author, content, favorite, profile, created_date, id}) =>{
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -33,6 +33,11 @@ const CommentItem = ({author, content, favorite, profile, created_date, id}) =>{
     setCommentReply([newItem, ...commentreply]);
   }
 
+  const onDeleteReply = (targetId) =>{
+    const newCommentReplyList = commentreply.filter((it)=>it.id !== targetId); //삭제한 값은 안 보이게 filter 사용 
+    setCommentReply(newCommentReplyList);
+  };
+
   return (
     <div className = "CommentItem">
       <div className = "comments_info">
@@ -46,7 +51,13 @@ const CommentItem = ({author, content, favorite, profile, created_date, id}) =>{
             {isMenuOpen && (
               <div className='menu_list'>
                 <div className='menu_edit'>댓글 수정</div>
-                <div className='menu_delete'>댓글 삭제</div>
+                <div className='menu_delete' 
+                    onClick={() =>{
+                      if(window.confirm("댓글을 삭제하시겠습니까?")){
+                        onDelete(id);
+                      }
+                    }}>
+                  댓글 삭제</div>
               </div>
             )}
         </div>
@@ -63,7 +74,7 @@ const CommentItem = ({author, content, favorite, profile, created_date, id}) =>{
       </div>
 
       <div className='CommentReplyList'>
-        <CommentReplyList commentReplyList = {commentreply}/>
+        <CommentReplyList onDelete = {onDeleteReply} commentReplyList = {commentreply}/>
         
       </div>
     </div>

@@ -30,6 +30,12 @@ const DebateDetail = () =>{
     setComment([newItem, ...comment]); //newItem 뒤에 comment 붙이기
   }
 
+  const onDelete = (targetId) =>{
+    const newCommentList = comment.filter((it)=>it.id !== targetId); //삭제한 값은 안 보이게 filter 사용 
+    setComment(newCommentList);
+  };
+
+
   return (
     <div className='DebateDetail'>
       <div className = "debatedetail_page">
@@ -45,7 +51,7 @@ const DebateDetail = () =>{
 
         <div className='comments'>
           <CommentEditor onCreate = {onCreate}/>
-          <CommentList commentList = {comment}/>
+          <CommentList onDelete={onDelete} commentList = {comment}/>
         </div>
         
       </div>

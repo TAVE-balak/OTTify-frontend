@@ -70,7 +70,7 @@
 
 .CommentItem:last-child{
   border-radius: 0 0 15px 15px;
-  padding: 12px 16px 24px 24px;
+  padding: 12px 16px 12px 24px;
 }
 
 .CommentItem:not(:first-child):not(:last-child){
@@ -241,6 +241,7 @@
 
 .commentreply_reaction{
   display: flex;
+  margin-top: 5px;
 }
 
 .commentreply_favoriteNum{

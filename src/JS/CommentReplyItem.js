@@ -3,7 +3,7 @@ import commentreply_img from '../img/second_comment_vector.png';
 import more from '../img/more.png';
 import thumb from '../img/thumb_up.png';
 
-const CommentReplyItem = ({author, content, favorite, created_date, id}) =>{
+const CommentReplyItem = ({onDelete, author, content, favorite, created_date, id}) =>{
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuClick = () => {
@@ -22,7 +22,12 @@ const CommentReplyItem = ({author, content, favorite, created_date, id}) =>{
             {isMenuOpen && (
               <div className='menu_list'>
                 <div className='menu_edit'>댓글 수정</div>
-                <div className='menu_delete'>댓글 삭제</div>
+                <div className='menu_delete'
+                      onClick={()=>{
+                        if(window.confirm("댓글을 삭제하시겠습니까?")){
+                          onDelete(id);
+                        }
+                      }}>댓글 삭제</div>
               </div>
             )}
           </div>

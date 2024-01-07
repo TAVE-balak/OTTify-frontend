@@ -1,10 +1,10 @@
 import CommentItem from './CommentItem';
 
-const CommentList = ({commentList}) => {
+const CommentList = ({onDelete, commentList}) => {
   return (
     <div className='CommentListAll'>
       {commentList.slice(0).reverse().map((it)=>(  //각각의 요소
-        <CommentItem key = {it.id} {...it} /> 
+        <CommentItem key = {it.id} {...it} onDelete={onDelete}/> 
       ))}
     </div>
   );

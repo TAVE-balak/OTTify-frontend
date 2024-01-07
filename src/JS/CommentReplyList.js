@@ -1,10 +1,10 @@
 import CommentReplyItem from './CommentReplyItem';
 
-const CommentReplyList = ({commentReplyList}) =>{
+const CommentReplyList = ({onDelete, commentReplyList}) =>{
   return (
     <div className='CommentReplyListAll'>
       {commentReplyList.slice(0).reverse().map((it)=>(  //각각의 요소
-        <CommentReplyItem key = {it.id} {...it} /> 
+        <CommentReplyItem key = {it.id} {...it} onDelete = {onDelete}/> 
       ))}
     </div>
   );
