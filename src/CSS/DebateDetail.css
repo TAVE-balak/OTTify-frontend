@@ -79,7 +79,7 @@
 
 .CommentListAll :only-child{
   border-radius: 15px;
-  padding: 24px 16px 24px 24px;
+  padding-bottom: 6px;
 }
 
 
@@ -200,4 +200,52 @@
 
 .menu_list div{
   padding: 6px 16px;
+}
+
+/*대댓글 UI*/
+.CommentReplyItem{
+  display: flex;
+  margin-top: 8px;
+}
+
+.commentreply_img{
+  width:9px;
+  height: 9px;
+}
+
+.commentreply_all{
+  width: 690px;
+  margin-left: 8px;
+}
+
+.commentreply_info{
+  display: flex;
+  justify-content: space-between;
+}
+
+.commentreply_author{
+  color: var(--gray_800);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.commentreply_right{
+  display: flex;
+}
+
+.commentreply_date{
+  color: var(--gray_500);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.commentreply_reaction{
+  display: flex;
+}
+
+.commentreply_favoriteNum{
+  font-size: 12px;
+  color: var(--gray_500);
+  font-weight: 500;
+  margin-left: 2px;
 }
