@@ -24,6 +24,13 @@ const CommentItem = ({author, content, favorite, profile, created_date, id}) =>{
     setContentArea(event.target.value);
   };
 
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleMenuClick = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div className = "CommentItem">
       <div className = "comments_info">
@@ -33,7 +40,13 @@ const CommentItem = ({author, content, favorite, profile, created_date, id}) =>{
         </div>
         <div>
           <span className="comment_date">{created_date}</span>
-          <img src = {more} className ="comment_more"></img>
+          <img src = {more} className ="comment_more" onClick={handleMenuClick}></img>
+            {isMenuOpen && (
+              <div className='menu_list'>
+                <div className='menu_edit'>댓글 수정</div>
+                <div className='menu_delete'>댓글 삭제</div>
+              </div>
+            )}
         </div>
       </div>
 

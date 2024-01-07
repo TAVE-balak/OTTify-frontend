@@ -183,3 +183,21 @@
   background-color: var(--primary);
   color: white;
 }
+
+/*댓글 메뉴*/
+.menu_list{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background-color: white;
+  margin-top: 30px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 15px;
+  width: 96px;
+  box-shadow: 0px 4px 10px 0px var(--neutral);
+}
+
+.menu_list div{
+  padding: 6px 16px;
+}
