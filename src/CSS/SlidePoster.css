@@ -10,7 +10,7 @@
 
 .sliderAll{
   position: relative;
-  margin-right: 17px;
+  margin-right: 15px;
 }
 
 
@@ -21,6 +21,9 @@
   background-color: white;
   border: none;
   margin: auto 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #prevBtn img{

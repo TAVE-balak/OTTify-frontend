@@ -5,7 +5,7 @@ import '../CSS/Mypage.css'
 import GradeGraph from './GradeGraph';
 import PickButton from "./PickButton";
 import SlidePoster from "./SlidePoster";
-import Modal from "./Modal";
+import Wonmodal from "./Wonmodal";
 
 import img1 from '../img/사진.jpg';
 import badge from '../img/profile_badge.png';
@@ -101,8 +101,8 @@ const Mypage = () => {
               <span className='email'>leeeeemmmsanngg@naver.com</span>
             </div>
             <div className='info_edit'>
-              <button className='edit_btn' onClick={openModal}>프로필 변경</button>
-              <Modal open={modalOpen} close={closeModal}>
+              <button className='edit_btn_profile' onClick={openModal}>프로필 변경</button>
+              <Wonmodal open={modalOpen} close={closeModal}>
                 <img src = {close_gray} className="modal_close" onClick={closeModal}></img>
                 <div className="modal_img">
                   <img src = {img1} className="edit_img"></img>
@@ -114,7 +114,7 @@ const Mypage = () => {
                           onChange={(e)=>setNickname(e.target.value)}></input>
                   <button className="nickname_btn">변경</button>
                 </div>
-              </Modal>
+              </Wonmodal>
             </div>
           </div>
 

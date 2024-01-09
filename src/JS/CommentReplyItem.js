@@ -1,6 +1,6 @@
 import {useState, useRef} from 'react';
-import Modal from './Modal';
-import '../CSS/Modal.css';
+import Wonmodal from './Wonmodal';
+import '../CSS/Wonmodal.css';
 import '../CSS/DebateDetail.css';
 
 import commentreply_img from '../img/second_comment_vector.png';
@@ -62,7 +62,7 @@ const CommentReplyItem = ({onEdit, onDelete, author, content, favorite, created_
             {isMenuOpen && (
               <div className='menu_list'>
                 <div className='menu_edit' onClick={(e)=>{openModal(e); toggleIsEdit(e)}}>댓글 수정</div>
-                <Modal open={modalOpen} close={closeModal} className="comment_modal">
+                <Wonmodal open={modalOpen} close={closeModal} className="comment_modal">
                   <div className='modal_comment_title'>
                     <img src = {close_gray} className="modal_close" onClick={(e)=>{handleQuitEdit(e); closeModal(e);}}></img>
                     <span className='second_comment'>대댓글 수정</span>
@@ -76,7 +76,7 @@ const CommentReplyItem = ({onEdit, onDelete, author, content, favorite, created_
                             closeModal(e);
                             handleMenuClick(e);
                           }}>수정 완료</button>
-                </Modal>
+                </Wonmodal>
                 <div className='menu_delete'
                       onClick={()=>{
                         if(window.confirm("댓글을 삭제하시겠습니까?")){

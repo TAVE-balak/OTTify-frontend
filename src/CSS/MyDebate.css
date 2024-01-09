@@ -29,6 +29,7 @@
   margin: 0;
   display: flex;
   align-items: center;
+  padding-left: 0px !important;
 }
 
 .debate_write{
@@ -42,6 +43,7 @@
   font-weight: 500;
   margin-top: 9px;
   margin-left: 440px;
+  padding: 0px !important;
 }
 
 .DebateList, .DetailList{
@@ -66,7 +68,7 @@
   flex-direction: column;
 }
 
-.movie{
+.movieDebate{
   color: var(--gray_500);
   font-size: 12px;
   font-weight: 600;

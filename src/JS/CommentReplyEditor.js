@@ -1,5 +1,5 @@
 import {useState, useRef} from 'react';
-import Modal from './Modal';
+import Wonmodal from './Wonmodal';
 
 import close_gray from '../img/close_gray.png';
 
@@ -51,7 +51,7 @@ const CommentReplyEditor = ({onCreate}) =>{
   return(
     <div>
       <span className='comment_comment' onClick={openModal}>대댓글</span>
-      <Modal open={modalOpen} close={closeModal} className="comment_modal">
+      <Wonmodal open={modalOpen} close={closeModal} className="comment_modal">
         <div className='modal_comment_title'>
           <img src = {close_gray} className="modal_close" onClick={closeModal}></img>
           <span className='second_comment'>대댓글 달기</span>
@@ -64,7 +64,7 @@ const CommentReplyEditor = ({onCreate}) =>{
                   }}></textarea>
         <button className={`second_btn ${contentArea ? 'active' : ''}`} 
                 onClick={(e) => {handleSubmit(e); closeModal(e);}}>작성 완료</button>
-      </Modal>
+      </Wonmodal>
     </div>
   )
 }

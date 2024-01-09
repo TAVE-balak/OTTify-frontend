@@ -7,9 +7,7 @@ import poster from '../img/debate_poster.png';
 
 const MyParticipate = () =>{
   const navigate = useNavigate();
-  const goToMypage = () => {
-    navigate('/');
-  }
+
   const dummyList = [
   {
     id: 1,
@@ -53,7 +51,7 @@ const MyParticipate = () =>{
     <div className='MyParticipate'>
       <div className = "myparticipate_page">
         <div className = "myparticipate_title">
-          <img src = {back} className = "myparticipate_back" alt = "뒤로 가기" onClick={goToMypage}/>
+          <img src = {back} className = "myparticipate_back" alt = "뒤로 가기" onClick={() => navigate(-1)}/>
           <h2>내가 참여한 토론 보기</h2>
         </div>
         <DebateList debateList={dummyList}/>
