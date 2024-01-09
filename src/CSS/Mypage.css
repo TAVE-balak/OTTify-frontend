@@ -357,3 +357,8 @@
   border: none;
   margin-top: 14px;
 }
+
+.nickname_btn .active{
+  background-color: var(--primary);
+  color: white;
+}
