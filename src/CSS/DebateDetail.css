@@ -250,3 +250,10 @@
   font-weight: 500;
   margin-left: 2px;
 }
+
+/*대댓글 수정 UI*/
+.content_value_textarea{
+  resize: none;
+  border-radius: 0px !important;
+  width: 600px;
+}

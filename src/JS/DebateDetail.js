@@ -35,6 +35,13 @@ const DebateDetail = () =>{
     setComment(newCommentList);
   };
 
+  //댓글 수정
+  const onEditComment = (targetId, newContent) => {  //수정대상, 수정내용
+    setComment(  
+      comment.map((it) =>  //모든 요소들이 id끼리 일치하는지 확인 
+      it.id === targetId ? {...it, content: newContent} : it) //일치하면 원본대상 + 내용수정함 / 아니면 원본대상
+    )
+  }
 
   return (
     <div className='DebateDetail'>
@@ -51,7 +58,7 @@ const DebateDetail = () =>{
 
         <div className='comments'>
           <CommentEditor onCreate = {onCreate}/>
-          <CommentList onDelete={onDelete} commentList = {comment}/>
+          <CommentList onEditComment = {onEditComment} onDelete={onDelete} commentList = {comment}/>
         </div>
         
       </div>
