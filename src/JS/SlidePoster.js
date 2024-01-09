@@ -5,8 +5,6 @@ import "slick-carousel/slick/slick-theme.css";
 import '../CSS/SlidePoster.css'
 
 import arrow from '../img/arrow.png';
-import favorite from '../img/favorite.png';
-import hate from '../img/close.png';
 
 const NextArrow = ({ onClick }) => (
   <button onClick={onClick} type='button' id="nextBtn" className="sliderBtn">
@@ -39,11 +37,6 @@ const SlidePoster = ({data, type}) => {
         {data.map((item, index) => (
           <div key = {index} className="sliderAll">
             <img src = {item.poster} className="poster_img" alt = {`Poster ${index + 1}`}/>
-            {type === 'favorite' ? (
-              <img src = {favorite} className="poster_favorite" alt = "favorite"/>
-            ) : (
-              <img src = {hate} className="poster_hate" alt = "hate"/>
-            )}
           </div>
         ))}
       </Slider>

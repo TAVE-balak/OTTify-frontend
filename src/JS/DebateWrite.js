@@ -8,26 +8,18 @@ import '../CSS/DebateWrite.css';
 
 const DebateWrite = () => {
   const navigate = useNavigate();
-  const goToDebateOne = () => {
-    navigate('/DebateOne');
-  }
 
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-  };
-
-  const handleContentChange = (event) => {
-    setContent(event.target.value);
   };
   
   return (
     <div className="debateWrite">
       <div className='debateAuto'>
         <div className="writeTop">
-          <img src = {back} className='writeBack' onClick={goToDebateOne}></img>
+          <img src = {back} className='writeBack' onClick={() => navigate(-1)}></img>
           <span class = "topTitle">토론 열기</span>
         </div>
         <div className ="writeMain">
@@ -40,9 +32,7 @@ const DebateWrite = () => {
           </div>
           <div className='writeContent'>
             <textarea className='contentArea' 
-                      placeholder="작품에 대한 감상을 다른 분들과 공유해 보세요."
-                      value = {content}
-                      onChange={handleContentChange}>          
+                      placeholder="작품에 대한 감상을 다른 분들과 공유해 보세요.">          
             </textarea>
           </div>
           <div className='writeImg'>
@@ -50,7 +40,7 @@ const DebateWrite = () => {
             <span className='photo_name'>사진 추가</span>
           </div>
           <div className='writeBtn'>
-            <button className = {`completeBtn ${title && content ? 'active' : ''}`}>작성 완료</button>
+            <button className = {`completeBtn ${title ? 'active' : ''}`}>작성 완료</button>
           </div>
         </div>
       </div>

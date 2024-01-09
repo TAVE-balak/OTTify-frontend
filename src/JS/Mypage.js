@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import '../App.css';
 import '../CSS/Mypage.css'
 import GradeGraph from './GradeGraph';
@@ -77,6 +77,16 @@ const Mypage = () => {
     setModalOpen(false)
   }
 
+  //프로필 변경
+  const [nickname, setNickname] = useState("");
+  useEffect(() => {
+    // 클래스 이름이 'name'인 요소를 찾아 닉네임 상태에 설정
+    const nameElement = document.querySelector(".name");
+    if (nameElement) {
+      setNickname(nameElement.textContent);
+    }
+  }, []);
+  
   return (
     <div className = "Mypage">
       <div className = "my_profile">
@@ -100,7 +110,8 @@ const Mypage = () => {
                 </div>
                 <span className="nickname">닉네임</span>
                 <div className="modal_nickname">
-                  <input className="nickname_input"></input>
+                  <input className="nickname_input" value = {nickname} 
+                          onChange={(e)=>setNickname(e.target.value)}></input>
                   <button className="nickname_btn">변경</button>
                 </div>
               </Modal>
