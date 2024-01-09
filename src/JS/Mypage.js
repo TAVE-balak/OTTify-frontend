@@ -5,7 +5,7 @@ import '../CSS/Mypage.css'
 import GradeGraph from './GradeGraph';
 import PickButton from "./PickButton";
 import SlidePoster from "./SlidePoster";
-import Modal from "./ProfileEdit";
+import Modal from "./Modal";
 
 import img1 from '../img/사진.jpg';
 import badge from '../img/profile_badge.png';
