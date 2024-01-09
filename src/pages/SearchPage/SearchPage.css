@@ -1,0 +1,102 @@
+/* 기본적인 검색 결과 페이지 스타일링 */
+.searchContent {
+  height: 100vh;
+  background-color: #000;
+  color: #fff;
+}
+
+.search-container {
+  width: 100%;
+  text-align: center;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+/* 결과가 없을 때 표시되는 메시지 스타일링 */
+.no-results {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c5c5c5;
+  height: 100%;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
+
+/* 영화 및 드라마 검색 결과 섹션을 위한 스타일링 */
+.movies-section,
+.tv-section {
+  padding: 2rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+/* 영화 또는 드라마 하나당 스타일링 */
+.movie,
+.tv-show {
+  display: inline-block;
+  padding-right: 0.5rem;
+  padding-bottom: 7rem;
+  vertical-align: top;
+}
+
+/* 포스터를 포함하는 부분에 대한 스타일링 */
+.movie__column-poster,
+.tv-show__column-poster {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.movie__column-poster:hover,
+.tv-show__column-poster:hover {
+  transform: scale(1.05);
+}
+
+/* 포스터 이미지에 대한 스타일링 */
+.movie__poster,
+.tv-show__poster {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
+}
+
+/* 추가로 구분을 위해 영화와 드라마 섹션에 서로 다른 색상 바탕이나 테두리를 적용할 수도 있습니다 */
+.movies-section {
+  border-bottom: 1px solid #444;
+}
+
+.tv-section {
+  border-bottom: 1px solid #666;
+}
+
+/* 카테고리 버튼 스타일 */
+.category-buttons button {
+  border-radius: 15px;
+  background: var(--Neutral, #D9D9D9);
+  border: none;
+  /* 필요 없는 경우 버튼 테두리 제거 */
+  padding: 10px 20px;
+  /* 적절한 패딩을 추가하세요 */
+  margin: 0 5px;
+  /* 버튼 사이 간격을 조정하세요 */
+  cursor: pointer;
+  /* 마우스 오버 시 포인터 모양을 변경 */
+  transition: background-color 0.3s;
+  /* 배경색 변경 시 부드러운 전환 */
+}
+
+/* 활성화된 카테고리 버튼 스타일 */
+.category-buttons .active {
+  background: var(--PrimaryColor, blue);
+  /* 현 활성 버튼의 배경색 */
+}
+
+/* 버튼 호버 스타일 */
+.category-buttons button:hover {
+  background-color: orange;
+  /* 호버 시 배경색 */
+}

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import ReviewList from './ReviewList';
+import WonReviewList from './WonReviewList';
 import '../CSS/MyCollect.css'
 
 import back from '../img/back.png';
@@ -7,9 +7,7 @@ import img1 from '../img/사진.jpg';
 
 const MyFavorite = () =>{
   const navigate = useNavigate();
-  const goToMypage = () => {
-    navigate('/');
-  }
+
   const dummyList = [
   {
     id: 1,
@@ -53,10 +51,10 @@ const MyFavorite = () =>{
     <div className='MyFavorite'>
       <div className = "myfavorite_page">
         <div className = "myfavorite_title">
-          <img src = {back} className = "myfavorite_back" alt = "뒤로 가기" onClick={goToMypage}/>
+          <img src = {back} className = "myfavorite_back" alt = "뒤로 가기" onClick={() => navigate(-1)}/>
           <h2>좋아요한 리뷰</h2>
         </div>
-        <ReviewList reviewList={dummyList}/>
+        <WonReviewList reviewList={dummyList}/>
       </div>
     </div>
   )

@@ -48,6 +48,9 @@
   position: absolute;
   top: 16px;
   right: 16px;
+
+  padding: 0px !important;
+  margin: 0px !important;
 }
 
 .comment_enroll.active{

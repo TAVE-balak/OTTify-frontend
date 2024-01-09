@@ -7,7 +7,7 @@ const DebateItem = ({debateTitle, movie, poster, content, created_date, comment,
     <div className = "DebateItem" onClick={onClick}>
       <div className="debateInfo">
         <div className="movieInfo">
-          <span className='movie'>{movie}</span>
+          <span className='movieDebate'>{movie}</span>
           <span className="debateTitle">{debateTitle}</span>
         </div>
         <span className="writeDate">{created_date}</span>

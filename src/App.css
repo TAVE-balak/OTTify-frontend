@@ -1,9 +1,9 @@
-*{
+* {
   box-sizing: border-box;
   cursor: pointer;
 }
 
-:root{
+:root {
   --primary: #fd7e14;
   --primary_dark: #ca6510;
   --primary_light: #fecba1;
@@ -30,4 +30,6 @@
   --grey: #7C7C7C;
   --secondary: #6C757D;
 }
+
+
 
