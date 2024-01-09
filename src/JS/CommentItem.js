@@ -38,6 +38,14 @@ const CommentItem = ({onDelete, author, content, favorite, profile, created_date
     setCommentReply(newCommentReplyList);
   };
 
+  //수정
+  const onEdit = (targetId, newContent) => {  //수정대상, 수정내용
+    setCommentReply(  
+      commentreply.map((it) =>  //모든 요소들이 id끼리 일치하는지 확인 
+      it.id === targetId ? {...it, content: newContent} : it) //일치하면 원본대상 + 내용수정함 / 아니면 원본대상
+    )
+  }
+
   return (
     <div className = "CommentItem">
       <div className = "comments_info">
@@ -74,7 +82,7 @@ const CommentItem = ({onDelete, author, content, favorite, profile, created_date
       </div>
 
       <div className='CommentReplyList'>
-        <CommentReplyList onDelete = {onDeleteReply} commentReplyList = {commentreply}/>
+        <CommentReplyList onEdit = {onEdit} onDelete = {onDeleteReply} commentReplyList = {commentreply}/>
         
       </div>
     </div>
