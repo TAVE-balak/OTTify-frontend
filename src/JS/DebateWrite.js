@@ -8,9 +8,6 @@ import '../CSS/DebateWrite.css';
 
 const DebateWrite = () => {
   const navigate = useNavigate();
-  const goToDebateOne = () => {
-    navigate('/DebateOne');
-  }
 
   const [title, setTitle] = useState("");
 
@@ -22,7 +19,7 @@ const DebateWrite = () => {
     <div className="debateWrite">
       <div className='debateAuto'>
         <div className="writeTop">
-          <img src = {back} className='writeBack' onClick={goToDebateOne}></img>
+          <img src = {back} className='writeBack' onClick={() => navigate(-1)}></img>
           <span class = "topTitle">토론 열기</span>
         </div>
         <div className ="writeMain">
