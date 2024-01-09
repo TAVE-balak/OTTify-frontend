@@ -13,14 +13,9 @@ const DebateWrite = () => {
   }
 
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-  };
-
-  const handleContentChange = (event) => {
-    setContent(event.target.value);
   };
   
   return (
@@ -40,9 +35,7 @@ const DebateWrite = () => {
           </div>
           <div className='writeContent'>
             <textarea className='contentArea' 
-                      placeholder="작품에 대한 감상을 다른 분들과 공유해 보세요."
-                      value = {content}
-                      onChange={handleContentChange}>          
+                      placeholder="작품에 대한 감상을 다른 분들과 공유해 보세요.">          
             </textarea>
           </div>
           <div className='writeImg'>
@@ -50,7 +43,7 @@ const DebateWrite = () => {
             <span className='photo_name'>사진 추가</span>
           </div>
           <div className='writeBtn'>
-            <button className = {`completeBtn ${title && content ? 'active' : ''}`}>작성 완료</button>
+            <button className = {`completeBtn ${title ? 'active' : ''}`}>작성 완료</button>
           </div>
         </div>
       </div>
