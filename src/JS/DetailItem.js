@@ -1,10 +1,20 @@
+import {useState} from 'react';
 import thumb from '../img/thumb_up.png';
+import thumb_orange from '../img/thumb_up_orange.png';
 import chat from '../img/chat.png';
-
+import more from '../img/more.png';
 
 const DetailItem = ({debateTitle, movie, poster, content, created_date, comment, favorite, id}) =>{
   const imgClassName = poster.poster ? 'debateImg' : 'withoutImg';
   const MainClassName = poster.poster ? 'debateImgMain' : 'debateMain';
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleMenuClick = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+
   return (
     <div className = "DetailItem">
       <div className="debateInfo">
@@ -12,7 +22,18 @@ const DetailItem = ({debateTitle, movie, poster, content, created_date, comment,
           <span className='movie'>{movie}</span>
           <span className="debateTitle">{debateTitle}</span>
         </div>
-        <span className="writeDate">{created_date}</span>
+        <div className="movieInfoRight">
+          <span className="writeDate">{created_date}</span>
+          <img src = {more} className='more' onClick={handleMenuClick}></img>
+          {isMenuOpen && (
+              <div className='menu_list_debate'>
+                <div className='menu_edit'>
+                    토론 수정</div>
+                <div className='menu_delete'>
+                   토론 삭제</div>
+              </div>
+            )}
+        </div>
       </div>
 
       <div className={`${MainClassName}`}>
