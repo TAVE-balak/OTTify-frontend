@@ -1,4 +1,7 @@
 import {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import DebateEdit from './DebateEdit';
+
 import thumb from '../img/thumb_up.png';
 import thumb_orange from '../img/thumb_up_orange.png';
 import chat from '../img/chat.png';
@@ -8,12 +11,23 @@ const DetailItem = ({debateTitle, movie, poster, content, created_date, comment,
   const imgClassName = poster.poster ? 'debateImg' : 'withoutImg';
   const MainClassName = poster.poster ? 'debateImgMain' : 'debateMain';
 
+  const navigate = useNavigate();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuClick = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const goToDebateEdit = () =>{
+    navigate(`/DebateEdit/${id}`, {
+      state: {
+        debateTitle,
+        content,
+        posterUrl: poster.poster,
+      },
+    });
+  }
 
   return (
     <div className = "DetailItem">
@@ -27,7 +41,7 @@ const DetailItem = ({debateTitle, movie, poster, content, created_date, comment,
           <img src = {more} className='more' onClick={handleMenuClick}></img>
           {isMenuOpen && (
               <div className='menu_list_debate'>
-                <div className='menu_edit'>
+                <div className='menu_edit' onClick={goToDebateEdit}>
                     토론 수정</div>
                 <div className='menu_delete'>
                    토론 삭제</div>
