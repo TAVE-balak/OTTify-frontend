@@ -1,9 +1,11 @@
 /*내가 쓴 리뷰 모아보기 제목*/
+/* MyWrite와 MyFavorite 요소의 배경색 설정 */
 .MyWrite,
 .MyFavorite {
     background-color: var(--neutral);
 }
 
+/* MyWrite 페이지 스타일 */
 .mywrite_page {
     display: flex;
     flex-direction: column;
@@ -13,15 +15,18 @@
     width: 736px;
 }
 
+/* MyWrite 제목 스타일 */
 .mywrite_title {
     display: flex;
 }
 
+/* MyWrite 뒤로 가기 버튼 스타일 */
 .mywrite_back {
     width: 45px;
     height: 45px;
 }
 
+/* MyWrite 제목의 h2 스타일 */
 .mywrite_title h2 {
     color: var(--gray_800);
     font-size: 24px;
@@ -33,6 +38,7 @@
 
 
 /*내가 좋아요한 리뷰 모아보기 제목*/
+/* MyFavorite 페이지 스타일 */
 .myfavorite_page {
     display: flex;
     flex-direction: column;
@@ -42,15 +48,18 @@
     width: 736px;
 }
 
+/* MyFavorite 제목 스타일 */
 .myfavorite_title {
     display: flex;
 }
 
+/* MyFavorite 뒤로 가기 버튼 스타일 */
 .myfavorite_back {
     width: 45px;
     height: 45px;
 }
 
+/* MyFavorite 제목의 h2 스타일 */
 .myfavorite_title h2 {
     color: var(--gray_800);
     font-size: 24px;
@@ -60,12 +69,14 @@
     align-items: center;
 }
 
+/*ReviewList*/
+/* ReviewList 요소의 상단 마진 설정 */
 .ReviewList {
     margin-top: 16px;
 }
 
 /*ReviewItem*/
-/*프로필, 닉네임, 날짜*/
+/* ReviewItem 요소 스타일 설정 */
 .ReviewItem {
     width: 736px;
     background-color: white;
@@ -76,65 +87,88 @@
     margin-bottom: 16px;
 }
 
+/* reviewInfo*/
+/* 리뷰 정보를 담는 요소들을 정렬하는 스타일 */
 .reviewInfo {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
+/* writerInfo */
+/* 작성자 정보를 담는 요소 정렬 스타일 */
 .writerInfo {
     display: flex;
     align-items: center;
 }
 
+/* writer_profile */
+/* 작성자 프로필 이미지 스타일 */
 .writer_profile {
     width: 30px;
     height: 30px;
     border-radius: 50%;
 }
 
+/* writer */
+/* 작성자 이름 스타일 */
 .writer {
     margin-left: 8px;
 }
 
-/*포스터, 제목, 별점, 태그, 내용, 좋아요 수*/
+/* reviewMain */
+/* 리뷰 주요 내용 스타일 설정 */
 .reviewMain {
     margin: 16px 0;
     padding-bottom: 8px;
 }
 
+/* reviewPoster */
+/* 리뷰 포스터 이미지 스타일 */
 .reviewPoster {
     width: 119px;
     height: 170px;
     border-radius: 7px;
 }
 
+/* reviewName */
+/* 리뷰 제목 스타일 */
 .reviewName {
     color: var(--gray_800);
     font-size: 22px;
     font-weight: 600;
 }
 
+/* reviewPick */
+/* 리뷰 평점 및 태그 스타일 */
 .reviewPick {
     margin-top: 6px;
     display: flex;
     align-items: center;
 }
 
+/* star */
+/* 별 아이콘 스타일 */
 .star {
     width: 20px;
     height: 20px;
 }
 
+/* reviewNum */
+/* 리뷰 평점 숫자 스타일 */
 .reviewNum {
     color: var(--primary);
     margin-left: 4px;
 }
 
+/* tags */
+/* 태그 스타일 */
 .tags {
     margin-left: 12px;
 }
 
+/* tags span */
+/* 태그 span 요소 스타일 */
 .tags span {
     background-color: var(--neutral);
     border-radius: 7px;
@@ -143,41 +177,52 @@
     font-size: 12px;
 }
 
+/* reviewContent */
+/* 리뷰 내용 스타일 */
 .reviewContent {
     margin-top: 22px;
     font-size: 16px;
 }
 
+/* reviewFavorite */
+/* 좋아요 영역 스타일 */
 .reviewFavorite {
     display: flex;
     align-items: center;
     margin-top: 14px;
 }
 
+/* reviewthumb */
+/* 좋아요 아이콘 스타일 */
 .reviewthumb {
     width: 14px;
     height: 14px;
 }
 
+/* thumbNum */
+/* 좋아요 수 숫자 스타일 */
 .thumbNum {
     color: var(--gray_500);
     margin-left: 2px;
     padding-bottom: 3px;
 }
 
-
-/*좋아요 버튼*/
+/* 좋아요 버튼 영역 스타일 */
 .FavoriteBtn {
     margin: 32px;
     display: flex;
     align-items: center;
 }
 
+/* thumbBtn */
+/* 좋아요 버튼 아이콘 스타일 */
 .thumbBtn {
     width: 24px;
     height: 24px;
 }
 
+/* nameBtn */
+/* 버튼 이름 스타일 */
 .nameBtn {
     color: var(--gray_500);
     margin-left: 8px;
@@ -185,6 +230,8 @@
 
 /* Add this CSS code to your existing styles */
 
+/* star-button */
+/* 별표 버튼 스타일 */
 .star-button {
     font-size: 1.5rem;
     color: gray;
@@ -194,12 +241,14 @@
     margin-right: 5px;
 }
 
+/* star-selected */
+/* 선택된 별표 버튼 스타일 */
 .star-selected {
     color: gold;
 }
 
-
-/* 부모 요소에 대한 스타일 */
+/* modal__buttons */
+/* 모달 버튼들을 우측에 정렬하는 스타일 */
 .modal__buttons {
     display: flex;
     justify-content: flex-end;
@@ -221,4 +270,12 @@ button.selected {
     background-color: orange;
     border-color: orange;
     color: white;
+}
+
+/* 추가한 스타일 */
+button[type="submit"],
+/* 이 부분에 버튼 클래스 추가 */
+.custom-button {
+    border-radius: 7px;
+    background: var(--Priamary-Primary, #FD7E14);
 }
