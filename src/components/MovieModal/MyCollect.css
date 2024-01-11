@@ -279,3 +279,16 @@ button[type="submit"],
     border-radius: 7px;
     background: var(--Priamary-Primary, #FD7E14);
 }
+
+.review-buttons button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.review-buttons button:hover {
+    color: orange;
+}
