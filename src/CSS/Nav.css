@@ -1,16 +1,16 @@
-.navbar{
+.navbar {
   height: 50px;
-  display: flex; 
+  display: flex;
   justify-content: center;
   align-items: center;
   padding-left: 0px;
 }
 
-.nav-item{
+.nav-item {
   list-style-type: none;
 }
 
-.nav_logo{
+.nav_logo {
   width: 87px;
   height: 32px;
   margin-right: 48px;
@@ -18,19 +18,19 @@
   align-items: center;
 }
 
-.nav_debate{
+.nav_debate {
   color: var(--gray_500);
   font-size: 16px;
-  font-weight: 600;  
+  font-weight: 600;
   margin-right: 400px;
 }
 
-.search{
+.search {
   position: relative;
   margin-right: 16px;
 }
 
-.nav_search{
+.nav_search {
   width: 456px;
   height: 34px;
   border-radius: 50px;
@@ -40,18 +40,42 @@
   padding-left: 15px;
 }
 
-.search_icon{
+.search_icon {
   width: 20px;
   height: 20px;
   position: absolute;
-  top:7px;
+  top: 7px;
   right: 15px;
 }
 
-.nav_profile{
+.nav_profile {
   display: flex;
   width: 34px;
   height: 34px;
   border-radius: 50%;
   align-items: center;
+}
+
+.login-modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  /* 뒷배경을 흰색으로 설정 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  /* 높은 z-index 값으로 설정 */
+}
+
+.login-modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  /* login-modal-background보다 높은 z-index 값으로 설정 */
 }
