@@ -45,7 +45,11 @@ const WriteReview = ({ handleWriteReviewSubmit }) => {
     setStarRating(0);
     setShowModal(false);
   };
-
+  const WriteIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+      <path d="M33.333 3.33301H6.66634C4.83301 3.33301 3.34967 4.83301 3.34967 6.66634L3.33301 36.6663L9.99967 29.9997H33.333C35.1663 29.9997 36.6663 28.4997 36.6663 26.6663V6.66634C36.6663 4.83301 35.1663 3.33301 33.333 3.33301ZM33.333 26.6663H8.61634L6.66634 28.6163V6.66634H33.333V26.6663ZM17.4997 23.333H29.9997V19.9997H20.833L17.4997 23.333ZM23.933 13.5497C24.2663 13.2163 24.2663 12.6997 23.933 12.3663L20.983 9.41634C20.6497 9.08301 20.133 9.08301 19.7997 9.41634L9.99967 19.2163V23.333H14.1163L23.933 13.5497Z" fill="#ADB5BD"/>
+    </svg>
+  );
   const tags = [
     '시간 가는 줄 몰랐어요 ⏱',
     '심장질환자 관람유의 🫀',
@@ -69,7 +73,9 @@ const WriteReview = ({ handleWriteReviewSubmit }) => {
   return (
     <div>
       <h2>리뷰 작성하기</h2>
-      <button onClick={() => setShowModal(true)}>리뷰 작성하기</button>
+      <button className="write-review-button" onClick={() => setShowModal(true)}>
+          <WriteIcon />
+        </button>
       {showModal && (
         <div className="modal display-block">
           <section className="modal-main">
