@@ -1,14 +1,14 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import "./App.css";
 // import Footer from "./components/Footer";
-// import Nav from "./components/Nav";
+import Nav from "./components/Nav";
 import DetailPage from "./pages/DetailPage";
 import MainPage from "./pages/MainPage";
 import SearchPage from "./pages/SearchPage";
 import Login from "./components/Login/Login";
 import WriteReview from "../src/components/MovieModal/WriteReview";
 
-import Nav from './JS/Nav.js';
+
 import Footer from './JS/Footer.js';
 import ScrollToTop from './JS/ScrollToTop';
 import Mypage from './JS/Mypage';
