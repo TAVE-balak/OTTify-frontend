@@ -21,6 +21,7 @@ import DebateAll from './JS/DebateAll';
 import DebateOne from './JS/DebateOne';
 import DebateWrite from './JS/DebateWrite';
 import DebateDetail from './JS/DebateDetail';
+import DebateEdit from './JS/DebateEdit';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
           <Route path="/DebateOne" element={<DebateOne/>}/>
           <Route path="/DebateWrite" element={<DebateWrite/>}/>
           <Route path="/DebateDetail" element={<DebateDetail/>}/>
+          <Route path="/DebateEdit/:id" element={<DebateEdit/>}/>
         </Routes>
         <Footer/>
       </ScrollToTop>
