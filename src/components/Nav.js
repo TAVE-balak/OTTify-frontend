@@ -16,8 +16,12 @@ const Nav = () => {
     navigate(`/search?q=${e.target.value}`);
   };
 
-  const goToMypage = () => {
+  const goToHome = () =>{
     navigate('/');
+  }
+
+  const goToMypage = () => {
+    navigate('/Mypage');
   };
   const goToDebate = () => {
     navigate('/DebateAll');
@@ -32,7 +36,7 @@ const Nav = () => {
   return (
     <>
       <ul className="navbar">
-        <li className="nav-item" onClick={goToMypage}>
+        <li className="nav-item" onClick={goToHome}>
           <img src={ottify} className='nav_logo' alt="Logo" />
         </li>
         <li className="nav-item" onClick={goToDebate}>
@@ -45,7 +49,7 @@ const Nav = () => {
           type="text"
           placeholder="영화를 검색해주세요."
         />
-        <li className="nav-item" onClick={goToOne}>
+        <li className="nav-item" onClick={goToMypage}>
           <img src={profile} className='nav_profile' alt="User" />
         </li>
         {/* Add a login button */}
