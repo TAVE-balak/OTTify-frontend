@@ -62,4 +62,5 @@ const DebateEdit = () =>{
   )
 }
 
+
 export default DebateEdit;
