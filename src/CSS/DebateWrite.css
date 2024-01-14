@@ -86,3 +86,9 @@
   background-color: var(--primary);
   color: white;
 }
+
+/*Debate 수정*/
+.photo_debate{
+  width: 20px;
+  height: 20px;
+}
