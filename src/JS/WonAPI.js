@@ -7,7 +7,7 @@ const Wonapi = axios.create({
 const fetchUserProfile = async (userId) => {
   try {
     const response = await Wonapi.get(`/api/v1/users/${userId}`);
-    console.log(response.data);
+    return response.data;
   } catch (error) {
     console.error('Error fetching users from API:', error);
   }

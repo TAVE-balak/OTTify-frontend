@@ -22,8 +22,14 @@ const Nav = () => {
     navigate('/');
   }
 
-  const goToMypage = () => {
-    navigate('/Mypage');
+  const goToMypage = async () => {
+    try{
+      const userId = 1;
+      await fetchUserProfile(userId);
+      navigate(`/Mypage/${userId}`);
+    }catch(error){
+      console.error('Error fetching data from API: ', error);
+    }
   };
   const goToDebate = () => {
     navigate('/DebateAll');
@@ -33,24 +39,6 @@ const Nav = () => {
   };
   const toggleLoginModal = () => {
     setIsLoginModalOpen(!isLoginModalOpen); // 로그인 모달 가시성 토글
-  };
-
-  //api 호출 (마이페이지)
-  const userId = 1;
-  const fetchData = async () => {
-    try {
-      await fetchUserProfile(userId);
-    } catch (error) {
-      console.error('Error fetching data from API:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData(); // 마운트 시에 데이터를 불러오기 위한 호출
-  }, []);
-
-  const fetchDataOnClick = async () => {
-    fetchData(); // 버튼 클릭 시에도 동일한 로직을 수행
   };
 
   return (
@@ -69,7 +57,7 @@ const Nav = () => {
           type="text"
           placeholder="영화를 검색해주세요."
         />
-        <li className="nav-item" onClick={(e)=>{goToMypage(e); fetchDataOnClick(e)}}>
+        <li className="nav-item" onClick={goToMypage}>
           <img src={profile} className='nav_profile' alt="User" />
         </li>
         {/* Add a login button */}

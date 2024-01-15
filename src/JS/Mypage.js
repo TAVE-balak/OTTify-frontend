@@ -1,7 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {useState, useEffect} from "react";
 import '../App.css';
 import '../CSS/Mypage.css'
+
+import { fetchUserProfile } from "./WonAPI";
+
 import GradeGraph from './GradeGraph';
 import PickButton from "./PickButton";
 import SlidePoster from "./SlidePoster";
@@ -21,6 +24,26 @@ import change_img from '../img/change_img.png';
 import close_gray from '../img/close_gray.png';
 
 const Mypage = () => {
+  const {userId} = useParams();
+  const [userProfile, setUserProfile] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const profileData = await fetchUserProfile(userId);
+        console.log(profileData);
+        setUserProfile(profileData);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+
+    if (userId) {
+      fetchData();
+    }
+  }, [userId]);
+
+
   const navigate = useNavigate();
   const goToOTT = () => {
     navigate('/ChangeOTT');
@@ -86,26 +109,30 @@ const Mypage = () => {
       setNickname(nameElement.textContent);
     }
   }, []);
+
   
   return (
     <div className = "Mypage">
-      <div className = "my_profile">
-        <img src = {img1} className = "profile_img"alt = "profile"></img>
+      {userProfile ? (
+        <>
+          <div className = "my_profile">
+        <img src = {userProfile.data.profilePhoto} className = "profile_img"alt = "profile"></img>
         <div className='profile_bottom'>
           <div className = "profile_info">
             <div className='info_nickname'>
-              <span className='name'>이임생</span>
-              <img src = {badge} className='badge'></img>
+              <span className='name'>{userProfile.data.nickName}</span>
+              {userProfile.data.grade == 'GENERAL' ? 
+              (<img></img>):(<img src = {badge} className='badge'></img>)} 
             </div>
             <div className='info_email'>
-              <span className='email'>leeeeemmmsanngg@naver.com</span>
+              <span className='email'>{userProfile.data.email}</span>
             </div>
             <div className='info_edit'>
               <button className='edit_btn_profile' onClick={openModal}>프로필 변경</button>
               <Wonmodal open={modalOpen} close={closeModal}>
                 <img src = {close_gray} className="modal_close" onClick={closeModal}></img>
                 <div className="modal_img">
-                  <img src = {img1} className="edit_img"></img>
+                  <img src = {userProfile.data.profilePhoto} className="edit_img"></img>
                   <img src = {change_img} className="change_img"></img>
                 </div>
                 <span className="nickname">닉네임</span>
@@ -135,11 +162,11 @@ const Mypage = () => {
               <span className='grade_mine'>내 리뷰 평균 평점</span>
               <div className='grade_num'>
                 <img src = {star} className='grade_star'></img>
-                <span className='grade_point'>3.75/5</span>
+                <span className='grade_point'>{userProfile.data.averageRating}/5</span>
               </div>
             </div>
             <div className='grade_graph'>
-              <GradeGraph reviews = {reviews}/>
+              <GradeGraph reviews = {reviews} userProfile = {userProfile}/>
             </div>
           </div>
         </div>
@@ -151,10 +178,10 @@ const Mypage = () => {
             <span className='content_mine'>내 취향 장르</span>
             <select className='content_select' name = 'genre_1st'>
               <option selected disabled hidden>1순위 장르</option>
-              <option value = "action">액션</option>
-              <option value = "thriller">스릴러</option>
-              <option value = "musical">뮤지컬</option>
-              <option value = "comedy">코미디</option>
+              <option value = "action" selected={userProfile.data.firstGenre.name === '액션'}>액션</option>
+              <option value = "thriller" selected={userProfile.data.firstGenre.name === '스릴러'}>스릴러</option>
+              <option value = "musical" selected={userProfile.data.firstGenre.name === '뮤지컬'}>뮤지컬</option>
+              <option value = "comedy" selected={userProfile.data.firstGenre.name === '코미디'}>코미디</option>
             </select>
           </div>
 
@@ -221,6 +248,9 @@ const Mypage = () => {
       <div className='my_out'>
         <a className='log_out'>로그아웃</a>
       </div>
+        </>
+
+      ) : (<p> None </p>)}
     </div>
   )
 }

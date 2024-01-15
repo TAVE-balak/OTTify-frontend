@@ -35,7 +35,7 @@ function App() {
           <Route path="search" element={<SearchPage />} />
           <Route path="/Login" element={<Login />} />
 
-          <Route path="/Mypage" element={<Mypage />} />
+          <Route path="/Mypage/:userId" element={<Mypage />} />
           <Route path="/ChangeOTT" element={<ChangeOTT />} />
           <Route path="/MyWrite" element={<MyWrite/>}/>
           <Route path="/MyFavorite" element={<MyFavorite/>}/>
