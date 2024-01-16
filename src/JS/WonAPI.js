@@ -14,5 +14,14 @@ const fetchUserProfile = async (userId) => {
   }
 };
 
+const fetchMyWrite = async (userId) => {
+  try {
+    const response = await Wonapi.get(`/api/v1/users/${userId}/reviews`);
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching users from API:', error);
+  }
+};
 
-export { Wonapi, fetchUserProfile};
+export { Wonapi, fetchUserProfile, fetchMyWrite};

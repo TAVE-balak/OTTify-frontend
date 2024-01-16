@@ -23,13 +23,8 @@ const Nav = () => {
   }
 
   const goToMypage = async () => {
-    try{
       const userId = 1;
-      await fetchUserProfile(userId);
       navigate(`/Mypage/${userId}`);
-    }catch(error){
-      console.error('Error fetching data from API: ', error);
-    }
   };
   const goToDebate = () => {
     navigate('/DebateAll');

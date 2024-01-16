@@ -24,8 +24,12 @@ import change_img from '../img/change_img.png';
 import close_gray from '../img/close_gray.png';
 
 const Mypage = () => {
+  console.log("렌더링")
   const {userId} = useParams();
   const [userProfile, setUserProfile] = useState(null);
+  const [likeData, setLikeData] = useState([]);
+  const [hateData, setHateData] = useState([]);
+  const [secondGenres, setSecondGenres] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,9 +46,26 @@ const Mypage = () => {
           // 가져온 정보를 세션 스토리지에 저장
           sessionStorage.setItem(`userProfile_${userId}`, JSON.stringify(profileData));
         }
-
-        console.log(profileData);
         setUserProfile(profileData);
+
+        //좋아요 & 관심없어요 프로그램
+        if (profileData){
+          const newlikeData =[];
+          for (let i = 0; i < profileData.data.likedProgram.totalCnt; i++){
+            newlikeData.push({poster: "https://image.tmdb.org/t/p/original" + profileData.data.likedProgram.likedProgramList[i].posterPath})
+          }
+          setLikeData(newlikeData);
+          
+          const newhateData =[];
+          for (let i = 0; i < profileData.data.uninterestedProgram.totalCnt; i++){
+            newhateData.push({poster: "https://image.tmdb.org/t/p/original" + profileData.data.uninterestedProgram.uninterestedProgramList[i].posterPath})
+          }
+          setHateData(newhateData);
+        }
+
+        //2순위 장르
+        setSecondGenres(profileData.data.secondGenres);
+
       } catch (error) {
         console.error('Error fetching user profile:', error);
       }
@@ -61,7 +82,7 @@ const Mypage = () => {
     navigate('/ChangeOTT');
   }
   const goToWrite = () => {
-    navigate('/MyWrite');
+    navigate(`/MyWrite/${userId}`);
   }
 
   const goToFavorite = () => {
@@ -79,7 +100,7 @@ const Mypage = () => {
   //내 리뷰 평점 그래프
   const reviewList=[]
   let reviews = null;
-  
+
   if (userProfile){
     for (const key in userProfile.data.ratingList){
       const reviewCount = userProfile.data.ratingList[key];
@@ -114,31 +135,7 @@ const Mypage = () => {
       }
     }
     reviews = reviewList.filter(item => item !== 'totalCnt');
-    console.log(reviews);
   }
-
-  const likeData = [
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-  ]
-
-
-  const hateData = [
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-  ]
 
 
   // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
@@ -161,7 +158,23 @@ const Mypage = () => {
     }
   }, []);
 
+  //2순위 장르
+  const handleToggle = (genreId) => {
+    const updatedSecondGenres = secondGenres.map((genre) => {
+      if (genre.id === genreId) {
+        return {
+          ...genre,
+          isSelected: !genre.isSelected, // isSelected 값을 토글
+        };
+      }
+      return genre;
+    });
   
+    // 업데이트된 선택 상태를 반영
+    setSecondGenres(updatedSecondGenres);
+  };
+
+
   return (
     <div className = "Mypage">
       {userProfile ? (
@@ -201,9 +214,14 @@ const Mypage = () => {
               <span className='ott_mine'>구독 중인 OTT</span>
             </div>
             <div className='ott_imgs'>
-              <img src = {ott} className='ott_logo'></img>
-              <img src = {ott} className='ott_logo'></img>
-              <img src = {ott} className='ott_logo'></img>
+              {userProfile.data.ott.ottList.slice(0, 3).map((ott, index) => (
+                  <img
+                    key={index}
+                    src={ott.logoPath}
+                    className='ott_logo'
+                    alt={`ott_logo_${index}`}
+                  />
+                ))}
               <img src = {arrow} className='arrow' onClick={goToOTT} alt = "화면 전환 화살표"></img>
             </div>
           </div>

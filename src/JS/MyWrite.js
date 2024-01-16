@@ -1,12 +1,43 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import {useEffect, useState} from 'react';
 import WonReviewList from './WonReviewList';
+import { fetchMyWrite } from "./WonAPI";
 import '../CSS/MyCollect.css'
 
 import back from '../img/back.png';
 import img1 from '../img/사진.jpg';
 
 const MyWrite = () =>{
+  const {userId} = useParams();
+  const [myWriteData, setMyWriteData] = useState(null);
   const navigate = useNavigate();
+  console.log("test");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let storedMyWrite = sessionStorage.getItem(`myWriteData_${userId}`);
+        let MyReviewData;
+
+        if (storedMyWrite) {
+          // 세션 스토리지에 사용자 정보가 있으면 가져오기
+          MyReviewData = JSON.parse(storedMyWrite);
+        } else {
+          // 세션 스토리지에 사용자 정보가 없으면 API 호출하여 가져오기
+          MyReviewData = await fetchMyWrite(userId);
+          // 가져온 정보를 세션 스토리지에 저장
+          sessionStorage.setItem(`myWriteData_${userId}`, JSON.stringify(MyReviewData));
+        }
+        setMyWriteData(MyReviewData);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+    if (userId) {
+      fetchData();
+    }
+  }, [userId]);
+
   const dummyList = [
   {
     id: 1,
