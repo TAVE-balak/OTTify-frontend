@@ -28,6 +28,7 @@ const Mypage = () => {
   const [userProfile, setUserProfile] = useState(null);
   const [likeData, setLikeData] = useState([]);
   const [hateData, setHateData] = useState([]);
+  const [secondGenres, setSecondGenres] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,9 +60,10 @@ const Mypage = () => {
             newhateData.push({poster: "https://image.tmdb.org/t/p/original" + profileData.data.uninterestedProgram.uninterestedProgramList[i].posterPath})
           }
           setHateData(newhateData);
-
-
         }
+
+        //2순위 장르
+        setSecondGenres(profileData.data.secondGenres);
 
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -155,7 +157,23 @@ const Mypage = () => {
     }
   }, []);
 
+  //2순위 장르
+  const handleToggle = (genreId) => {
+    const updatedSecondGenres = secondGenres.map((genre) => {
+      if (genre.id === genreId) {
+        return {
+          ...genre,
+          isSelected: !genre.isSelected, // isSelected 값을 토글
+        };
+      }
+      return genre;
+    });
   
+    // 업데이트된 선택 상태를 반영
+    setSecondGenres(updatedSecondGenres);
+  };
+
+
   return (
     <div className = "Mypage">
       {userProfile ? (
@@ -195,9 +213,14 @@ const Mypage = () => {
               <span className='ott_mine'>구독 중인 OTT</span>
             </div>
             <div className='ott_imgs'>
-              <img src = {ott} className='ott_logo'></img>
-              <img src = {ott} className='ott_logo'></img>
-              <img src = {ott} className='ott_logo'></img>
+              {userProfile.data.ott.ottList.slice(0, 3).map((ott, index) => (
+                  <img
+                    key={index}
+                    src={ott.logoPath}
+                    className='ott_logo'
+                    alt={`ott_logo_${index}`}
+                  />
+                ))}
               <img src = {arrow} className='arrow' onClick={goToOTT} alt = "화면 전환 화살표"></img>
             </div>
           </div>
