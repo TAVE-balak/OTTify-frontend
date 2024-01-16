@@ -26,6 +26,8 @@ import close_gray from '../img/close_gray.png';
 const Mypage = () => {
   const {userId} = useParams();
   const [userProfile, setUserProfile] = useState(null);
+  const [likeData, setLikeData] = useState([]);
+  const [hateData, setHateData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,9 +44,25 @@ const Mypage = () => {
           // 가져온 정보를 세션 스토리지에 저장
           sessionStorage.setItem(`userProfile_${userId}`, JSON.stringify(profileData));
         }
-
-        console.log(profileData);
         setUserProfile(profileData);
+
+        //좋아요 & 관심없어요 프로그램
+        if (profileData){
+          const newlikeData =[];
+          for (let i = 0; i < profileData.data.likedProgram.totalCnt; i++){
+            newlikeData.push({poster: "https://image.tmdb.org/t/p/original" + profileData.data.likedProgram.likedProgramList[i].posterPath})
+          }
+          setLikeData(newlikeData);
+          
+          const newhateData =[];
+          for (let i = 0; i < profileData.data.uninterestedProgram.totalCnt; i++){
+            newhateData.push({poster: "https://image.tmdb.org/t/p/original" + profileData.data.uninterestedProgram.uninterestedProgramList[i].posterPath})
+          }
+          setHateData(newhateData);
+
+
+        }
+
       } catch (error) {
         console.error('Error fetching user profile:', error);
       }
@@ -79,7 +97,7 @@ const Mypage = () => {
   //내 리뷰 평점 그래프
   const reviewList=[]
   let reviews = null;
-  
+
   if (userProfile){
     for (const key in userProfile.data.ratingList){
       const reviewCount = userProfile.data.ratingList[key];
@@ -114,31 +132,7 @@ const Mypage = () => {
       }
     }
     reviews = reviewList.filter(item => item !== 'totalCnt');
-    console.log(reviews);
   }
-
-  const likeData = [
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-  ]
-
-
-  const hateData = [
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-    {poster: poster},
-  ]
 
 
   // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
