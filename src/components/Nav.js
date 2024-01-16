@@ -5,8 +5,6 @@ import ottify from '../img/ottify.png';
 import profile from '../img/사진.jpg';
 import search from '../img/search.png';
 import Login from "./Login/Login";
-//api 호출
-import {fetchUserProfile} from '../JS/WonAPI';
 
 const Nav = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -45,13 +43,16 @@ const Nav = () => {
         <li className="nav-item" onClick={goToDebate}>
           <span className='nav_debate'>토론</span>
         </li>
-        <input
-          value={searchValue}
-          onChange={handleChange}
-          className="nav__input"
-          type="text"
-          placeholder="영화를 검색해주세요."
-        />
+        <div className="search">
+          <input
+            value={searchValue}
+            onChange={handleChange}
+            className="nav__input"
+            type="text"
+            placeholder="영화와 드라마를 검색해주세요."
+          />
+          <img src = {search} className="search_icon"></img>
+        </div>
         <li className="nav-item" onClick={goToMypage}>
           <img src={profile} className='nav_profile' alt="User" />
         </li>
