@@ -30,7 +30,19 @@ const Mypage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const profileData = await fetchUserProfile(userId);
+        let storedProfile = sessionStorage.getItem(`userProfile_${userId}`);
+        let profileData;
+
+        if (storedProfile) {
+          // 세션 스토리지에 사용자 정보가 있으면 가져오기
+          profileData = JSON.parse(storedProfile);
+        } else {
+          // 세션 스토리지에 사용자 정보가 없으면 API 호출하여 가져오기
+          profileData = await fetchUserProfile(userId);
+          // 가져온 정보를 세션 스토리지에 저장
+          sessionStorage.setItem(`userProfile_${userId}`, JSON.stringify(profileData));
+        }
+
         console.log(profileData);
         setUserProfile(profileData);
       } catch (error) {
@@ -64,8 +76,47 @@ const Mypage = () => {
     navigate('/MyHost');
   }
 
-  const reviews = [0.5, 0.5, 1, 1.5, 2, 2, 2.5, 3, 4, 5, 3, 4, 3, 4, 3, 4, 3, 4]
+  //내 리뷰 평점 그래프
+  const reviewList=[]
+  let reviews = null;
   
+  if (userProfile){
+    for (const key in userProfile.data.ratingList){
+      const reviewCount = userProfile.data.ratingList[key];
+      if (reviewCount > 0){
+        for (let i = 0; i <reviewCount; i++){
+          reviewList.push(key);
+        }
+      }
+    }
+  
+    for (let i = 0; i < reviewList.length; i++){
+      if (reviewList[i] === 'pointFiveCnt'){
+        reviewList[i] = 0.5;
+      }else if(reviewList[i] === 'oneCnt'){
+        reviewList[i] = 1.0;
+      }else if(reviewList[i] === 'oneDotFiveCnt'){
+        reviewList[i] = 1.5;
+      }else if(reviewList[i] === 'twoCnt'){
+        reviewList[i] = 2.0;
+      }else if(reviewList[i] === 'twoDotFiveCnt'){
+        reviewList[i] = 2.5;
+      }else if(reviewList[i] === 'threeCnt'){
+        reviewList[i] = 3.0;
+      }else if(reviewList[i] === 'threeDotFiveCnt'){
+        reviewList[i] = 3.5;
+      }else if(reviewList[i] === 'fourCnt'){
+        reviewList[i] = 4.0;
+      }else if(reviewList[i] === 'fourDotFiveCnt'){
+        reviewList[i] = 4.5;
+      }else if(reviewList[i] === 'fivecnt'){
+        reviewList[i] = 5.0;
+      }
+    }
+    reviews = reviewList.filter(item => item !== 'totalCnt');
+    console.log(reviews);
+  }
+
   const likeData = [
     {poster: poster},
     {poster: poster},
@@ -137,7 +188,7 @@ const Mypage = () => {
                 </div>
                 <span className="nickname">닉네임</span>
                 <div className="modal_nickname">
-                  <input className="nickname_input" value = {nickname} 
+                  <input className="nickname_input" value = {userProfile.data.nickName} 
                           onChange={(e)=>setNickname(e.target.value)}></input>
                   <button className="nickname_btn">변경</button>
                 </div>
@@ -166,7 +217,7 @@ const Mypage = () => {
               </div>
             </div>
             <div className='grade_graph'>
-              <GradeGraph reviews = {reviews} userProfile = {userProfile}/>
+              <GradeGraph reviews = {reviews}/>
             </div>
           </div>
         </div>
