@@ -20,6 +20,7 @@ const DetailItem = ({debateTitle, movie, poster, content, created_date, comment,
   };
 
   const goToDebateEdit = () =>{
+    console.log(debateTitle)
     navigate(`/DebateEdit/${id}`, {
       state: {
         debateTitle,

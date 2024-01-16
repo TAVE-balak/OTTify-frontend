@@ -1,7 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {useState, useEffect} from "react";
 import '../App.css';
 import '../CSS/Mypage.css'
+
+import { fetchUserProfile } from "./WonAPI";
+
 import GradeGraph from './GradeGraph';
 import PickButton from "./PickButton";
 import SlidePoster from "./SlidePoster";
@@ -21,6 +24,38 @@ import change_img from '../img/change_img.png';
 import close_gray from '../img/close_gray.png';
 
 const Mypage = () => {
+  const {userId} = useParams();
+  const [userProfile, setUserProfile] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let storedProfile = sessionStorage.getItem(`userProfile_${userId}`);
+        let profileData;
+
+        if (storedProfile) {
+          // 세션 스토리지에 사용자 정보가 있으면 가져오기
+          profileData = JSON.parse(storedProfile);
+        } else {
+          // 세션 스토리지에 사용자 정보가 없으면 API 호출하여 가져오기
+          profileData = await fetchUserProfile(userId);
+          // 가져온 정보를 세션 스토리지에 저장
+          sessionStorage.setItem(`userProfile_${userId}`, JSON.stringify(profileData));
+        }
+
+        console.log(profileData);
+        setUserProfile(profileData);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+
+    if (userId) {
+      fetchData();
+    }
+  }, [userId]);
+
+
   const navigate = useNavigate();
   const goToOTT = () => {
     navigate('/ChangeOTT');
@@ -41,8 +76,47 @@ const Mypage = () => {
     navigate('/MyHost');
   }
 
-  const reviews = [0.5, 0.5, 1, 1.5, 2, 2, 2.5, 3, 4, 5, 3, 4, 3, 4, 3, 4, 3, 4]
+  //내 리뷰 평점 그래프
+  const reviewList=[]
+  let reviews = null;
   
+  if (userProfile){
+    for (const key in userProfile.data.ratingList){
+      const reviewCount = userProfile.data.ratingList[key];
+      if (reviewCount > 0){
+        for (let i = 0; i <reviewCount; i++){
+          reviewList.push(key);
+        }
+      }
+    }
+  
+    for (let i = 0; i < reviewList.length; i++){
+      if (reviewList[i] === 'pointFiveCnt'){
+        reviewList[i] = 0.5;
+      }else if(reviewList[i] === 'oneCnt'){
+        reviewList[i] = 1.0;
+      }else if(reviewList[i] === 'oneDotFiveCnt'){
+        reviewList[i] = 1.5;
+      }else if(reviewList[i] === 'twoCnt'){
+        reviewList[i] = 2.0;
+      }else if(reviewList[i] === 'twoDotFiveCnt'){
+        reviewList[i] = 2.5;
+      }else if(reviewList[i] === 'threeCnt'){
+        reviewList[i] = 3.0;
+      }else if(reviewList[i] === 'threeDotFiveCnt'){
+        reviewList[i] = 3.5;
+      }else if(reviewList[i] === 'fourCnt'){
+        reviewList[i] = 4.0;
+      }else if(reviewList[i] === 'fourDotFiveCnt'){
+        reviewList[i] = 4.5;
+      }else if(reviewList[i] === 'fivecnt'){
+        reviewList[i] = 5.0;
+      }
+    }
+    reviews = reviewList.filter(item => item !== 'totalCnt');
+    console.log(reviews);
+  }
+
   const likeData = [
     {poster: poster},
     {poster: poster},
@@ -86,31 +160,35 @@ const Mypage = () => {
       setNickname(nameElement.textContent);
     }
   }, []);
+
   
   return (
     <div className = "Mypage">
-      <div className = "my_profile">
-        <img src = {img1} className = "profile_img"alt = "profile"></img>
+      {userProfile ? (
+        <>
+          <div className = "my_profile">
+        <img src = {userProfile.data.profilePhoto} className = "profile_img"alt = "profile"></img>
         <div className='profile_bottom'>
           <div className = "profile_info">
             <div className='info_nickname'>
-              <span className='name'>이임생</span>
-              <img src = {badge} className='badge'></img>
+              <span className='name'>{userProfile.data.nickName}</span>
+              {userProfile.data.grade == 'GENERAL' ? 
+              (<img></img>):(<img src = {badge} className='badge'></img>)} 
             </div>
             <div className='info_email'>
-              <span className='email'>leeeeemmmsanngg@naver.com</span>
+              <span className='email'>{userProfile.data.email}</span>
             </div>
             <div className='info_edit'>
               <button className='edit_btn_profile' onClick={openModal}>프로필 변경</button>
               <Wonmodal open={modalOpen} close={closeModal}>
                 <img src = {close_gray} className="modal_close" onClick={closeModal}></img>
                 <div className="modal_img">
-                  <img src = {img1} className="edit_img"></img>
+                  <img src = {userProfile.data.profilePhoto} className="edit_img"></img>
                   <img src = {change_img} className="change_img"></img>
                 </div>
                 <span className="nickname">닉네임</span>
                 <div className="modal_nickname">
-                  <input className="nickname_input" value = {nickname} 
+                  <input className="nickname_input" value = {userProfile.data.nickName} 
                           onChange={(e)=>setNickname(e.target.value)}></input>
                   <button className="nickname_btn">변경</button>
                 </div>
@@ -135,7 +213,7 @@ const Mypage = () => {
               <span className='grade_mine'>내 리뷰 평균 평점</span>
               <div className='grade_num'>
                 <img src = {star} className='grade_star'></img>
-                <span className='grade_point'>3.75/5</span>
+                <span className='grade_point'>{userProfile.data.averageRating}/5</span>
               </div>
             </div>
             <div className='grade_graph'>
@@ -151,10 +229,10 @@ const Mypage = () => {
             <span className='content_mine'>내 취향 장르</span>
             <select className='content_select' name = 'genre_1st'>
               <option selected disabled hidden>1순위 장르</option>
-              <option value = "action">액션</option>
-              <option value = "thriller">스릴러</option>
-              <option value = "musical">뮤지컬</option>
-              <option value = "comedy">코미디</option>
+              <option value = "action" selected={userProfile.data.firstGenre.name === '액션'}>액션</option>
+              <option value = "thriller" selected={userProfile.data.firstGenre.name === '스릴러'}>스릴러</option>
+              <option value = "musical" selected={userProfile.data.firstGenre.name === '뮤지컬'}>뮤지컬</option>
+              <option value = "comedy" selected={userProfile.data.firstGenre.name === '코미디'}>코미디</option>
             </select>
           </div>
 
@@ -221,6 +299,9 @@ const Mypage = () => {
       <div className='my_out'>
         <a className='log_out'>로그아웃</a>
       </div>
+        </>
+
+      ) : (<p> None </p>)}
     </div>
   )
 }
