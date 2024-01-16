@@ -86,7 +86,7 @@ const Mypage = () => {
   }
 
   const goToFavorite = () => {
-    navigate('/MyFavorite');
+    navigate(`/MyFavorite/${userId}`);
   }
 
   const goToParticipate = () =>{

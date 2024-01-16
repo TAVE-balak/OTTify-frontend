@@ -1,50 +1,74 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import {useEffect, useState} from 'react';
 import WonReviewList from './WonReviewList';
+import { fetchMyFavorite } from "./WonAPI";
 import '../CSS/MyCollect.css'
 
 import back from '../img/back.png';
 import img1 from '../img/사진.jpg';
 
 const MyFavorite = () =>{
+  const {userId} = useParams();
+  const [myFavoriteData, setMyFavoriteData] = useState(null);
   const navigate = useNavigate();
 
-  const dummyList = [
-  {
-    id: 1,
-    author: "김영리", 
-    profileimg: {img1},
-    movie: "나폴레옹",
-    tag: ["시간 가는 줄 몰랐어요", "심장질환자 관람유의"],
-    content: "봉준호 영화 중에서 가장 음침하고 불편한 영화인 것 같다. <마더>에 가득 찬 오해들은 풀리지 못 한다. 오해를 오해로 해결하더니 끝내는 엉뚱한 사람이 갇힌다. 이 영화에서 해결된 것은 없다. 잊으려 애를 쓸 뿐이다. 하지만 그것도 불안하기 짝이 없어 보인다. 가나다라마바사 아자차카파타하.",
-    evaluation: 3.5,
-    created_date: "3달 전",
-    favorite: 120,
-  }, 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let storedMyFavorite = sessionStorage.getItem(`myFavoriteData_${userId}`);
+        let MyReviewFavoriteData;
 
-  {
-    id: 2,
-    author: "김영리", 
-    profileimg: {img1},
-    movie: "나폴레옹",
-    tag: ["시간 가는 줄 몰랐어요", "심장질환자 관람유의"],
-    content: "봉준호 영화 중에서 가장 음침하고 불편한 영화인 것 같다. <마더>에 가득 찬 오해들은 풀리지 못 한다. 오해를 오해로 해결하더니 끝내는 엉뚱한 사람이 갇힌다. 이 영화에서 해결된 것은 없다. 잊으려 애를 쓸 뿐이다. 하지만 그것도 불안하기 짝이 없어 보인다. 가나다라마바사 아자차카파타하.",
-    evaluation: 3.5,
-    created_date: "3달 전",
-    favorite: 120,
-  }, 
+        if (storedMyFavorite) {
+          // 세션 스토리지에 사용자 정보가 있으면 가져오기
+          MyReviewFavoriteData = JSON.parse(storedMyFavorite);
+        } else {
+          // 세션 스토리지에 사용자 정보가 없으면 API 호출하여 가져오기
+          MyReviewFavoriteData = await fetchMyFavorite(userId);
+          // 가져온 정보를 세션 스토리지에 저장
+          sessionStorage.setItem(`myFavoriteData_${userId}`, JSON.stringify(MyReviewFavoriteData));
+        }
+        setMyFavoriteData(MyReviewFavoriteData);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+    if (userId) {
+      fetchData();
+    }
+  }, [userId]);
 
-  {
-    id: 3,
-    author: "김영리", 
-    profileimg: {img1},
-    movie: "나폴레옹",
-    tag: ["시간 가는 줄 몰랐어요", "심장질환자 관람유의"],
-    content: "봉준호 영화 중에서 가장 음침하고 불편한 영화인 것 같다. <마더>에 가득 찬 오해들은 풀리지 못 한다. 오해를 오해로 해결하더니 끝내는 엉뚱한 사람이 갇힌다. 이 영화에서 해결된 것은 없다. 잊으려 애를 쓸 뿐이다. 하지만 그것도 불안하기 짝이 없어 보인다. 가나다라마바사 아자차카파타하.",
-    evaluation: 3.5,
-    created_date: "3달 전",
-    favorite: 120,
-  }
-]
+  const dummyList = myFavoriteData ? myFavoriteData.data.map(item => {
+    const tagList = item.reviewTags.map(tag => tag.name);
+
+    const targetDate = new Date(item.createdDate);
+    const currentDate = new Date();
+    const timeDiff = currentDate - targetDate;
+    // 밀리초를 일로 변환
+    const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+    let displayDate;
+    if (daysDiff < 30) {
+      displayDate = `${daysDiff}일 전`;
+    } else if (daysDiff < 365) {
+      const monthsDiff = Math.floor(daysDiff / 30);
+      displayDate = `${monthsDiff}달 전`;
+    } else {
+      const yearsDiff = Math.floor(daysDiff / 365);
+      displayDate = `${yearsDiff}년 전`;
+    }
+  
+    return {
+      id: item.reviewId,
+      author: item.userNickName,
+      profileimg: item.userProfilePhoto,
+      movie: item.programTitle,
+      tagList: tagList,
+      content: item.content,
+      evaluation: item.reviewRating,
+      created_date: displayDate,
+      favorite: item.likeCnt,
+    };
+  }) : [];
 
 
   return (
