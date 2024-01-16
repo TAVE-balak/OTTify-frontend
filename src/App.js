@@ -1,6 +1,5 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import "./App.css";
-// import Footer from "./components/Footer";
 import Nav from "./components/Nav";
 import DetailPage from "./pages/DetailPage";
 import MainPage from "./pages/MainPage";
@@ -40,7 +39,7 @@ function App() {
           <Route path="/MyWrite/:userId" element={<MyWrite/>}/>
           <Route path="/MyFavorite/:userId" element={<MyFavorite/>}/>
           <Route path="/MyParticipate" element={<MyParticipate/>}/>
-          <Route path="/MyHost" element={<MyHost/>}/>
+          <Route path="/MyHost/:userId" element={<MyHost/>}/>
           <Route path="/DebateAll" element={<DebateAll/>}/>
           <Route path="/DebateOne" element={<DebateOne/>}/>
           <Route path="/DebateWrite" element={<DebateWrite/>}/>

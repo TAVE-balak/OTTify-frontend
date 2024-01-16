@@ -34,4 +34,14 @@ const fetchMyFavorite = async (userId) => {
   }
 };
 
-export { Wonapi, fetchUserProfile, fetchMyWrite, fetchMyFavorite};
+const fetchMyHost = async (userId) => {
+  try {
+    const response = await Wonapi.get(`/api/v1/users/${userId}/discussion/hosting`);
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching users from API:', error);
+  }
+};
+
+export { Wonapi, fetchUserProfile, fetchMyWrite, fetchMyFavorite, fetchMyHost};

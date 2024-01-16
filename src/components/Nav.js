@@ -21,7 +21,7 @@ const Nav = () => {
   }
 
   const goToMypage = async () => {
-      const userId = 1;
+      const userId = 10;
       navigate(`/Mypage/${userId}`);
   };
   const goToDebate = () => {

@@ -94,7 +94,7 @@ const Mypage = () => {
   }
 
   const goToHost = () =>{
-    navigate('/MyHost');
+    navigate(`/MyHost/${userId}`);
   }
 
   //내 리뷰 평점 그래프
