@@ -1,12 +1,12 @@
 import '../CSS/MyCollect.css';
 import star from '../img/star1.png'
 import thumb from '../img/thumb_up.png';
-const ReviewItem = ({author, profileimg, movie, tag, content, created_date, evaluation, favorite, id}) =>{
+const ReviewItem = ({author, profileimg, movie, tagList, content, created_date, evaluation, favorite, id}) =>{
   return (
     <div className = "ReviewItem">
       <div className="reviewInfo">
         <div className="writerInfo">
-          <img src = {profileimg.img1} className="writer_profile" alt = "프로필 이미지"></img>
+          <img src = {profileimg} className="writer_profile" alt = "프로필 이미지"></img>
           <span className="writer">{author}님의 평가</span>
         </div>
         <span className="writeDate">{created_date}</span>
@@ -18,8 +18,9 @@ const ReviewItem = ({author, profileimg, movie, tag, content, created_date, eval
             <img src = {star} className='star' alt = "별점"></img>
             <span className='reviewNum'>{evaluation}</span>
             <div className='tags'>
-              <span className='tag_1'>{tag[0]}</span>
-              <span className='tag_2'>{tag[1]}</span>
+            {tagList.map((tag, index) => (
+              <span key={index} className={`tag_${index + 1}`}>{tag}</span>
+            ))}
             </div>
           </div>
           <div className='reviewContent'>
