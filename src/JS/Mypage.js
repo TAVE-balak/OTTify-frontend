@@ -109,6 +109,7 @@ const Mypage = () => {
         }
       }
     }
+    
   
     for (let i = 0; i < reviewList.length; i++){
       if (reviewList[i] === 'pointFiveCnt'){
@@ -129,13 +130,12 @@ const Mypage = () => {
         reviewList[i] = 4.0;
       }else if(reviewList[i] === 'fourDotFiveCnt'){
         reviewList[i] = 4.5;
-      }else if(reviewList[i] === 'fivecnt'){
+      }else if(reviewList[i] === 'fiveCnt'){
         reviewList[i] = 5.0;
       }
     }
-    reviews = reviewList.filter(item => item !== 'totalCnt');
   }
-
+  reviews = reviewList.filter(item => item !== 'totalCnt');
 
   // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
   const [modalOpen, setModalOpen] = useState(false)
@@ -230,7 +230,7 @@ const Mypage = () => {
               <span className='grade_mine'>내 리뷰 평균 평점</span>
               <div className='grade_num'>
                 <img src = {star} className='grade_star'></img>
-                <span className='grade_point'>{userProfile.data.averageRating}/5</span>
+                <span className='grade_point'>{userProfile.data.averageRating.toFixed(2)}/5</span>
               </div>
             </div>
             <div className='grade_graph'>
