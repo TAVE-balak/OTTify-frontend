@@ -10,12 +10,9 @@ import PickButton from "./PickButton";
 import SlidePoster from "./SlidePoster";
 import Wonmodal from "./Wonmodal";
 
-import img1 from '../img/사진.jpg';
 import badge from '../img/profile_badge.png';
-import ott from '../img/netflix.png';
 import arrow from '../img/arrow.png';
 import star from '../img/star.png';
-import poster from '../img/poster.jpg';
 import write_review from '../img/write_review.png';
 import like_review from '../img/like_review.png';
 import my_debate from '../img/my_debate.png';
@@ -177,22 +174,6 @@ const Mypage = () => {
     }
   }, []);
 
-  //2순위 장르
-  // const handleToggle = (genreId) => {
-  //   const updatedSecondGenres = secondGenres.data.genreShowSavedDtos.map((genre) => {
-  //     if (genre.id === genreId) {
-  //       return {
-  //         ...genre,
-  //         isSelected: !genre.isSelected, // isSelected 값을 토글
-  //       };
-  //     }
-  //     return genre;
-  //   });
-  
-  //   // 업데이트된 선택 상태를 반영
-  //   setSecondGenres(updatedSecondGenres);
-  // };
-
   return (
     <div className = "Mypage">
       {userProfile && secondGenres ? (
@@ -230,6 +211,7 @@ const Mypage = () => {
           <div className = "profile_ott">
             <div className='ott_subject'>
               <span className='ott_mine'>구독 중인 OTT</span>
+              <img src = {arrow} className='arrow' onClick={goToOTT} alt = "화면 전환 화살표"></img>
             </div>
             <div className='ott_imgs'>
               {userProfile.data.ott.ottList.slice(0, 3).map((ott, index) => (
@@ -240,7 +222,6 @@ const Mypage = () => {
                     alt={`ott_logo_${index}`}
                   />
                 ))}
-              <img src = {arrow} className='arrow' onClick={goToOTT} alt = "화면 전환 화살표"></img>
             </div>
           </div>
 
@@ -265,10 +246,9 @@ const Mypage = () => {
             <span className='content_mine'>내 취향 장르</span>
             <select className='content_select' name = 'genre_1st'>
               <option selected disabled hidden>1순위 장르</option>
-              <option value = "action" selected={userProfile.data.firstGenre.name === '액션'}>액션</option>
-              <option value = "thriller" selected={userProfile.data.firstGenre.name === '스릴러'}>스릴러</option>
-              <option value = "musical" selected={userProfile.data.firstGenre.name === '뮤지컬'}>뮤지컬</option>
-              <option value = "comedy" selected={userProfile.data.firstGenre.name === '코미디'}>코미디</option>
+              {secondGenres.data.genreShowSavedDtos.map(genre => (
+                <option value = {genre.name} selected = {userProfile.data.firstGenre.name === genre.name}> {genre.name}  </option>
+              ))}
             </select>
           </div>
 
