@@ -40,7 +40,7 @@ const MyWrite = () =>{
 
   //내가 쓴 리뷰 list
   const dummyList = myWriteData ? myWriteData.data.map(item => {
-    const tagList = item.reviewTags.map(tag => tag.name);
+    const tagList = item.reviewTags ? item.reviewTags.map(tag => tag.name) : [];
 
     const targetDate = new Date(item.createdDate);
     const currentDate = new Date();
