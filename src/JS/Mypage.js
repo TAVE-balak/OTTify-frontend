@@ -24,7 +24,6 @@ import change_img from '../img/change_img.png';
 import close_gray from '../img/close_gray.png';
 
 const Mypage = () => {
-  console.log("렌더링")
   const {userId} = useParams();
   const [userProfile, setUserProfile] = useState(null);
   const [likeData, setLikeData] = useState([]);
@@ -90,7 +89,7 @@ const Mypage = () => {
   }
 
   const goToParticipate = () =>{
-    navigate('/MyParticipate');
+    navigate(`/MyParticipate/${userId}`);
   }
 
   const goToHost = () =>{
