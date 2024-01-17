@@ -49,5 +49,16 @@ const fetchMyParticipate = async (userId) => {
   }
 };
 
+const fetchSavedGenre = async () => {
+  try {
+    const response = await Wonapi.get(`/api/v1/show/saved/genre`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching users from API:', error);
+  }
+};
 
-export { Wonapi, fetchUserProfile, fetchMyWrite, fetchMyFavorite, fetchMyHost, fetchMyParticipate};
+
+
+export { Wonapi, fetchUserProfile, fetchMyWrite, fetchMyFavorite, fetchMyHost, fetchMyParticipate,
+  fetchSavedGenre};

@@ -9,25 +9,25 @@ import poster from '../img/debate_poster.png';
 
 const MyParticipate = () =>{
   const {userId} = useParams();
-  const [myFavoriteData, setMyFavoriteData] = useState(null);
+  const [myParticipateData, setMyParticipateData] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let storedMyFavorite = sessionStorage.getItem(`myFavoriteData_${userId}`);
-        let MyDiscussionFavoriteData;
+        let storedMyParticipate = sessionStorage.getItem(`myParticipateData_${userId}`);
+        let MyDiscussionParticipateData;
 
-        if (storedMyFavorite) {
+        if (storedMyParticipate) {
           // 세션 스토리지에 사용자 정보가 있으면 가져오기
-          MyDiscussionFavoriteData = JSON.parse(storedMyFavorite);
+          MyDiscussionParticipateData = JSON.parse(storedMyParticipate);
         } else {
           // 세션 스토리지에 사용자 정보가 없으면 API 호출하여 가져오기
-          MyDiscussionFavoriteData = await fetchMyParticipate(userId);
+          MyDiscussionParticipateData = await fetchMyParticipate(userId);
           // 가져온 정보를 세션 스토리지에 저장
-          sessionStorage.setItem(`myFavoriteData_${userId}`, JSON.stringify(MyDiscussionFavoriteData));
+          sessionStorage.setItem(`myParticipateData_${userId}`, JSON.stringify(MyDiscussionParticipateData));
         }
-        setMyFavoriteData(MyDiscussionFavoriteData);
+        setMyParticipateData(MyDiscussionParticipateData);
       } catch (error) {
         console.error('Error fetching user profile:', error);
       }
@@ -37,7 +37,7 @@ const MyParticipate = () =>{
     }
   }, [userId]);
 
-  const dummyList = myFavoriteData ? myFavoriteData.data.map(item => {
+  const dummyList = myParticipateData ? myParticipateData.data.map(item => {
     const targetDate = new Date(item.createdDate);
     const currentDate = new Date();
     const timeDiff = currentDate - targetDate;

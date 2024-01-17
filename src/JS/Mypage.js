@@ -3,19 +3,16 @@ import {useState, useEffect} from "react";
 import '../App.css';
 import '../CSS/Mypage.css'
 
-import { fetchUserProfile } from "./WonAPI";
+import { fetchUserProfile, fetchSavedGenre } from "./WonAPI";
 
 import GradeGraph from './GradeGraph';
 import PickButton from "./PickButton";
 import SlidePoster from "./SlidePoster";
 import Wonmodal from "./Wonmodal";
 
-import img1 from '../img/사진.jpg';
 import badge from '../img/profile_badge.png';
-import ott from '../img/netflix.png';
 import arrow from '../img/arrow.png';
 import star from '../img/star.png';
-import poster from '../img/poster.jpg';
 import write_review from '../img/write_review.png';
 import like_review from '../img/like_review.png';
 import my_debate from '../img/my_debate.png';
@@ -33,19 +30,41 @@ const Mypage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const [profileData, genreData] = await Promise.all([
+          fetchUserProfile(userId),
+          fetchSavedGenre()
+        ]);
+    
+        //user profile api
         let storedProfile = sessionStorage.getItem(`userProfile_${userId}`);
-        let profileData;
+        let fetchedProfileData;
 
         if (storedProfile) {
           // 세션 스토리지에 사용자 정보가 있으면 가져오기
-          profileData = JSON.parse(storedProfile);
+          fetchedProfileData = JSON.parse(storedProfile);
         } else {
           // 세션 스토리지에 사용자 정보가 없으면 API 호출하여 가져오기
-          profileData = await fetchUserProfile(userId);
+          fetchedProfileData = profileData;
           // 가져온 정보를 세션 스토리지에 저장
-          sessionStorage.setItem(`userProfile_${userId}`, JSON.stringify(profileData));
+          sessionStorage.setItem(`userProfile_${userId}`, JSON.stringify(fetchedProfileData));
         }
-        setUserProfile(profileData);
+        setUserProfile(fetchedProfileData);
+
+        //second genre api
+        let storedGenre = sessionStorage.getItem(`secondGenres`);
+        let fetchedGenreData;
+
+        if (storedGenre) {
+          // 세션 스토리지에 사용자 정보가 있으면 가져오기
+          fetchedGenreData = JSON.parse(storedGenre);
+        } else {
+          // 세션 스토리지에 사용자 정보가 없으면 API 호출하여 가져오기
+          fetchedGenreData = genreData;
+          // 가져온 정보를 세션 스토리지에 저장
+          sessionStorage.setItem(`secondGenres`, JSON.stringify(fetchedGenreData));
+        }
+        setSecondGenres(fetchedGenreData);
+
 
         //좋아요 & 관심없어요 프로그램
         if (profileData){
@@ -62,15 +81,13 @@ const Mypage = () => {
           setHateData(newhateData);
         }
 
-        //2순위 장르
-        setSecondGenres(profileData.data.secondGenres);
 
       } catch (error) {
-        console.error('Error fetching user profile:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
-    if (userId) {
+    if(userId){
       fetchData();
     }
   }, [userId]);
@@ -157,26 +174,9 @@ const Mypage = () => {
     }
   }, []);
 
-  //2순위 장르
-  const handleToggle = (genreId) => {
-    const updatedSecondGenres = secondGenres.map((genre) => {
-      if (genre.id === genreId) {
-        return {
-          ...genre,
-          isSelected: !genre.isSelected, // isSelected 값을 토글
-        };
-      }
-      return genre;
-    });
-  
-    // 업데이트된 선택 상태를 반영
-    setSecondGenres(updatedSecondGenres);
-  };
-
-
   return (
     <div className = "Mypage">
-      {userProfile ? (
+      {userProfile && secondGenres ? (
         <>
           <div className = "my_profile">
         <img src = {userProfile.data.profilePhoto} className = "profile_img"alt = "profile"></img>
@@ -211,6 +211,7 @@ const Mypage = () => {
           <div className = "profile_ott">
             <div className='ott_subject'>
               <span className='ott_mine'>구독 중인 OTT</span>
+              <img src = {arrow} className='arrow' onClick={goToOTT} alt = "화면 전환 화살표"></img>
             </div>
             <div className='ott_imgs'>
               {userProfile.data.ott.ottList.slice(0, 3).map((ott, index) => (
@@ -221,7 +222,6 @@ const Mypage = () => {
                     alt={`ott_logo_${index}`}
                   />
                 ))}
-              <img src = {arrow} className='arrow' onClick={goToOTT} alt = "화면 전환 화살표"></img>
             </div>
           </div>
 
@@ -246,36 +246,18 @@ const Mypage = () => {
             <span className='content_mine'>내 취향 장르</span>
             <select className='content_select' name = 'genre_1st'>
               <option selected disabled hidden>1순위 장르</option>
-              <option value = "action" selected={userProfile.data.firstGenre.name === '액션'}>액션</option>
-              <option value = "thriller" selected={userProfile.data.firstGenre.name === '스릴러'}>스릴러</option>
-              <option value = "musical" selected={userProfile.data.firstGenre.name === '뮤지컬'}>뮤지컬</option>
-              <option value = "comedy" selected={userProfile.data.firstGenre.name === '코미디'}>코미디</option>
+              {secondGenres.data.genreShowSavedDtos.map(genre => (
+                <option value = {genre.name} selected = {userProfile.data.firstGenre.name === genre.name}> {genre.name}  </option>
+              ))}
             </select>
           </div>
 
           <div className='content_pick' >
-            <PickButton className='pick'>액션</PickButton>
-            <PickButton className='pick'>스릴러</PickButton>
-            <PickButton className='pick'>서스펜스</PickButton>
-            <PickButton className='pick'>미스터리</PickButton>
-            <PickButton className='pick'>로맨스</PickButton>
-            <PickButton className='pick'>느와르</PickButton>
-            <PickButton className='pick'>서부극</PickButton>
-            <PickButton className='pick'>음악영화</PickButton>
-            <PickButton className='pick'>뮤지컬</PickButton>
-            <PickButton className='pick'>다큐멘터리</PickButton>
-            <PickButton className='pick'>모큐멘터리</PickButton>
-            <PickButton className='pick'>재난</PickButton>
-            <PickButton className='pick'>블록버스터</PickButton>
-            <PickButton className='pick'>스펙타클</PickButton>
-            <PickButton className='pick'>시리즈</PickButton>
-            <PickButton className='pick'>서사극</PickButton>
-            <PickButton className='pick'>로맨틱코미디</PickButton>
-            <PickButton className='pick'>코미디</PickButton>
-            <PickButton className='pick'>음악영화</PickButton>
-            <PickButton className='pick'>B급</PickButton>
-            <PickButton className='pick'>모험</PickButton>
-            <PickButton className='pick'>가족</PickButton>
+            {secondGenres.data.genreShowSavedDtos.map(genre => (
+              <PickButton key={genre.id} className='pick' genre ={genre} userProfileGenres={userProfile.data.secondGenre}>
+                {genre.name}
+              </PickButton>
+            ))}
           </div>
 
           <div className='content_like'>
