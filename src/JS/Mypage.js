@@ -177,9 +177,9 @@ const Mypage = () => {
     }
   }, []);
 
-  // //2순위 장르
+  //2순위 장르
   // const handleToggle = (genreId) => {
-  //   const updatedSecondGenres = secondGenres.map((genre) => {
+  //   const updatedSecondGenres = secondGenres.data.genreShowSavedDtos.map((genre) => {
   //     if (genre.id === genreId) {
   //       return {
   //         ...genre,
@@ -274,7 +274,7 @@ const Mypage = () => {
 
           <div className='content_pick' >
             {secondGenres.data.genreShowSavedDtos.map(genre => (
-              <PickButton key={genre.id} className='pick'>
+              <PickButton key={genre.id} className='pick' genre ={genre} userProfileGenres={userProfile.data.secondGenre}>
                 {genre.name}
               </PickButton>
             ))}
