@@ -222,6 +222,9 @@ const Mypage = () => {
                     alt={`ott_logo_${index}`}
                   />
                 ))}
+                {userProfile.data.ott.ottList.length > 3 && (
+                  <span className="ott_more">+{userProfile.data.ott.ottList.length - 3}</span>
+                )}
             </div>
           </div>
 
