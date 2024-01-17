@@ -38,7 +38,7 @@ const MyFavorite = () =>{
   }, [userId]);
 
   const dummyList = myFavoriteData ? myFavoriteData.data.map(item => {
-    const tagList = item.reviewTags.map(tag => tag.name);
+    const tagList = item.reviewTags ? item.reviewTags.map(tag => tag.name) : [];
 
     const targetDate = new Date(item.createdDate);
     const currentDate = new Date();

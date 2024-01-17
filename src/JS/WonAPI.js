@@ -7,7 +7,6 @@ const Wonapi = axios.create({
 const fetchUserProfile = async (userId) => {
   try {
     const response = await Wonapi.get(`/api/v1/users/${userId}`);
-    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error('Error fetching users from API:', error);
@@ -17,7 +16,6 @@ const fetchUserProfile = async (userId) => {
 const fetchMyWrite = async (userId) => {
   try {
     const response = await Wonapi.get(`/api/v1/users/${userId}/reviews`);
-    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error('Error fetching users from API:', error);
@@ -27,11 +25,29 @@ const fetchMyWrite = async (userId) => {
 const fetchMyFavorite = async (userId) => {
   try {
     const response = await Wonapi.get(`/api/v1/users/${userId}/likedReviews`);
-    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error('Error fetching users from API:', error);
   }
 };
 
-export { Wonapi, fetchUserProfile, fetchMyWrite, fetchMyFavorite};
+const fetchMyHost = async (userId) => {
+  try {
+    const response = await Wonapi.get(`/api/v1/users/${userId}/discussion/hosting`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching users from API:', error);
+  }
+};
+
+const fetchMyParticipate = async (userId) => {
+  try {
+    const response = await Wonapi.get(`/api/v1/users/${userId}/discussion/participating`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching users from API:', error);
+  }
+};
+
+
+export { Wonapi, fetchUserProfile, fetchMyWrite, fetchMyFavorite, fetchMyHost, fetchMyParticipate};
