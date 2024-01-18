@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
-import {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import '../App.css';
 import '../CSS/Mypage.css'
 
-import { fetchUserProfile, fetchSavedGenre, update1stGenre } from "./WonAPI";
+import { fetchUserProfile, fetchSavedGenre, update1stGenre, updateMyProfile } from "./WonAPI";
 
 import GradeGraph from './GradeGraph';
 import PickButton from "./PickButton";
@@ -26,6 +26,49 @@ const Mypage = () => {
   const [likeData, setLikeData] = useState([]);
   const [hateData, setHateData] = useState([]);
   const [secondGenres, setSecondGenres] = useState([]);
+
+  // 파일 입력 요소
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [editImgSrc, setEditImgSrc] = useState(null);
+  const fileInput = React.useRef(null);
+
+  const handleButtonClick = (e) => {
+    fileInput.current.click();
+  };
+
+  const handleChange = (event) => {
+    // 파일 선택 시 호출되는 이벤트 핸들러
+    const selectedFile = event.target.files[0];
+
+    // 선택된 파일을 상태에 업데이트
+    setSelectedImage(selectedFile);
+
+    // 선택된 파일을 미리보기로 표시
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setEditImgSrc(reader.result);
+    };
+    reader.readAsDataURL(selectedFile);
+  };
+
+  const handleImageChange = async () => {
+    // 서버에 이미지 업로드 요청 등을 수행
+    try{
+      if (selectedImage) {
+        setEditImgSrc(URL.createObjectURL(selectedImage));
+        const updatedRequestDto = {
+          "nickName": "오잉",
+          "profilePhoto": editImgSrc
+        }
+        const updatedProfile = await updateMyProfile(updatedRequestDto, userId);
+        console.log(updatedRequestDto, userId);
+        console.log(updatedProfile)
+      }
+    }catch(error){
+      console.error('Error updating profile:', error);
+    }
+  };
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,8 +144,6 @@ const Mypage = () => {
   const handleGenreChange = async (e) => {
     try {
       const selectedGenreName = e.target.value;
-  
-      // Update updateRequestDto with the selected genreId
       const selectedGenre = secondGenres.data.genreShowSavedDtos.find(
         (genre) => genre.name === selectedGenreName
       );
@@ -223,15 +264,30 @@ const Mypage = () => {
               <button className='edit_btn_profile' onClick={openModal}>프로필 변경</button>
               <Wonmodal open={modalOpen} close={closeModal}>
                 <img src = {close_gray} className="modal_close" onClick={closeModal}></img>
-                <div className="modal_img">
-                  <img src = {userProfile.data.profilePhoto} className="edit_img"></img>
-                  <img src = {change_img} className="change_img"></img>
+                <div className="modal_img" onClick={handleButtonClick}>
+                  {editImgSrc ? (
+                    <img src={editImgSrc} className="edit_img" alt="Selected Image" />
+                  ) : (
+                    <img src={userProfile.data.profilePhoto} className="edit_img" alt="Default Image" />
+                  )}
+                  <input
+                    type="file"
+                    ref={fileInput}
+                    accept="image/*"
+                    onChange={handleChange}
+                    style={{ display: 'none' }}
+                  />
+                  <img
+                    src={change_img} // change_img는 어디서 가져왔는지 모르므로 확인 필요
+                    className="change_img"
+                    alt="Change Image"
+                  />
                 </div>
                 <span className="nickname">닉네임</span>
                 <div className="modal_nickname">
                   <input className="nickname_input" value = {userProfile.data.nickName} 
                           onChange={(e)=>setNickname(e.target.value)}></input>
-                  <button className="nickname_btn">변경</button>
+                  <button className="nickname_btn" onClick={handleImageChange} >변경</button>
                 </div>
               </Wonmodal>
             </div>
