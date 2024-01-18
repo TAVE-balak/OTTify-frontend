@@ -3,7 +3,7 @@ import {useState, useEffect} from "react";
 import '../App.css';
 import '../CSS/Mypage.css'
 
-import { fetchUserProfile, fetchSavedGenre } from "./WonAPI";
+import { fetchUserProfile, fetchSavedGenre, update1stGenre } from "./WonAPI";
 
 import GradeGraph from './GradeGraph';
 import PickButton from "./PickButton";
@@ -81,6 +81,12 @@ const Mypage = () => {
           setHateData(newhateData);
         }
 
+        //1순위 장르
+        // const updateRequestDto = {
+        //   "genreId": 10
+        // }
+        // const updatedData = await update1stGenre(updateRequestDto, userId);
+        // console.log('1stGenre updated successfully:', updatedData);
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -91,6 +97,29 @@ const Mypage = () => {
       fetchData();
     }
   }, [userId]);
+
+  const handleGenreChange = async (e) => {
+    try {
+      const selectedGenreName = e.target.value;
+  
+      // Update updateRequestDto with the selected genreId
+      const selectedGenre = secondGenres.data.genreShowSavedDtos.find(
+        (genre) => genre.name === selectedGenreName
+      );
+  
+      const updatedRequestDto = {
+        "genreId": selectedGenre.id,
+      };
+  
+      const updatedData = await update1stGenre(updatedRequestDto, userId);
+      console.log(updatedRequestDto, userId)
+      console.log('1stGenre updated successfully:', updatedData);
+  
+  
+    } catch (error) {
+      console.error('Error updating 1stGenre:', error);
+    }
+  };
 
 
   const navigate = useNavigate();
@@ -247,10 +276,12 @@ const Mypage = () => {
         <div className='content_div'>
           <div className='content_subject'>
             <span className='content_mine'>내 취향 장르</span>
-            <select className='content_select' name = 'genre_1st'>
+            <select className='content_select' name = 'genre_1st' onChange={handleGenreChange}>
               <option selected disabled hidden>1순위 장르</option>
               {secondGenres.data.genreShowSavedDtos.map(genre => (
-                <option value = {genre.name} selected = {userProfile.data.firstGenre.name === genre.name}> {genre.name}  </option>
+                <option key = {genre.id} value = {genre.name} 
+                        selected = {userProfile.data.firstGenre.name === genre.name}> 
+                  {genre.name}  </option>
               ))}
             </select>
           </div>
