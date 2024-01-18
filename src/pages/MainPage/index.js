@@ -73,52 +73,76 @@ const trendingItems = [
 
   const reviews = [
     {
-      reviewer: '리뷰어 1',
-      title: '영화 제목 1',
-      content: '리뷰 내용 1',
-      rating: '⭐️3.2',
+      "reviewId": 11,
+      "nickName": "김지윤",
+      "content": "재개봉언제해!!!",
+      "programTitle": "어벤져스 컨피덴셜: 블랙 위도우 앤 퍼니셔",
+      "userRating": 5,
+      "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocIi-9_9OTivTqJ10vMK1JjYs1PkCrW8oc8Kk9W5kb8L=s96-c",
+      "likeCount": 0
     },
     {
-      reviewer: '리뷰어 1',
-      title: '영화 제목 1',
-      content: '리뷰 내용 1',
-      rating: '⭐️3.5',
+      "reviewId": 10,
+      "nickName": "김지윤",
+      "content": "기대했는데 재미없어요",
+      "programTitle": "오펜하이머",
+      "userRating": 1.5,
+      "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocIi-9_9OTivTqJ10vMK1JjYs1PkCrW8oc8Kk9W5kb8L=s96-c",
+      "likeCount": 0
     },
     {
-      reviewer: '리뷰어 1',
-      title: '영화 제목 1',
-      content: '리뷰 내용 1',
-      rating: '⭐️4.3',
+      "reviewId": 9,
+      "nickName": "김지윤",
+      "content": "노량도보고싶고위시도보고싶다!",
+      "programTitle": "얼티밋 어벤져스 2",
+      "userRating": 3.5,
+      "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocIi-9_9OTivTqJ10vMK1JjYs1PkCrW8oc8Kk9W5kb8L=s96-c",
+      "likeCount": 0
     },
     {
-      reviewer: '리뷰어 1',
-      title: '영화 제목 1',
-      content: '리뷰 내용 1',
-      rating: '⭐️2.5',
+      "reviewId": 8,
+      "nickName": "김지윤",
+      "content": "zzz핵꿀잼이였어영 완전완전!!!!!!",
+      "programTitle": "레고 마블 어벤져스: 코드 레드",
+      "userRating": 3.5,
+      "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocIi-9_9OTivTqJ10vMK1JjYs1PkCrW8oc8Kk9W5kb8L=s96-c",
+      "likeCount": 0
     },
     {
-      reviewer: '리뷰어 1',
-      title: '영화 제목 1',
-      content: '리뷰 내용 1',
-      rating: '⭐️4.2',
+      "reviewId": 7,
+      "nickName": "김지윤",
+      "content": "핵꿀잼이였어영 완전완전2222",
+      "programTitle": "어벤져스",
+      "userRating": 4.5,
+      "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocIi-9_9OTivTqJ10vMK1JjYs1PkCrW8oc8Kk9W5kb8L=s96-c",
+      "likeCount": 0
     },
     {
-      reviewer: '리뷰어 1',
-      title: '영화 제목 1',
-      content: '리뷰 내용 1',
-      rating: '⭐️4.2',
+      "reviewId": 6,
+      "nickName": "김지윤",
+      "content": "핵꿀잼이였어영 완전완전!!",
+      "programTitle": "어벤져스: 인피니티 워",
+      "userRating": 3.5,
+      "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocIi-9_9OTivTqJ10vMK1JjYs1PkCrW8oc8Kk9W5kb8L=s96-c",
+      "likeCount": 0
     },
     {
-      reviewer: '리뷰어 1',
-      title: '영화 제목 1',
-      content: '리뷰 내용 1',
-      rating: '⭐️4.2',
-    },  
+      "reviewId": 5,
+      "nickName": "이진우",
+      "content": "이진우의 두번째 리뷰 테스트~",
+      "programTitle": "어벤져스: 엔드게임",
+      "userRating": 2,
+      "profilePhoto": "https://phinf.pstatic.net/contact/20230615_207/1686815329264fVtbk_PNG/%BD%BA%C5%A9%B8%B0%BC%A6_2023-06-15_164754.png",
+      "likeCount": 1
+    },
     {
-      reviewer: '리뷰어 1',
-      title: '영화 제목 1',
-      content: '리뷰 내용 1',
-      rating: '⭐️4.2',
+      "reviewId": 4,
+      "nickName": "이진우",
+      "content": "이진우의 리뷰테스트~",
+      "programTitle": "어벤져스: 인피니티 워",
+      "userRating": 4,
+      "profilePhoto": "https://phinf.pstatic.net/contact/20230615_207/1686815329264fVtbk_PNG/%BD%BA%C5%A9%B8%B0%BC%A6_2023-06-15_164754.png",
+      "likeCount": 0
     },
   ];
    // Initialize likes count state where each review starts with 0 likes
@@ -154,10 +178,10 @@ const [likes, setLikes] = useState(reviews.map(() => 0));
               padding: '10px',
               marginBottom: '10px',
             }}>
-              <strong>리뷰 작성자:</strong> {review.reviewer}<br />
-              <strong>영화 제목:</strong> {review.title}<br />
+              <strong>리뷰 작성자:</strong> {review.nickName || review.reviewer}<br />
+              <strong>영화 제목:</strong> {review.programTitle || review.title}<br />
               <strong>리뷰 내용:</strong> {review.content}<br />
-              <strong>평점:</strong> {review.rating}
+              <strong>평점:</strong> {review.userRating || review.rating}
                {/* Add the like button with the count, which updates on click */}
         <button
           onClick={() => {
