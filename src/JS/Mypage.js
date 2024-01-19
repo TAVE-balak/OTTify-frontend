@@ -55,14 +55,19 @@ const Mypage = () => {
     // 서버에 이미지 업로드 요청 등을 수행
     try{
       if (selectedImage) {
-        setEditImgSrc(URL.createObjectURL(selectedImage));
-        const updatedRequestDto = {
-          "nickName": "오잉",
-          "profilePhoto": editImgSrc
-        }
-        const updatedProfile = await updateMyProfile(updatedRequestDto, userId);
-        console.log(updatedRequestDto, userId);
-        console.log(updatedProfile)
+        // FormData 객체 생성
+        const formData = new FormData();
+        
+        // 파일 추가
+        formData.append('profilePhoto', selectedImage);
+  
+        // 다른 필요한 데이터 추가
+        formData.append('nickName', '테스트');
+        formData.append('userId', userId);
+  
+        // 서버에 이미지 업로드 요청
+        const updatedProfile = await updateMyProfile(formData, userId);
+        console.log(updatedProfile);
       }
     }catch(error){
       console.error('Error updating profile:', error);

@@ -67,9 +67,13 @@ const update1stGenre = async (updateRequestDto, userId) => {
   }
 };
 
-const updateMyProfile = async (updateRequestDto, userId) => {
+const updateMyProfile = async (formData, userId) => {
   try {
-    const response = await Wonapi.patch(`/api/v1/users/${userId}/profile`, updateRequestDto);
+    const response = await Wonapi.patch(`/api/v1/users/${userId}/profile`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    });
     return response.data;
   } catch (error) {
     console.error('Error fetching users from API:', error);
