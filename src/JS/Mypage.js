@@ -124,13 +124,6 @@ const Mypage = () => {
           setHateData(newhateData);
         }
 
-        //1순위 장르
-        // const updateRequestDto = {
-        //   "genreId": 10
-        // }
-        // const updatedData = await update1stGenre(updateRequestDto, userId);
-        // console.log('1stGenre updated successfully:', updatedData);
-
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -141,6 +134,16 @@ const Mypage = () => {
     }
   }, [userId]);
 
+  const [updatedGenre, setUpdatedGenre] = useState(null);
+
+  useEffect(() => {
+    // 세션 스토리지에서 값 불러오기
+    const storedUpdatedGenre = sessionStorage.getItem('updatedGenre');
+    if (storedUpdatedGenre) {
+      setUpdatedGenre(JSON.parse(storedUpdatedGenre));
+    }
+  }, []); // 컴포넌트가 처음 마운트될 때만 실행
+  
   const handleGenreChange = async (e) => {
     try {
       const selectedGenreName = e.target.value;
@@ -153,15 +156,18 @@ const Mypage = () => {
       };
   
       const updatedData = await update1stGenre(updatedRequestDto, userId);
-      console.log(updatedRequestDto, userId)
+      console.log(updatedRequestDto, userId);
       console.log('1stGenre updated successfully:', updatedData);
   
+      // 세션 스토리지에 값 저장
+      sessionStorage.setItem('updatedGenre', JSON.stringify(updatedRequestDto));
   
+      setUpdatedGenre(updatedRequestDto);
     } catch (error) {
       console.error('Error updating 1stGenre:', error);
     }
   };
-
+  
 
   const navigate = useNavigate();
   const goToOTT = () => {
@@ -278,7 +284,7 @@ const Mypage = () => {
                     style={{ display: 'none' }}
                   />
                   <img
-                    src={change_img} // change_img는 어디서 가져왔는지 모르므로 확인 필요
+                    src={change_img}
                     className="change_img"
                     alt="Change Image"
                   />
@@ -336,7 +342,7 @@ const Mypage = () => {
               <option selected disabled hidden>1순위 장르</option>
               {secondGenres.data.genreShowSavedDtos.map(genre => (
                 <option key = {genre.id} value = {genre.name} 
-                        selected = {userProfile.data.firstGenre.name === genre.name}> 
+                      selected = {updatedGenre ? (updatedGenre.genreId === genre.id):(userProfile.data.firstGenre.name === genre.name)}>
                   {genre.name}  </option>
               ))}
             </select>
