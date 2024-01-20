@@ -31,6 +31,8 @@ const Mypage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [editImgSrc, setEditImgSrc] = useState(null);
   const fileInput = React.useRef(null);
+   //프로필 변경
+   const [nickname, setNickname] = useState(userProfile? (userProfile.data.nickName):(""));
 
   const handleButtonClick = (e) => {
     fileInput.current.click();
@@ -51,29 +53,43 @@ const Mypage = () => {
     reader.readAsDataURL(selectedFile);
   };
 
-  const handleImageChange = async () => {
+  const [editNickName, setEditNickName] = useState(userProfile?.data.nickName);
+  const [editProfileImage, setEditProfileImage] = useState(userProfile?.data.profilePhoto);
+  useEffect(()=>{
+    const storedUpdatednick = sessionStorage.getItem('editNickName');
+    if(storedUpdatednick){
+      setEditNickName(JSON.parse(storedUpdatednick))
+    }
+
+    const storedUpdatedImage = sessionStorage.getItem('editProfileImage');
+    if(storedUpdatedImage){
+      setEditProfileImage(JSON.parse(storedUpdatedImage))
+    }
+  }, []);
+
+  const handleImageNicknameChange = async () => {
     // 서버에 이미지 업로드 요청 등을 수행
     try{
-      if (selectedImage) {
-        // FormData 객체 생성
-        const formData = new FormData();
+      // FormData 객체 생성
+      const formData = new FormData();
         
-        // 파일 추가
-        formData.append('profilePhoto', selectedImage);
-  
-        // 다른 필요한 데이터 추가
-        formData.append('nickName', '테스트');
-        formData.append('userId', userId);
-  
-        // 서버에 이미지 업로드 요청
-        const updatedProfile = await updateMyProfile(formData, userId);
-        console.log(updatedProfile);
-      }
+      // 변경      
+      formData.append('userId', userId);
+      formData.append('nickName', nickname!==""? (nickname):(userProfile.data.nickName));
+      formData.append('profilePhoto', selectedImage===null ? (""):(selectedImage));
+
+      // 서버에 이미지 업로드 요청
+      const updatedProfile = await updateMyProfile(formData, userId);
+      sessionStorage.setItem('editNickName', JSON.stringify(nickname))
+      setEditNickName(nickname);
+
+      sessionStorage.setItem('editProfileImage', JSON.stringify(selectedImage))
+      setEditProfileImage(selectedImage);
+
     }catch(error){
       console.error('Error updating profile:', error);
     }
   };
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -140,7 +156,6 @@ const Mypage = () => {
   }, [userId]);
 
   const [updatedGenre, setUpdatedGenre] = useState(null);
-
   useEffect(() => {
     // 세션 스토리지에서 값 불러오기
     const storedUpdatedGenre = sessionStorage.getItem('updatedGenre');
@@ -208,7 +223,6 @@ const Mypage = () => {
       }
     }
     
-  
     for (let i = 0; i < reviewList.length; i++){
       if (reviewList[i] === 'pointFiveCnt'){
         reviewList[i] = 0.5;
@@ -245,26 +259,16 @@ const Mypage = () => {
     setModalOpen(false)
   }
 
-  //프로필 변경
-  const [nickname, setNickname] = useState("");
-  useEffect(() => {
-    // 클래스 이름이 'name'인 요소를 찾아 닉네임 상태에 설정
-    const nameElement = document.querySelector(".name");
-    if (nameElement) {
-      setNickname(nameElement.textContent);
-    }
-  }, []);
-
   return (
     <div className = "Mypage">
       {userProfile && secondGenres ? (
         <>
           <div className = "my_profile">
-        <img src = {userProfile.data.profilePhoto} className = "profile_img"alt = "profile"></img>
+        <img src = {(selectedImage===null) ? (userProfile?.data.profilePhoto):(URL.createObjectURL(selectedImage))} className = "profile_img"alt = "profile"></img>
         <div className='profile_bottom'>
           <div className = "profile_info">
             <div className='info_nickname'>
-              <span className='name'>{userProfile.data.nickName}</span>
+              <span className='name'>{(nickname!=="")? (editNickName):(userProfile?.data.nickName)}</span>
               {userProfile.data.grade == 'GENERAL' ? 
               (<img></img>):(<img src = {badge} className='badge'></img>)} 
             </div>
@@ -296,9 +300,9 @@ const Mypage = () => {
                 </div>
                 <span className="nickname">닉네임</span>
                 <div className="modal_nickname">
-                  <input className="nickname_input" value = {userProfile.data.nickName} 
+                  <input className="nickname_input" defaultValue = {(nickname!=="")? (editNickName):(userProfile?.data.nickName)}
                           onChange={(e)=>setNickname(e.target.value)}></input>
-                  <button className="nickname_btn" onClick={handleImageChange} >변경</button>
+                  <button className="nickname_btn" onClick={(e)=>{handleImageNicknameChange(e); closeModal(e)}} >변경</button>
                 </div>
               </Wonmodal>
             </div>
