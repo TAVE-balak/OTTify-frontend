@@ -21,9 +21,9 @@ export default function Row({ isLargeRow, title, id, fetchUrl }) {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(fetchUrl);
-      setMovies(response.data.results);
+      setMovies(response.data.data.programTrendingWeekInfos);
+      console.log(1, response.data.data.programTrendingWeekInfos);
     };
-
     fetchData();
   }, [fetchUrl]);
 
@@ -69,34 +69,39 @@ export default function Row({ isLargeRow, title, id, fetchUrl }) {
         pagination={{ clickable: true }}
       >
         <div id={id} className="row__posters">
-         {/* SwiperSlide로 각 영화 포스터 렌더링 */}
-          {movies && movies.map((movie, index) => (
-         <SwiperSlide key={movie.id}>
-         <div className="row__posterContainer">
-           {/* 포스터 위에 순위 표시 */}
-           <div className="row__posterRank">{index + 1}</div>
-           <img
-             className={`row__poster ${isLargeRow && "row__posterLarge"}`}
-             src={`https://image.tmdb.org/t/p/original/${
-               isLargeRow ? movie.poster_path : movie.backdrop_path
-             }`}
-             alt={movie.name}
-             onClick={() => handleClick(movie)}
-           />
-           <div className="row__details">
-             <h3>{movie.title}</h3>
-             <p>평점: {movie.vote_average}</p>
-             <p>장르: {movie.genres && movie.genres.map(genre => genre.name).join(", ")}</p>
-             <p>개봉년도: {movie.release_date}</p>
-            </div>
-              </div>
-            </SwiperSlide>
-          ))}
+          {/* SwiperSlide로 각 영화 포스터 렌더링 */}
+          {movies &&
+            movies.map((movie, index) => (
+              <SwiperSlide key={movie.id}>
+                <div className="row__posterContainer">
+                  {/* 포스터 위에 순위 표시 */}
+                  <div className="row__posterRank">{index + 1}</div>
+                  <img
+                    className={`row__poster ${
+                      isLargeRow && "row__posterLarge"
+                    }`}
+                    src={`https://image.tmdb.org/t/p/original/${
+                      isLargeRow ? movie.posterPath : movie.backdropPath
+                    }`}
+                    alt={movie.name}
+                    onClick={() => handleClick(movie)}
+                  />
+                  <div className="row__details">
+                    <h3>{movie.title}</h3>
+                    <p>평점: {movie.rating}</p>
+                    <p>장르: {movie.genreName}</p>
+                    <p>개봉년도: {movie.createdYear}</p>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
         </div>
       </Swiper>
 
       {/* 모달 렌더링 */}
-      {modalOpen && <MovieModal {...movieSelected} setModalOpen={setModalOpen} />}
+      {modalOpen && (
+        <MovieModal {...movieSelected} setModalOpen={setModalOpen} />
+      )}
     </section>
   );
 }
