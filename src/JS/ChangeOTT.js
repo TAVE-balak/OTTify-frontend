@@ -1,6 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import '../App.css';
 import '../CSS/ChangeOTT.css'
+
+import { fetchSavedOTT } from './WonAPI';
+
 import PickOTTColor from './PickOTTColor';
 import netflix_word from '../img/netflix_word.png';
 import watcha from '../img/watcha.png';
@@ -18,10 +21,32 @@ import close_gray from '../img/close_gray.png';
 
 const ChangeOTT = () => {
   const [resetStyles, setResetStyles] = useState(false);
+  const [ottPick, setOTTPick] = useState([]);
 
   const handleAllDelete = () => {
     setResetStyles(!resetStyles);
   };
+
+  useEffect(()=>{
+    const fetchData = async () => {
+      try{
+        let storedOTT = sessionStorage.getItem(`ottPick`);
+        let fetchedOTTData;
+
+        if (storedOTT){
+          fetchedOTTData = JSON.parse(storedOTT);
+        }else{
+          fetchedOTTData = await fetchSavedOTT();
+          sessionStorage.setItem(`ottPick`, JSON.stringify(fetchedOTTData));
+        }
+        setOTTPick(fetchedOTTData);
+
+      }catch(error){
+        console.error('Error fetching data:', error);
+      }
+    }
+    fetchData();
+  },[]);
 
   return (
     <div className="change_ott">
@@ -29,11 +54,18 @@ const ChangeOTT = () => {
         <h1>구독 중인 <span>OTT</span>를 선택해주세요</h1>
       </div>
       <div className = "choose_ott">
-         <PickOTTColor className = 'ott_pick_logo' resetStyles={resetStyles}>
+         {/* <PickOTTColor className = 'ott_pick_logo' resetStyles={resetStyles}>
             <img src = {netflix_word} className='logo_img'></img>
             <span className='logo_name'>넷플릭스</span>  
-        </PickOTTColor>
-        <PickOTTColor className = 'ott_pick_logo' resetStyles={resetStyles}>
+        </PickOTTColor> */}
+        {ottPick?.data?.ottList.map(ott =>(
+          <PickOTTColor key = {ott.id} className="ott_pick_logo" resetStyles={resetStyles}>
+            <img src = {ott.subscribeLogoPath} className='logo_img'></img>
+            <span className='logo_name'>{ott.name}</span>
+          </PickOTTColor>
+        ))}
+
+        {/* <PickOTTColor className = 'ott_pick_logo' resetStyles={resetStyles}>
             <img src = {watcha} className='logo_img'></img>
             <span className='logo_name'>왓챠</span>  
         </PickOTTColor>
@@ -76,7 +108,7 @@ const ChangeOTT = () => {
         <PickOTTColor className = 'ott_pick_logo' resetStyles={resetStyles}>
             <img src = {series_on} className='logo_img'></img>
             <span className='logo_name'>네이버 시리즈온</span>   
-        </PickOTTColor>
+        </PickOTTColor> */}
       </div>
 
       <button className='all_delete' onClick={handleAllDelete}>
