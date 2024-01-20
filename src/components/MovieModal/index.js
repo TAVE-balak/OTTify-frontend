@@ -9,15 +9,6 @@ import MyWrite from "./MyWrite";
 import { useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 
-//   backdrop_path,
-// title,
-// overview,
-// name,
-// release_date,
-// first_air_date,
-// vote_average,
-// setModalOpen,
-// movieId
 function MovieModal({ setModalOpen, ...movie }) {
   const navigate = useNavigate();
   const ref = useRef();
