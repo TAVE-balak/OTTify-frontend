@@ -111,6 +111,23 @@ function MovieModal({ setModalOpen, ...movie }) {
             }`}
             alt="modal__poster-img"
           />
+
+          <h2 className="modal__title">{programDetail?.title}</h2>
+          <p className="modal__title-eng">{programDetail?.originalTitle}</p>
+
+          <span className="modal__program-etc">
+            <p className="modal__program-createdData">
+              {programDetail?.createdDate} ·{" "}
+              {programDetail?.genreName.map((genre, index) => (
+                <React.Fragment key={index}>
+                  {genre}
+                  {index !== programDetail?.genreName.length - 1 && "/"}
+                </React.Fragment>
+              ))}
+              · {programDetail?.country}
+            </p>
+          </span>
+
           <div className="ratings">
             <p className="modal__overview">
               <span className="average-rating">
@@ -166,12 +183,7 @@ function MovieModal({ setModalOpen, ...movie }) {
             />
           </div>
           <div className="modal__content">
-            <p className="modal__details">
-              <span className="modal__user_perc">
-                {programDetail?.createdDate}
-              </span>
-            </p>
-            <h2 className="modal__title">{programDetail?.title}</h2>
+            <h3 className="modal__tagline">{programDetail?.tagline}</h3>
             <p className="modal__overview">{programDetail?.overview}</p>
           </div>
 
