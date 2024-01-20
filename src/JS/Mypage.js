@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
-import {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import '../App.css';
 import '../CSS/Mypage.css'
 
-import { fetchUserProfile, fetchSavedGenre } from "./WonAPI";
+import { fetchUserProfile, fetchSavedGenre, update1stGenre, updateMyProfile } from "./WonAPI";
 
 import GradeGraph from './GradeGraph';
 import PickButton from "./PickButton";
@@ -26,6 +26,70 @@ const Mypage = () => {
   const [likeData, setLikeData] = useState([]);
   const [hateData, setHateData] = useState([]);
   const [secondGenres, setSecondGenres] = useState([]);
+
+  // 파일 입력 요소
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [editImgSrc, setEditImgSrc] = useState(null);
+  const fileInput = React.useRef(null);
+   //프로필 변경
+   const [nickname, setNickname] = useState(userProfile? (userProfile.data.nickName):(""));
+
+  const handleButtonClick = (e) => {
+    fileInput.current.click();
+  };
+
+  const handleChange = (event) => {
+    // 파일 선택 시 호출되는 이벤트 핸들러
+    const selectedFile = event.target.files[0];
+
+    // 선택된 파일을 상태에 업데이트
+    setSelectedImage(selectedFile);
+
+    // 선택된 파일을 미리보기로 표시
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setEditImgSrc(reader.result);
+    };
+    reader.readAsDataURL(selectedFile);
+  };
+
+  const [editNickName, setEditNickName] = useState(userProfile?.data.nickName);
+  const [editProfileImage, setEditProfileImage] = useState(userProfile?.data.profilePhoto);
+  useEffect(()=>{
+    const storedUpdatednick = sessionStorage.getItem('editNickName');
+    if(storedUpdatednick){
+      setEditNickName(JSON.parse(storedUpdatednick))
+    }
+
+    const storedUpdatedImage = sessionStorage.getItem('editProfileImage');
+    if(storedUpdatedImage){
+      setEditProfileImage(JSON.parse(storedUpdatedImage))
+    }
+  }, []);
+
+  const handleImageNicknameChange = async () => {
+    // 서버에 이미지 업로드 요청 등을 수행
+    try{
+      // FormData 객체 생성
+      const formData = new FormData();
+        
+      // 변경      
+      formData.append('userId', userId);
+      formData.append('nickName', nickname!==""? (nickname):(userProfile.data.nickName));
+      formData.append('profilePhoto', selectedImage===null ? (""):(selectedImage));
+
+      // 서버에 이미지 업로드 요청
+      const updatedProfile = await updateMyProfile(formData, userId);
+      sessionStorage.setItem('editNickName', JSON.stringify(nickname))
+      setEditNickName(nickname);
+
+      sessionStorage.setItem('editProfileImage', JSON.stringify(selectedImage))
+      setEditProfileImage(selectedImage);
+
+    }catch(error){
+      console.error('Error updating profile:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,7 +145,6 @@ const Mypage = () => {
           setHateData(newhateData);
         }
 
-
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -92,6 +155,39 @@ const Mypage = () => {
     }
   }, [userId]);
 
+  const [updatedGenre, setUpdatedGenre] = useState(null);
+  useEffect(() => {
+    // 세션 스토리지에서 값 불러오기
+    const storedUpdatedGenre = sessionStorage.getItem('updatedGenre');
+    if (storedUpdatedGenre) {
+      setUpdatedGenre(JSON.parse(storedUpdatedGenre));
+    }
+  }, []); // 컴포넌트가 처음 마운트될 때만 실행
+  
+  const handleGenreChange = async (e) => {
+    try {
+      const selectedGenreName = e.target.value;
+      const selectedGenre = secondGenres.data.genreShowSavedDtos.find(
+        (genre) => genre.name === selectedGenreName
+      );
+  
+      const updatedRequestDto = {
+        "genreId": selectedGenre.id,
+      };
+  
+      const updatedData = await update1stGenre(updatedRequestDto, userId);
+      console.log(updatedRequestDto, userId);
+      console.log('1stGenre updated successfully:', updatedData);
+  
+      // 세션 스토리지에 값 저장
+      sessionStorage.setItem('updatedGenre', JSON.stringify(updatedRequestDto));
+  
+      setUpdatedGenre(updatedRequestDto);
+    } catch (error) {
+      console.error('Error updating 1stGenre:', error);
+    }
+  };
+  
 
   const navigate = useNavigate();
   const goToOTT = () => {
@@ -127,7 +223,6 @@ const Mypage = () => {
       }
     }
     
-  
     for (let i = 0; i < reviewList.length; i++){
       if (reviewList[i] === 'pointFiveCnt'){
         reviewList[i] = 0.5;
@@ -164,26 +259,16 @@ const Mypage = () => {
     setModalOpen(false)
   }
 
-  //프로필 변경
-  const [nickname, setNickname] = useState("");
-  useEffect(() => {
-    // 클래스 이름이 'name'인 요소를 찾아 닉네임 상태에 설정
-    const nameElement = document.querySelector(".name");
-    if (nameElement) {
-      setNickname(nameElement.textContent);
-    }
-  }, []);
-
   return (
     <div className = "Mypage">
       {userProfile && secondGenres ? (
         <>
           <div className = "my_profile">
-        <img src = {userProfile.data.profilePhoto} className = "profile_img"alt = "profile"></img>
+        <img src = {(selectedImage===null) ? (userProfile?.data.profilePhoto):(URL.createObjectURL(selectedImage))} className = "profile_img"alt = "profile"></img>
         <div className='profile_bottom'>
           <div className = "profile_info">
             <div className='info_nickname'>
-              <span className='name'>{userProfile.data.nickName}</span>
+              <span className='name'>{(nickname!=="")? (editNickName):(userProfile?.data.nickName)}</span>
               {userProfile.data.grade == 'GENERAL' ? 
               (<img></img>):(<img src = {badge} className='badge'></img>)} 
             </div>
@@ -194,15 +279,30 @@ const Mypage = () => {
               <button className='edit_btn_profile' onClick={openModal}>프로필 변경</button>
               <Wonmodal open={modalOpen} close={closeModal}>
                 <img src = {close_gray} className="modal_close" onClick={closeModal}></img>
-                <div className="modal_img">
-                  <img src = {userProfile.data.profilePhoto} className="edit_img"></img>
-                  <img src = {change_img} className="change_img"></img>
+                <div className="modal_img" onClick={handleButtonClick}>
+                  {editImgSrc ? (
+                    <img src={editImgSrc} className="edit_img" alt="Selected Image" />
+                  ) : (
+                    <img src={userProfile.data.profilePhoto} className="edit_img" alt="Default Image" />
+                  )}
+                  <input
+                    type="file"
+                    ref={fileInput}
+                    accept="image/*"
+                    onChange={handleChange}
+                    style={{ display: 'none' }}
+                  />
+                  <img
+                    src={change_img}
+                    className="change_img"
+                    alt="Change Image"
+                  />
                 </div>
                 <span className="nickname">닉네임</span>
                 <div className="modal_nickname">
-                  <input className="nickname_input" value = {userProfile.data.nickName} 
+                  <input className="nickname_input" defaultValue = {(nickname!=="")? (editNickName):(userProfile?.data.nickName)}
                           onChange={(e)=>setNickname(e.target.value)}></input>
-                  <button className="nickname_btn">변경</button>
+                  <button className="nickname_btn" onClick={(e)=>{handleImageNicknameChange(e); closeModal(e)}} >변경</button>
                 </div>
               </Wonmodal>
             </div>
@@ -247,10 +347,12 @@ const Mypage = () => {
         <div className='content_div'>
           <div className='content_subject'>
             <span className='content_mine'>내 취향 장르</span>
-            <select className='content_select' name = 'genre_1st'>
+            <select className='content_select' name = 'genre_1st' onChange={handleGenreChange}>
               <option selected disabled hidden>1순위 장르</option>
               {secondGenres.data.genreShowSavedDtos.map(genre => (
-                <option value = {genre.name} selected = {userProfile.data.firstGenre.name === genre.name}> {genre.name}  </option>
+                <option key = {genre.id} value = {genre.name} 
+                      selected = {updatedGenre ? (updatedGenre.genreId === genre.id):(userProfile.data.firstGenre.name === genre.name)}>
+                  {genre.name}  </option>
               ))}
             </select>
           </div>

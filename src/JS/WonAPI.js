@@ -58,7 +58,28 @@ const fetchSavedGenre = async () => {
   }
 };
 
+const update1stGenre = async (updateRequestDto, userId) => {
+  try {
+    const response = await Wonapi.patch(`/api/v1/users/${userId}/1stGenre`, updateRequestDto);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching users from API:', error);
+  }
+};
+
+const updateMyProfile = async (formData, userId) => {
+  try {
+    const response = await Wonapi.patch(`/api/v1/users/${userId}/profile`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching users from API:', error);
+  }
+};
 
 
 export { Wonapi, fetchUserProfile, fetchMyWrite, fetchMyFavorite, fetchMyHost, fetchMyParticipate,
-  fetchSavedGenre};
+  fetchSavedGenre, update1stGenre, updateMyProfile};
