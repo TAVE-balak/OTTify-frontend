@@ -89,6 +89,14 @@ const fetchSavedOTT = async () => {
   }
 };
 
+const updateOTT = async (updateRequestDto, userId) => {
+  try {
+    const response = await Wonapi.patch(`/api/v1/users/${userId}/otts`, updateRequestDto);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching users from API:', error);
+  }
+};
 
 export { Wonapi, fetchUserProfile, fetchMyWrite, fetchMyFavorite, fetchMyHost, fetchMyParticipate,
-  fetchSavedGenre, update1stGenre, updateMyProfile, fetchSavedOTT};
+  fetchSavedGenre, update1stGenre, updateMyProfile, fetchSavedOTT, updateOTT};

@@ -191,7 +191,9 @@ const Mypage = () => {
 
   const navigate = useNavigate();
   const goToOTT = () => {
-    navigate('/ChangeOTT');
+    const myOTTList = userProfile?.data?.ott.ottList.map(ott => ott.id).join(',');
+    console.log(myOTTList)
+    navigate(`/ChangeOTT/${myOTTList}`);
   }
   const goToWrite = () => {
     navigate(`/MyWrite/${userId}`);
