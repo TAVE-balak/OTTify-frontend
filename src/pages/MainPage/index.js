@@ -41,23 +41,23 @@ const MainPage = () => {
   const displayedLikeData = likeData.slice(0, 6);
 
   // 트렌딩 아이템 배열
-  const trendingItems = [
-    {
-      title: "스위트 홈 시즌 2",
-      posterUrl: sweethome, // Use the imported image here
-      releaseYear: 2022, // Add the release year
-      rating: "4.5/5",
-      isMovie: true,
-    },
-    {
-      title: "태어난 김에 세계일주 3",
-      posterUrl: lilju, // 실제 이미지 경로로 변경해야 함
-      releaseYear: 2023, // Add the release year
-      rating: "3.8/5",
-      isMovie: true,
-    },
-    // 다른 트렌딩 영화들...
-  ];
+  // const trendingItems = [
+  //   {
+  //     title: "스위트 홈 시즌 2",
+  //     posterUrl: sweethome, // Use the imported image here
+  //     releaseYear: 2022, // Add the release year
+  //     rating: "4.5/5",
+  //     isMovie: true,
+  //   },
+  //   {
+  //     title: "태어난 김에 세계일주 3",
+  //     posterUrl: lilju, // 실제 이미지 경로로 변경해야 함
+  //     releaseYear: 2023, // Add the release year
+  //     rating: "3.8/5",
+  //     isMovie: true,
+  //   },
+  //   // 다른 트렌딩 영화들...
+  // ];
 
   // 1초마다 컬러 인덱스 변경
   useEffect(() => {
@@ -97,15 +97,29 @@ const MainPage = () => {
 
   return (
     <div>
-      <Row
-        title="인기차트"
-        id="TR"
-        fetchUrl={requests.fetchTrending}
-        isLargeRow
-      />
+      <div className="ranking">
+        <Row
+          title="인기차트"
+          id="TR"
+          fetchUrl={requests.fetchTrending}
+          // isLargeRow="false"
+          type="week"
+          slideNum="4"
+        />
+      </div>
 
-      <h2>오늘 트렌드</h2>
-      <div
+      <div className="totay-trend">
+        <Row
+          title="오늘 트렌드"
+          id="NO"
+          fetchUrl={requests.fetchTrending}
+          // isLargeRow="true"
+          type="day"
+          slideNum="2"
+        />
+      </div>
+
+      {/* <div
         style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
         <Swiper
@@ -118,8 +132,8 @@ const MainPage = () => {
             disableOnInteraction: false, // 사용자 상호작용 후에도 자동 재생 계속
           }}
         >
-          <SwiperSlide>
-            {/* {trendingItems.map((item, index) => (
+          <SwiperSlide> */}
+      {/* {trendingItems.map((item, index) => (
     <SwiperSlide key={index}>
       <img
         src={item.posterUrl}
@@ -133,17 +147,18 @@ const MainPage = () => {
       {`평점: ${item.rating}`}
       <br />
       {item.isMovie ? '영화' : '드라마'} */}
-            <Row
-              title=""
+      {/* <Row
+              title="오늘 트렌드"
               id="NO"
-              fetchUrl={requests.fetchNetflixOriginals}
+              fetchUrl={requests.fetchTrending}
               isLargeRow
+              type="day"
             />
           </SwiperSlide>
-        </Swiper>
+        </Swiper> */}
 
-        {/* Movie titles */}
-        <div style={{ display: "flex", flexDirection: "column" }}>
+      {/* Movie titles */}
+      {/* <div style={{ display: "flex", flexDirection: "column" }}>
           <ol style={{ listStyleType: "none", padding: 0 }}>
             {trendingItems.map((item, index) => (
               <li
@@ -153,7 +168,7 @@ const MainPage = () => {
             ))}
           </ol>
         </div>
-      </div>
+      </div> */}
 
       <div className="reviews-container">
         <h2 className="new_reviews">

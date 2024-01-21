@@ -41,6 +41,7 @@ h2.new_reviews {
   display: flex;
   align-items: center;
   color: #fd7e14; /* 리뷰 레이팅 텍스트 색상을 주황색으로 설정 */
+  font-weight: bold;
   margin-left: auto; /* 오른쪽으로 붙임 */
 }
 
