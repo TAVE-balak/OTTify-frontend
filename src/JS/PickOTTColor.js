@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function PickOTTColor({ children, resetStyles, myOTTArray, id }) {
+function PickOTTColor({ children, resetStyles, myOTTArray, id, onToggleOTT }) {
   const [divState, setDivState] = useState(myOTTArray?.includes(String(id)) || false);
   const [filterState, setFilterState] = useState(divState ? 'none' : 'grayscale(100%)');
   const [backState, setBackState] = useState(divState ? 'var(--neutral2)' : 'var(--orange_400)');
@@ -21,6 +21,7 @@ function PickOTTColor({ children, resetStyles, myOTTArray, id }) {
 
   const handleDivClick = () => {
     setDivState(!divState);
+    onToggleOTT(id, !divState);
   };
   
   const divStyle = {

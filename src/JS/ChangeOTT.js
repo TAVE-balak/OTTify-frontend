@@ -48,6 +48,16 @@ const ChangeOTT = () => {
     console.log(myOTTArray);
   }, [myOTTArray]);
 
+  const handleToggleOTT = (id, isSelected) => {
+    if (isSelected) {
+      // 선택된 경우, 해당 아이디를 myOTTArray에 추가
+      setMyOTTArray((prevArray) => [...prevArray, id]);
+    } else {
+      // 선택이 해제된 경우, 해당 아이디를 myOTTArray에서 제거
+      setMyOTTArray((prevArray) => prevArray.filter((itemId) => itemId !== id));
+    }
+  };
+
   return (
     <div className="change_ott">
       <div className="ott_title">
@@ -61,6 +71,7 @@ const ChangeOTT = () => {
             className="ott_pick_logo"
             resetStyles={resetStyles}
             myOTTArray={myOTTArray} // 배열 형태로 전달
+            onToggleOTT={handleToggleOTT}
           >
             <img src={ott.subscribeLogoPath} className="logo_img" alt="OTT Logo" />
             <span className="logo_name">{ott.name}</span>
