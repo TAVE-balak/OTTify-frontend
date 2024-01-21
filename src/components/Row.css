@@ -1,10 +1,5 @@
 .row {
-  margin-left: 20px;
   color: black;
-}
-
-h2 {
-  padding-left: 20px;
 }
 
 .slider {
@@ -92,7 +87,7 @@ h2 {
   object-fit: contain;
   width: 100%;
   max-height: 144px;
-  margin-right: 10px;
+  /* margin-right: 10px; */
   transition: transform 450ms;
   border-radius: 4px;
 }
@@ -141,12 +136,15 @@ h2 {
 
 .row__posterRank {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 10px;
+  left: 10px;
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   padding: 0.5rem;
   z-index: 10;
+  border-radius: 10px;
+  /* width: 30px;
+  height: 30px; */
 }
 
 /* ... 기존 CSS 코드 ... */
@@ -196,4 +194,45 @@ h2 {
 .swiper-button-prev:after {
   font-size: 1.3rem !important;
   font-weight: 600 !important;
+}
+
+.row__details {
+  margin: 5px;
+  margin-left: 18px; /* 왼쪽 마진 15px 설정 */
+}
+
+.row__details p {
+  margin: 2px 0 2px 0px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.movie-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 왼쪽과 오른쪽 끝으로 정렬 */
+  color: #adb5bd;
+  margin: 0;
+}
+
+.movie-info p {
+  font-size: 15px;
+}
+
+.movie-info span {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  height: 100%; /* 이미지와 텍스트를 감싸는 span의 높이를 100%로 설정 */
+}
+
+.info-rating {
+  font-weight: bold;
+  color: #fd7e14;
+  margin-left: auto; /* 오른쪽으로 붙임 */
+}
+
+.rating-star {
+  height: 100%; /* 이미지 높이를 100%로 설정 */
+  margin-right: 5px; /* 이미지와 텍스트 간격 조정 */
 }
