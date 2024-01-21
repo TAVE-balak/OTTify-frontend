@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation  } from 'react-router-dom';
 import '../App.css';
 import '../CSS/ChangeOTT.css'
 
@@ -14,6 +14,8 @@ const ChangeOTT = () => {
   const [ottPick, setOTTPick] = useState([]);
   const [myOTTArray, setMyOTTArray] = useState([]);
   const { myOTTList } = useParams();
+  const { state } = useLocation();
+  const userId = state?.userId || 0;
 
   const handleAllDelete = () => {
     setResetStyles(!resetStyles);
@@ -58,6 +60,24 @@ const ChangeOTT = () => {
     }
   };
 
+  const handleApplyChanges = async () => {
+    try {
+      // myOTTArray의 문자열을 정수로 변환하여 ottList에 넣기
+      const updateRequestDto = {
+        ottList: myOTTArray.map(Number), // myOTTArray의 각 원소를 정수로 변환
+      };
+
+      await updateOTT(updateRequestDto, userId);
+
+      console.log(updateRequestDto)
+
+      // 성공적으로 API 호출되면 메시지 출력
+      console.log('Changes applied successfully!');
+    } catch (error) {
+      console.error('Error applying changes:', error);
+    }
+  };
+
   return (
     <div className="change_ott">
       <div className="ott_title">
@@ -84,7 +104,7 @@ const ChangeOTT = () => {
         <span className="delete_word">전체 취소하기</span>
       </button>
 
-      <button className="apply_button">적용</button>
+      <button className="apply_button" onClick={handleApplyChanges}>적용</button>
     </div>
   );
 };
