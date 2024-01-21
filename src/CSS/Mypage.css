@@ -39,12 +39,18 @@
 
 .info_nickname{
   position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .name{
   color: var(--gray_800);
   font-size: 25px;
   font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .badge{

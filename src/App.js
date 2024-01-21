@@ -32,6 +32,7 @@ function App() {
           <Route exact path="/write-review" component={WriteReview} />
           <Route path="search" element={<SearchPage />} />
           <Route path="/Login" element={<Login />} />
+
           <Route path="/ChangeOTT" element={<ChangeOTT />} />
           <Route path="/Mypage/:userId" element={<Mypage />} />
           <Route path="/MyWrite/:userId" element={<MyWrite />} />
@@ -43,6 +44,7 @@ function App() {
           <Route path="/DebateWrite" element={<DebateWrite />} />
           <Route path="/DebateDetail" element={<DebateDetail />} />
           <Route path="/DebateEdit/:id" element={<DebateEdit />} />
+
         </Routes>
         <Footer />
       </ScrollToTop>
