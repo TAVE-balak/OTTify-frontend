@@ -77,8 +77,9 @@ export default function Row({
         //   },
         // }}
         navigation
-        pagination={{ clickable: true }}
+        // pagination={{ clickable: true }}
         slidesPerView={slideNum} // 한 번에 보일 슬라이드 수
+        spaceBetween={type === "day" ? 15 : undefined}
       >
         <div id={id} className="row__posters">
           {/* SwiperSlide로 각 영화 포스터 렌더링 */}
@@ -95,8 +96,12 @@ export default function Row({
                     }`}
                     alt={movie.name}
                     onClick={() => handleClick(movie)}
+                    style={{ borderRadius: "20px" }}
                   />
-                  <div className="row__details">
+                  <div
+                    className="row__details"
+                    style={{ marginLeft: type === "day" ? 0 : "18px" }}
+                  >
                     <p>{movie.title}</p>
                     <div className="movie-info">
                       <p className="info-createdYear">

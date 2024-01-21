@@ -96,7 +96,7 @@ const MainPage = () => {
   }, []);
 
   return (
-    <div>
+    <div className="MainPage">
       <div className="ranking">
         <Row
           title="인기차트"
@@ -185,7 +185,7 @@ const MainPage = () => {
           navigation // 네비게이션 화살표 사용
           pagination={{ clickable: true }} // 페이지 표시기 사용
           scrollbar={{ draggable: true }} // 스크롤바로 슬라이드를 넘길 수 있게 설정
-          style={{ padding: "0 40px" }} // 패딩 추가
+          style={{ padding: "0 30px" }} // 패딩 추가
         >
           {reviews.map((review, index) => (
             <SwiperSlide key={index}>
@@ -216,40 +216,42 @@ const MainPage = () => {
 
       {/* 추가: '당신의 인생작이 될 수도 있어요!' 제목 */}
 
-      <h2>
-        당신의 인생작이 될 수도 있어요!{" "}
-        <span style={{ fontSize: "smaller", color: "lightgrey" }}>
-          *추천 기준은 찜(50%), 별점(50%) 기준으로 산정됩니다.{" "}
-        </span>
-      </h2>
-      {/* Displaying only first 6 posters */}
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        {displayedLikeData.map((item, index) => (
-          <div key={index} style={{ margin: "10px", width: "30%" }}>
-            <img
-              src={item.poster}
-              alt={`poster-${index}`}
-              style={{ width: "100%", height: "auto" }}
-            />
-            <button
-              onClick={() => handleButtonClick(index)}
-              style={{
-                marginTop: "5px",
-                backgroundColor: clickedButtons[index]
-                  ? "green"
-                  : "var(--Primary-Primary, var(--primary, #FD7E14))",
-                color: "white",
-                border: "none",
-                padding: "5px 10px",
-                borderRadius: "5px",
-                cursor: "pointer",
-                width: "100%",
-              }}
-            >
-              {clickedButtons[index] ? "클릭됨!" : "찜하기"}
-            </button>
-          </div>
-        ))}
+      <div className="program-of-lifetime">
+        <h2>
+          당신의 인생작이 될 수도 있어요!{" "}
+          <span style={{ fontSize: "smaller", color: "lightgrey" }}>
+            *추천 기준은 찜(50%), 별점(50%) 기준으로 산정됩니다.{" "}
+          </span>
+        </h2>
+        {/* Displaying only first 6 posters */}
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          {displayedLikeData.map((item, index) => (
+            <div key={index} style={{ margin: "10px", width: "30%" }}>
+              <img
+                src={item.poster}
+                alt={`poster-${index}`}
+                style={{ width: "100%", height: "auto" }}
+              />
+              <button
+                onClick={() => handleButtonClick(index)}
+                style={{
+                  marginTop: "5px",
+                  backgroundColor: clickedButtons[index]
+                    ? "green"
+                    : "var(--Primary-Primary, var(--primary, #FD7E14))",
+                  color: "white",
+                  border: "none",
+                  padding: "5px 10px",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  width: "100%",
+                }}
+              >
+                {clickedButtons[index] ? "클릭됨!" : "찜하기"}
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
