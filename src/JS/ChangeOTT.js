@@ -35,7 +35,7 @@ const ChangeOTT = () => {
         }
         setOTTPick(fetchedOTTData);
 
-         // myOTTList가 존재하면 배열로 변환하여 상태 업데이트
+        // myOTTList가 존재하면 배열로 변환하여 상태 업데이트
         setMyOTTArray(myOTTList?.split(','));
 
       } catch (error) {
@@ -43,22 +43,36 @@ const ChangeOTT = () => {
       }
     }
     fetchData();
-  }, [myOTTList]);
+  }, []);
 
-  // myOTTArray 상태 업데이트 이후에 작업 수행
-  useEffect(() => {
-    console.log(myOTTArray);
-  }, [myOTTArray]);
 
   const handleToggleOTT = (id, isSelected) => {
+    const idAsString = String(id); // 선택된 아이디를 문자열로 변환
+  
     if (isSelected) {
       // 선택된 경우, 해당 아이디를 myOTTArray에 추가
-      setMyOTTArray((prevArray) => [...prevArray, id]);
+      setMyOTTArray((prevArray) => {
+        const newArray = [...prevArray, idAsString];
+        console.log('New myOTTArray:', newArray); // 추가된 로그
+        return newArray;
+      });
     } else {
       // 선택이 해제된 경우, 해당 아이디를 myOTTArray에서 제거
-      setMyOTTArray((prevArray) => prevArray.filter((itemId) => itemId !== id));
+      setMyOTTArray((prevArray) => {
+        const newArray = prevArray.filter((itemId) => itemId !== idAsString);
+        console.log('New myOTTArray:', newArray); // 추가된 로그
+        return newArray;
+      });
     }
   };
+  
+
+  useEffect(()=>{
+    const storedUpdatedOTT = sessionStorage.getItem('updatedOTT');
+    if (storedUpdatedOTT){
+      setMyOTTArray(JSON.parse(storedUpdatedOTT))
+    }
+  }, []);
 
   const handleApplyChanges = async () => {
     try {
@@ -67,9 +81,10 @@ const ChangeOTT = () => {
         ottList: myOTTArray.map(Number), // myOTTArray의 각 원소를 정수로 변환
       };
 
-      await updateOTT(updateRequestDto, userId);
-
-      console.log(updateRequestDto)
+      const updatedOTTData = await updateOTT(updateRequestDto, userId);
+      sessionStorage.setItem('updatedOTT', JSON.stringify(updateRequestDto.ottList.map(String)));
+      console.log("updated successfully", updatedOTTData);
+      setMyOTTArray(updateRequestDto.ottList.map(String));
 
       // 성공적으로 API 호출되면 메시지 출력
       console.log('Changes applied successfully!');
