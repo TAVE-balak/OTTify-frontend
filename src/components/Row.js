@@ -4,6 +4,7 @@ import MovieModal from "./MovieModal";
 import "./Row.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
+import star from "./MovieModal/star.png";
 
 // Swiper 스타일 import
 import "swiper/css";
@@ -87,10 +88,20 @@ export default function Row({ isLargeRow, title, id, fetchUrl }) {
                     onClick={() => handleClick(movie)}
                   />
                   <div className="row__details">
-                    <h3>{movie.title}</h3>
-                    <p>평점: {movie.rating}</p>
-                    <p>장르: {movie.genreName}</p>
-                    <p>개봉년도: {movie.createdYear}</p>
+                    <p>{movie.title}</p>
+                    <div className="movie-info">
+                      <p className="info-createdYear">
+                        {movie.createdYear} · {movie.genreName}
+                      </p>
+                      <span className="info-rating">
+                        <img
+                          className="rating-star"
+                          src={star}
+                          alt="Rating Star"
+                        />
+                        {movie.rating}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </SwiperSlide>

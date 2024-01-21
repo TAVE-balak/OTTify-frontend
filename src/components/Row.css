@@ -197,3 +197,43 @@ h2 {
   font-size: 1.3rem !important;
   font-weight: 600 !important;
 }
+
+.row__details {
+  margin: 10px;
+}
+
+.row__details p {
+  margin: 2px 0 2px 0px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.movie-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 왼쪽과 오른쪽 끝으로 정렬 */
+  color: #adb5bd;
+  margin: 0;
+}
+
+.movie-info p {
+  font-size: 15px;
+}
+
+.movie-info span {
+  display: flex;
+  align-items: center;
+  margin-right: 25px;
+  height: 100%; /* 이미지와 텍스트를 감싸는 span의 높이를 100%로 설정 */
+}
+
+.info-rating {
+  font-weight: bold;
+  color: #fd7e14;
+  margin-left: auto; /* 오른쪽으로 붙임 */
+}
+
+.rating-star {
+  height: 100%; /* 이미지 높이를 100%로 설정 */
+  margin-right: 5px; /* 이미지와 텍스트 간격 조정 */
+}
