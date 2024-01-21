@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import '../App.css';
 import '../CSS/ChangeOTT.css'
 
-import { fetchSavedOTT } from './WonAPI';
+import { fetchSavedOTT, updateOTT } from './WonAPI';
 
 import PickOTTColor from './PickOTTColor';
 import close_gray from '../img/close_gray.png';
@@ -56,6 +56,7 @@ const ChangeOTT = () => {
       <div className="choose_ott">
         {ottPick?.data?.ottList.map((ott) => (
           <PickOTTColor
+            key = {ott.id}
             id={String(ott.id)}
             className="ott_pick_logo"
             resetStyles={resetStyles}

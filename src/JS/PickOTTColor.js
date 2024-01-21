@@ -14,12 +14,15 @@ function PickOTTColor({ children, resetStyles, myOTTArray, id }) {
     }
   }, [resetStyles]);
 
-  const handleDivClick = () => {
+  useEffect(() => {
     setFilterState(divState ? 'none' : 'grayscale(100%)');
     setBackState(divState ? 'var(--neutral2)' : 'var(--orange_400)');
+  }, [divState]);
+
+  const handleDivClick = () => {
     setDivState(!divState);
   };
-
+  
   const divStyle = {
     filter: filterState,
     backgroundColor: backState,
