@@ -67,6 +67,15 @@ const update1stGenre = async (updateRequestDto, userId) => {
   }
 };
 
+const update2ndGenre = async (updateRequestDto, userId) => {
+  try {
+    const response = await Wonapi.patch(`/api/v1/users/${userId}/2ndGenre`, updateRequestDto);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching users from API:', error);
+  }
+};
+
 const updateMyProfile = async (formData, userId) => {
   try {
     const response = await Wonapi.patch(`/api/v1/users/${userId}/profile`, formData, {
@@ -99,4 +108,4 @@ const updateOTT = async (updateRequestDto, userId) => {
 };
 
 export { Wonapi, fetchUserProfile, fetchMyWrite, fetchMyFavorite, fetchMyHost, fetchMyParticipate,
-  fetchSavedGenre, update1stGenre, updateMyProfile, fetchSavedOTT, updateOTT};
+  fetchSavedGenre, update1stGenre, update2ndGenre, updateMyProfile, fetchSavedOTT, updateOTT};

@@ -7,6 +7,7 @@ import {
   fetchUserProfile,
   fetchSavedGenre,
   update1stGenre,
+  update2ndGenre,
   updateMyProfile,
 } from "./WonAPI";
 
@@ -466,6 +467,7 @@ const Mypage = () => {
                     className="pick"
                     genre={genre}
                     userProfileGenres={userProfile.data.secondGenre}
+                    userId = {userId}
                   >
                     {genre.name}
                   </PickButton>
