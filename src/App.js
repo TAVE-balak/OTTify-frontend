@@ -33,7 +33,7 @@ function App() {
           <Route path="search" element={<SearchPage />} />
           <Route path="/Login" element={<Login />} />
 
-          <Route path="/ChangeOTT" element={<ChangeOTT />} />
+          <Route path="/ChangeOTT/:myOTTList" element={<ChangeOTT />} />
           <Route path="/Mypage/:userId" element={<Mypage />} />
           <Route path="/MyWrite/:userId" element={<MyWrite />} />
           <Route path="/MyFavorite/:userId" element={<MyFavorite />} />
