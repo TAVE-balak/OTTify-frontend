@@ -198,7 +198,7 @@
 
 .row__details {
   margin: 5px;
-  margin-left: 18px; /* 왼쪽 마진 15px 설정 */
+  margin-left: 5px; /* 왼쪽 마진 15px 설정 */
 }
 
 .row__details p {

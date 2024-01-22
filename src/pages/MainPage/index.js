@@ -6,7 +6,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
 import "swiper/css";
 import "../../CSS/MainPage.css";
-
 import star from "../../components/MovieModal/star.png";
 import lilju from "../MainPage/lilju.png";
 import poster from "../MainPage/poster.jpg";
@@ -108,14 +107,13 @@ const MainPage = () => {
         />
       </div>
 
-      <div className="totay-trend">
+      <div className="today-trend">
         <Row
           title="오늘 트렌드"
           id="NO"
           fetchUrl={requests.fetchTrending}
-          // isLargeRow="true"
           type="day"
-          slideNum="2"
+          slideNum="2" // You may need to adjust your Row component to handle this prop inside Swiper
         />
       </div>
 

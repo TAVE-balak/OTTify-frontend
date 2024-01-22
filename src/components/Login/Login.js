@@ -1,29 +1,11 @@
 import React from "react";
-import naverButtonImage from "../Login/btnG_완성형.png";
+import naverButtonImage from "../Login/naver.png";
 import googleButtonImage from "../Login/google.png";
 import "./Login.css";
 import GoogleButton from "./GoogleButton";
 import axios from "axios";
 
 const Login = () => {
-  const titleStyle = {
-    color: "var(--primary, #FD7E14)",
-    fontFamily: "Pretendard",
-    fontSize: "36px",
-    fontStyle: "normal",
-    fontWeight: "600",
-    lineHeight: "44px",
-  };
-
-  const subTitleStyle = {
-    color: "var(--Gray-800, #343A40)",
-    fontFamily: "Pretendard",
-    fontSize: "36px",
-    fontStyle: "normal",
-    fontWeight: "600",
-    lineHeight: "44px",
-  };
-
   const handleNaverLogin = () => {
     window.location.href =
       "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&state=YOUR_STATE_PARAM";
@@ -71,14 +53,17 @@ const Login = () => {
 
   return (
     <div className="login-box">
-      <h2 style={titleStyle}>OTTify</h2>
-      <h2 style={subTitleStyle}>와 함께하는 영화 라이프 같이 즐겨볼까요?</h2>
+      <p>
+        <span>OTTify</span>와 함께하는
+      </p>
+      <p>영화 라이프</p>
+      <p>같이 즐겨볼까요?</p>
       <div className="social-buttons">
-        <button className="google-button" onClick={loginGoogle}>
-          <img src={googleButtonImage} alt="Google Button" />
-        </button>
         <button className="naver-button" onClick={loginNaver}>
           <img src={naverButtonImage} alt="Naver Button" />
+        </button>
+        <button className="google-button" onClick={loginGoogle}>
+          <img src={googleButtonImage} alt="Google Button" />
         </button>
       </div>
     </div>

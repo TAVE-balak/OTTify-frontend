@@ -3,7 +3,7 @@ import axios from "../api/axios";
 import MovieModal from "./MovieModal";
 import "./Row.css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
+import { Autoplay, Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import star from "./MovieModal/star.png";
 
 // Swiper 스타일 import
@@ -56,7 +56,7 @@ export default function Row({
       <h2>{title}</h2>
       {/* Swiper 컴포넌트 */}
       <Swiper
-        modules={[Navigation, Pagination, Scrollbar, A11y]}
+        modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
         loop={true}
         // breakpoints={{
         //   1378: {
@@ -80,6 +80,10 @@ export default function Row({
         // pagination={{ clickable: true }}
         slidesPerView={slideNum} // 한 번에 보일 슬라이드 수
         spaceBetween={type === "day" ? 15 : undefined}
+        autoplay={{
+          delay: 1500, // Delay of 3 seconds for each slide
+          disableOnInteraction: false, // Continue autoplay after user interaction
+        }}
       >
         <div id={id} className="row__posters">
           {/* SwiperSlide로 각 영화 포스터 렌더링 */}
@@ -100,7 +104,7 @@ export default function Row({
                   />
                   <div
                     className="row__details"
-                    style={{ marginLeft: type === "day" ? 0 : "18px" }}
+                    // style={{ marginLeft: type === "day" ? "5px" : "5px" }}
                   >
                     <p>{movie.title}</p>
                     <div className="movie-info">

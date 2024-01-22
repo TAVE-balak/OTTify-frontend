@@ -70,7 +70,7 @@ const Nav = () => {
         <div className="login-modal-background">
           <div className="login-modal">
             <Login onClose={toggleLoginModal} />
-            <button onClick={toggleLoginModal}>닫기</button>
+            {/* <button onClick={toggleLoginModal}>닫기</button> */}
           </div>
         </div>
       )}
