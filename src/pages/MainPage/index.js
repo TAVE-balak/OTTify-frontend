@@ -108,29 +108,13 @@ const MainPage = () => {
       </div>
 
       <div className="today-trend">
-        <Swiper
-          modules={[Autoplay]} // Add the Autoplay module
-          // Set the space between slides and number of slides per view
-          spaceBetween={50} // Adjust as needed
-          slidesPerView={1} // Set to 1 since you are displaying one row per slide
-          autoplay={{
-            delay: 3000, // Delay of 3 seconds for each slide
-            disableOnInteraction: false, // Continue autoplay after user interaction
-          }}
-          loop={true} // Enable continuous loop mode
-          // Additional configurations for pagination, navigation, etc.
-        >
-          <SwiperSlide>
-            <Row
-              title="오늘 트렌드"
-              id="NO"
-              fetchUrl={requests.fetchTrending}
-              type="day"
-              slideNum="2" // You may need to adjust your Row component to handle this prop inside Swiper
-            />
-          </SwiperSlide>
-          {/* Add additional SwiperSlides if needed */}
-        </Swiper>
+        <Row
+          title="오늘 트렌드"
+          id="NO"
+          fetchUrl={requests.fetchTrending}
+          type="day"
+          slideNum="2" // You may need to adjust your Row component to handle this prop inside Swiper
+        />
       </div>
 
       {/* <div
