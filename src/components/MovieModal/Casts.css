@@ -1,0 +1,18 @@
+/* Add to your CSS file */
+.cast-list {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px 0;
+    gap: 15px;
+    /* Adjust gap as needed */
+}
+
+.cast-list::-webkit-scrollbar {
+    display: none;
+    /* Hide scrollbar for Webkit browsers */
+}
+
+.cast-member {
+    flex: 0 0 auto;
+    /* Don't grow, don't shrink, base width on content */
+}
