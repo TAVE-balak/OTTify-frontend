@@ -116,6 +116,18 @@ const fetchTotalDiscussion = async () => {
   }
 };
 
+const fetchProgramDiscussion = async (programId) => {
+  try {
+    const response = await Wonapi.get(`/api/v1/discussion/program`, {
+      params: { programId: programId }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching users from API:', error);
+    throw error;
+  }
+};
+
 export { Wonapi, fetchUserProfile, fetchMyWrite, fetchMyFavorite, fetchMyHost, fetchMyParticipate,
   fetchSavedGenre, update1stGenre, update2ndGenre, updateMyProfile, fetchSavedOTT, updateOTT,
-  fetchTotalDiscussion};
+  fetchTotalDiscussion, fetchProgramDiscussion};
