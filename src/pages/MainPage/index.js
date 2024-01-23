@@ -89,7 +89,6 @@ const MainPage = () => {
     const fetchData = async () => {
       const response = await axios.get("/api/v1/main/latestReviews");
       setReviews(response.data.data);
-      console.log(1, response.data.data);
     };
     fetchData();
   }, []);
@@ -197,7 +196,7 @@ const MainPage = () => {
                   {review.nickName || ""}님의 평가{" "}
                   <span className="review-rating">
                     <img className="rating-star" src={star} alt="Rating Star" />
-                    {review.userRating || ""}
+                    {review.reviewRating || ""}
                   </span>
                 </div>
                 <span className="review-reviewer-content">
