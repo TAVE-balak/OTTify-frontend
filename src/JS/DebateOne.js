@@ -16,21 +16,10 @@ const DebateOne = ({}) =>{
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let storedProgram = sessionStorage.getItem(`programData`);
-        let discussionProgramData;
+        // API 호출하여 데이터 가져오기
+        const programId = location.state?.programId;
+        const discussionProgramData = await fetchProgramDiscussion(programId);
 
-        console.log(storedProgram)
-
-        if (storedProgram) {
-          // 세션 스토리지에 사용자 정보가 있으면 가져오기
-          discussionProgramData = JSON.parse(storedProgram);
-        } else {
-          // 세션 스토리지에 사용자 정보가 없으면 API 호출하여 가져오기
-          const programId = location.state?.programId;
-          discussionProgramData = await fetchProgramDiscussion(programId);
-          // 가져온 정보를 세션 스토리지에 저장 
-          sessionStorage.setItem(`programData`, JSON.stringify(discussionProgramData));
-        }
         setProgramData(discussionProgramData); 
         setMovieTitle(discussionProgramData.data.list[0]?.programName || "");
       } catch (error) {

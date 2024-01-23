@@ -46,8 +46,7 @@ function MovieModal({ setModalOpen, ...movie }) {
 
   const handleDiscuss = () => {
     // 토론 관련 로직
-    // const programId = movie.programId;
-    const programId = 33;
+    const programId = movie.programId;
     navigate("/DebateOne", { state: { programId } });
   };
   const handleToggleFanReviews = () => {
