@@ -5,6 +5,7 @@ import requests from "../../api/requests";
 import { useDebounce } from "../../hooks/useDebounce";
 import MovieModal from "../../components/MovieModal";
 import "./SearchPage.css";
+import search_off from "./search_off.png";
 
 export default function SearchPage() {
   const [movieResults, setMovieResults] = useState([]);
@@ -63,7 +64,11 @@ export default function SearchPage() {
     if (results.length === 0) {
       return (
         <section className="no-results">
-          <div className="no-results__text">
+          <div className="search-term-container">
+            <p>"{searchTerm}"의 검색결과</p>
+          </div>
+          <div className="no-results-container">
+            <img className="search-off" src={search_off} alt="Search Off" />
             <p>검색결과가 없어요</p>
             <p>다시 한 번 검색해 주세요</p>
           </div>
@@ -73,7 +78,10 @@ export default function SearchPage() {
 
     return (
       <section className="search-results-section">
-        <div className="search-container">
+        <div className="search-term-container">
+          <p>"{searchTerm}"의 검색결과</p>
+        </div>
+        <div className="search-results-container">
           {results.map((item) => (
             <div
               className={selectedCategory}
@@ -87,10 +95,19 @@ export default function SearchPage() {
                   className={`${selectedCategory}__poster`}
                 />
               </div>
-              <div>
-                <p>{item.title}</p>
-                <p>{item.createdDate}</p>
-                <p>{item.overview}</p>
+              <div className={`${selectedCategory}__info`}>
+                <p className={`${selectedCategory}__info-title`}>
+                  {item.title}
+                </p>
+                <p className={`${selectedCategory}__info-createdDate`}>
+                  {item.createdDate}
+                </p>
+                <p className={`${selectedCategory}__info-overview`}>
+                  {item.overview.length > 250
+                    ? item.overview.slice(0, 250) + "..."
+                    : item.overview}{" "}
+                  {/* 글자 수가 250이 넘을 경우 자르고 뒤에 ... 추가*/}
+                </p>
               </div>
             </div>
           ))}
@@ -156,9 +173,11 @@ export default function SearchPage() {
   };
 
   return (
-    <div>
-      {renderCategoryButtons()}
-      {renderResultsSection(selectedCategory)}
+    <div className="SearchPage">
+      <div className="search-container">
+        {renderCategoryButtons()}
+        {renderResultsSection(selectedCategory)}
+      </div>
     </div>
   );
 }
