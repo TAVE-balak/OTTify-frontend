@@ -9,6 +9,9 @@ const requests = {
   fetchRomanceMovies: "/discover/movie?with_genres=10749",
   fetchDocumentaries: "/discover/movie?with_genres=99",
   fetchTrending: "/api/v1/program/trending",
+  fetchSearch: "/api/v1/program/search",
+  fetchTv: "/api/v1/tv/search",
+  fetchMovie: "/api/v1/movie/search",
 };
 
 export default requests;

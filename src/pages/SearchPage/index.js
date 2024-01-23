@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "../../api/axios";
+import requests from "../../api/requests";
 import { useDebounce } from "../../hooks/useDebounce";
+import MovieModal from "../../components/MovieModal";
 import "./SearchPage.css";
 
 export default function SearchPage() {
-  const navigate = useNavigate();
-  const [searchResults, setSearchResults] = useState({ movies: [], tv: [] });
-  const [selectedCategory, setSelectedCategory] = useState('all'); // 'all', 'movies', 'tv' 중 하나를 선택하는 상태
+  const [movieResults, setMovieResults] = useState([]);
+  const [tvResults, setTvResults] = useState([]);
+  const [movieCount, setMovieCount] = useState(0);
+  const [tvCount, setTvCount] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState("tv"); // 'all', 'movie', 'tv' 중 하나를 선택하는 상태, tv가 default
 
   const useQuery = () => new URLSearchParams(useLocation().search);
   const query = useQuery();
@@ -19,102 +23,142 @@ export default function SearchPage() {
       fetchSearchMovie(debouncedSearchTerm);
     }
   }, [debouncedSearchTerm]);
+  console.log(1, tvResults);
 
   const fetchSearchMovie = async (searchTerm) => {
     try {
-      const { data } = await axios.get(
-        `/search/multi?include_adult=false&query=${searchTerm}`
-      );
-      const filteredResults = data.results.reduce(
-        (acc, result) => {
-          if (result.backdrop_path) {
-            if (result.media_type === "movie") {
-              acc.movies.push(result);
-            } else if (result.media_type === "tv") {
-              acc.tv.push(result);
-            }
-          }
-          return acc;
-        },
-        { movies: [], tv: [] }
-      );
-      setSearchResults(filteredResults);
+      const { data } = await axios.get(requests.fetchSearch, {
+        params: { name: searchTerm },
+      });
+      setMovieCount(data.data.movieCount);
+      setTvCount(data.data.tvCount);
+      setTvResults(data.data.searchTvResponseDto.tvSearchInfos);
+      setSelectedCategory(
+        "tv"
+      ); /* 새로운 검색어로 검색 시 TV 프로그램이 기본으로 보여지도록 설정 */
     } catch (error) {
       console.log("error", error);
     }
   };
 
-  const renderResultsSection = (sectionTitle, results) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [movieSelected, setMovieSelected] = useState({});
+  const handleClick = (movie) => {
+    setModalOpen(true);
+    setMovieSelected(movie);
+  };
+
+  const renderResultsSection = (selectedCategory) => {
+    let results;
+    switch (selectedCategory) {
+      case "tv":
+        results = tvResults;
+        break;
+      case "movie":
+        results = movieResults;
+        break;
+      default:
+    }
+
+    if (results.length === 0) {
+      return (
+        <section className="no-results">
+          <div className="no-results__text">
+            <p>검색결과가 없어요</p>
+            <p>다시 한 번 검색해 주세요</p>
+          </div>
+        </section>
+      );
+    }
+
     return (
       <section className="search-results-section">
-        <h2>{sectionTitle}</h2>
         <div className="search-container">
           {results.map((item) => (
-            <div className="movie" key={item.id}>
-              <div
-                onClick={() => navigate(`/${item.media_type}/${item.id}`)}
-                className="movie__column-poster"
-              >
+            <div
+              className={selectedCategory}
+              key={item.id}
+              onClick={() => handleClick(item)}
+            >
+              <div className={`${selectedCategory}__column-poster`}>
                 <img
-                  src={`https://image.tmdb.org/t/p/w500${item.backdrop_path}`}
+                  src={`https://image.tmdb.org/t/p/w200${item.posterPath}`}
                   alt={item.title || item.name}
-                  className="movie__poster"
+                  className={`${selectedCategory}__poster`}
                 />
+              </div>
+              <div>
+                <p>{item.title}</p>
+                <p>{item.createdDate}</p>
+                <p>{item.overview}</p>
               </div>
             </div>
           ))}
         </div>
+        {/* 모달 렌더링 */}
+        {modalOpen && (
+          <MovieModal {...movieSelected} setModalOpen={setModalOpen} />
+        )}
       </section>
     );
   };
 
-  const handleCategoryClick = (category) => {
+  const handleCategoryClick = async (category) => {
     setSelectedCategory(category);
+    switch (category) {
+      case "tv":
+        try {
+          const { data } = await axios.get(requests.fetchTv, {
+            params: { name: searchTerm, page: 1 },
+          });
+          setTvResults(data.data.tvSearchInfos);
+          setTvCount(data.data.totalResults);
+        } catch (error) {
+          console.log("tv 프로그램을 불러오지 못했습니다.", error);
+        }
+        break;
+      case "movie":
+        try {
+          const { data } = await axios.get(requests.fetchMovie, {
+            params: { name: searchTerm, page: 1 },
+          });
+          setMovieResults(data.data.movieSearchInfos);
+          setMovieCount(data.data.totalResults);
+        } catch (error) {
+          console.log("영화를 불러오지 못했습니다.", error);
+        }
+        break;
+      default:
+        return;
+    }
   };
-  const [movieCount, setMovieCount] = useState(0);
-  const [tvCount, setTvCount] = useState(0);
 
-  useEffect(() => {
-    setMovieCount(searchResults.movies.length);
-    setTvCount(searchResults.tv.length);
-  }, [searchResults]);
   const renderCategoryButtons = () => {
     return (
       <div className="category-buttons">
-        <button onClick={() => handleCategoryClick('all')}>
+        {/* <button onClick={() => handleCategoryClick("all")}>
           전체 ({movieCount + tvCount})
+        </button> */}
+        <button
+          onClick={() => handleCategoryClick("tv")}
+          className={selectedCategory === "tv" ? "active" : ""}
+        >
+          TV 프로그램 ({tvCount})
         </button>
-        <button onClick={() => handleCategoryClick('movies')}>
+        <button
+          onClick={() => handleCategoryClick("movie")}
+          className={selectedCategory === "movie" ? "active" : ""}
+        >
           영화 ({movieCount})
         </button>
-        <button onClick={() => handleCategoryClick('tv')}>
-          드라마 ({tvCount})
-        </button>
       </div>
     );
   };
 
-  const renderSearchResults = () => {
-    const filteredResults = {
-      movies: selectedCategory === 'all' || selectedCategory === 'movies' ? searchResults.movies : [],
-      tv: selectedCategory === 'all' || selectedCategory === 'tv' ? searchResults.tv : [],
-    };
-    
-    return (
-      <div>
-        {renderCategoryButtons()}
-        {filteredResults.movies.length > 0 && renderResultsSection("영화", filteredResults.movies)}
-        {filteredResults.tv.length > 0 && renderResultsSection("드라마", filteredResults.tv)}
-        {(filteredResults.movies.length === 0 && filteredResults.tv.length === 0) && (
-          <section className="no-results">
-            <div className="no-results__text">
-              <p>찾고자하는 검색어 "{debouncedSearchTerm}"에 맞는 영화 또는 드라마가 없습니다.</p>
-            </div>
-          </section>
-        )}
-      </div>
-    );
-  };
-
-  return renderSearchResults();
+  return (
+    <div>
+      {renderCategoryButtons()}
+      {renderResultsSection(selectedCategory)}
+    </div>
+  );
 }
