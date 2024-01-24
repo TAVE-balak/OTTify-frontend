@@ -1,5 +1,6 @@
 .MainPage {
-  margin: 0 250px; /* 좌우 여백 400px 설정 */
+  width: 65%;
+  margin: 0 auto 0 auto; /* 위쪽, 아래쪽, 좌우 마진 순서 */
 }
 
 .ranking,
