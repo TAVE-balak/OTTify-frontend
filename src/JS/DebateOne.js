@@ -50,7 +50,7 @@ const DebateOne = ({}) =>{
     return {
       id: item.subjectId,
       movie: item.programName,
-      poster: item.imgUrl || "",
+      poster: item.imageUrl || "",
       debateTitle: item.title,
       content: item.content,
       created_date: displayDate,
@@ -60,7 +60,7 @@ const DebateOne = ({}) =>{
   }) : [];
 
   const goToWrite = () => {
-    navigate('/DebateWrite');
+    navigate('/DebateWrite', { state: { programId: location.state?.programId } });
   }
 
   return (

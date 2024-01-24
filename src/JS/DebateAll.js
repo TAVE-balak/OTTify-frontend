@@ -56,7 +56,7 @@ const DebateAll = () =>{
     return {
       id: item.subjectId,
       movie: item.programName,
-      poster: item.imgUrl || "",
+      poster: item.imageUrl || "",
       debateTitle: item.title,
       content: item.content,
       created_date: displayDate,
