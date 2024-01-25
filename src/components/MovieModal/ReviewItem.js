@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./MyCollect.css";
+import "./DetailReview.css";
 import star from "./star1.png";
 import thumb from "./thumb_up.png";
 
@@ -64,10 +64,12 @@ const ReviewItem = ({
           </div>
         </div>
         <div className="reviewContent">{contents}</div>
-        <button onClick={handleLike}>
-          <img src={thumb} className="reviewthumb" alt="좋아요"></img>
-        </button>
-        <span className="thumbNum">{likes}</span>
+        <div className="reviewFavorite">
+          <button onClick={handleLike}>
+            <img src={thumb} className="reviewthumb" alt="좋아요"></img>
+          </button>
+          <span className="thumbNum">{likes}</span>
+        </div>
       </div>
     </div>
   );
