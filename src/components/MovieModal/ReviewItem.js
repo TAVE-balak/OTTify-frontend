@@ -20,6 +20,23 @@ const ReviewItem = ({
     // TODO: 서버에 좋아요 개수 업데이트 요청 등의 로직 추가 가능
   };
 
+  const targetDate = new Date(localDateTime);
+  const currentDate = new Date();
+  const timeDiff = currentDate - targetDate;
+  // 밀리초를 일로 변환
+  const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+  let displayDate;
+  if (daysDiff < 30) {
+    displayDate = `${daysDiff}일 전`;
+  } else if (daysDiff < 365) {
+    const monthsDiff = Math.floor(daysDiff / 30);
+    displayDate = `${monthsDiff}달 전`;
+  } else {
+    const yearsDiff = Math.floor(daysDiff / 365);
+    displayDate = `${yearsDiff}년 전`;
+  }
+
   return (
     <div className="ReviewItem">
       <div className="reviewInfo">
@@ -31,11 +48,10 @@ const ReviewItem = ({
           ></img>
           <span className="writer">{userNickName}님의 평가</span>
         </div>
-        <span className="writeDate">{localDateTime}</span>
+        <span className="writeDate">{displayDate}</span>
       </div>
 
       <div className="reviewMain">
-        {/* <span className="reviewName">{review.}</span> */}
         <div className="reviewPick">
           <img src={star} className="star" alt="별점"></img>
           <span className="reviewNum">{ratings}</span>
