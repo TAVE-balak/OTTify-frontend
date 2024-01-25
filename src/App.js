@@ -44,7 +44,6 @@ function App() {
           <Route path="/DebateWrite" element={<DebateWrite />} />
           <Route path="/DebateDetail" element={<DebateDetail />} />
           <Route path="/DebateEdit/:id" element={<DebateEdit />} />
-
         </Routes>
         <Footer />
       </ScrollToTop>

@@ -1,6 +1,6 @@
 // Toggle.js
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const ToggleContainer = styled.div`
   position: relative;
@@ -35,8 +35,8 @@ const Slider = styled.span`
   right: 0;
   bottom: 0;
   background-color: #8b8b8b;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
   border-radius: 34px;
 
   &:before {
@@ -47,8 +47,8 @@ const Slider = styled.span`
     left: 4px;
     bottom: 4px;
     background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
     border-radius: 50%;
   }
 `;
@@ -56,13 +56,9 @@ const Slider = styled.span`
 const Toggle = ({ isOn, handleToggle, text }) => {
   return (
     <label>
-      {text}
+      <p className="toggle_text"> {text}</p>
       <ToggleContainer>
-        <ToggleInput
-          type="checkbox"
-          checked={isOn}
-          onChange={handleToggle}
-        />
+        <ToggleInput type="checkbox" checked={isOn} onChange={handleToggle} />
         <Slider className="slider" />
       </ToggleContainer>
     </label>
