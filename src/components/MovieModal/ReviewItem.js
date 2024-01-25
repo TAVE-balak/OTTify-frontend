@@ -38,7 +38,7 @@ const ReviewItem = ({
   }
 
   return (
-    <div className="ReviewItem">
+    <div className="ReviewItem" style={{ backgroundColor: "var(--neutral2)" }}>
       <div className="reviewInfo">
         <div className="writerInfo">
           <img

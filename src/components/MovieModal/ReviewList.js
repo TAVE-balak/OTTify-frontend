@@ -2,7 +2,6 @@ import React from "react";
 import ReviewItem from "./ReviewItem";
 
 const ReviewList = ({ reviewList }) => {
-  console.log(reviewList);
   return (
     <div className="ReviewList">
       <div>

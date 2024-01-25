@@ -1,31 +1,44 @@
 import React, { useRef, useState, useEffect } from "react";
-import "./MovieModal.css";
-import useOnClickOutside from "../../hooks/useOnClickOutside";
-import Casts from "./Casts";
-import debateImage from "../MovieModal/my_debate.png"; // 토론 이미지 가져오기
-import Toggle from "./Toggle";
-import notInterestedImage from "./hate.png";
-import MyWrite from "./MyWrite";
 import { useNavigate } from "react-router-dom";
+import useOnClickOutside from "../../hooks/useOnClickOutside";
 import axios from "../../api/axios";
+import Casts from "./Casts";
+import MyWrite from "./MyWrite";
+import "./MovieModal.css";
+
+import debateImage from "../MovieModal/my_debate.png"; // 토론 이미지 가져오기
+import likeImage from "./heart.png";
+import likeClickedImage from "./heart_clicked.png";
+import notInterestedImage from "./hate.png";
+import notInterestedClickedImage from "./hate_clicked.png";
+import reviewImage from "./review.png";
 
 function MovieModal({ setModalOpen, ...movie }) {
   const navigate = useNavigate();
   const ref = useRef();
-  const [isWatchlisted, setIsWatchlisted] = useState(false);
-  const [showFanReviews, setShowFanReviews] = useState(false);
-  const [showNotInterested, setShowNotInterested] = useState(false);
+
+  const [isWish, setIsWish] = useState(false); // 찜
+  const [wishSrc, setWishSrc] = useState(likeImage); // 초기 상태는 선택이 되지 않은 상태를 나타내기 위함
+  const [isNotInterested, setIsNotInterested] = useState(false); // 관심없음
+  const [notInterestedSrc, setNotInterestedSrc] = useState(notInterestedImage);
+
   const [activePriceType, setActivePriceType] = useState(null);
 
-  const handleAddToWatchlist = () => {
-    // 워치리스트에 추가하는 로직
-    setIsWatchlisted(!isWatchlisted);
+  const handleHeart = () => {
+    if (isWish) {
+      setWishSrc(likeImage); // 초기 이미지 src
+      setIsWish(!isWish);
+    } else {
+      setWishSrc(likeClickedImage); // 변경될 이미지 src
+      setIsWish(!isWish);
+    }
   };
 
   const handleButtonClick = (priceType) => {
     // 가격 유형 활성화 (정액제, 대여, 구매)
     setActivePriceType(priceType);
   };
+
   const services = [
     {
       name: "넷플릭스",
@@ -47,20 +60,32 @@ function MovieModal({ setModalOpen, ...movie }) {
   const handleDiscuss = () => {
     // 토론 관련 로직
     const programId = movie.programId;
-    navigate("/DebateOne", { state: { programId } });
+    const title = movie.title;
+    console.log(movie);
+    navigate("/DebateOne", { state: { programId, title } });
   };
-  const handleToggleFanReviews = () => {
-    // 매니아 리뷰 표시 여부를 토글하는 함수
-    setShowFanReviews(!showFanReviews);
+
+  const handleReview = () => {
+    // 리뷰 관련 로직
+    const programId = movie.programId;
+    // navigate("/", { state: { programId } });
   };
 
   const fanRating = 4.5;
   useOnClickOutside(ref, () => {
     setModalOpen(false);
   });
+
   const handleNotInterested = () => {
-    setShowNotInterested((prevShowNotInterested) => !prevShowNotInterested);
+    if (isNotInterested) {
+      setNotInterestedSrc(notInterestedImage); // 초기 이미지 src
+      setIsNotInterested(!isNotInterested);
+    } else {
+      setNotInterestedSrc(notInterestedClickedImage); // 변경될 이미지 src
+      setIsNotInterested(!isNotInterested);
+    }
   };
+
   const [cast, setCast] = useState([]);
   const [programDetail, setProgramDetail] = useState();
   const [programNormalReviewRating, setProgramNormalReviewRating] =
@@ -102,124 +127,157 @@ function MovieModal({ setModalOpen, ...movie }) {
             }`}
             alt="modal__poster-img"
           />
+          <div className="modal__container">
+            <h2 className="modal__title">{programDetail?.title}</h2>
+            <p className="modal__title-eng">{programDetail?.originalTitle}</p>
 
-          <h2 className="modal__title">{programDetail?.title}</h2>
-          <p className="modal__title-eng">{programDetail?.originalTitle}</p>
+            <span className="modal__program-etc">
+              <p className="modal__program-createdData">
+                {programDetail?.createdDate.slice(0, 4)} ·{" "}
+                {programDetail?.genreName.map((genre, index) => (
+                  <React.Fragment key={index}>
+                    {genre}
+                    {index !== programDetail?.genreName.length - 1 && "/"}
+                  </React.Fragment>
+                ))}
+                · {programDetail?.country}
+              </p>
+            </span>
 
-          <span className="modal__program-etc">
-            <p className="modal__program-createdData">
-              {programDetail?.createdDate} ·{" "}
-              {programDetail?.genreName.map((genre, index) => (
-                <React.Fragment key={index}>
-                  {genre}
-                  {index !== programDetail?.genreName.length - 1 && "/"}
-                </React.Fragment>
-              ))}
-              · {programDetail?.country}
-            </p>
-          </span>
+            <div className="modal__ratings_and_buttons">
+              <div className="modal__ratings">
+                <div className="average-rating">
+                  <p className="average-rating_rating">
+                    {programNormalReviewRating}
+                  </p>
+                  <p className="average-rating_text">평균 별점</p>
+                </div>
+                <div className="fan-rating">
+                  <p className="fan-rating_rating">{fanRating}</p>
+                  <p className="fan-rating_text">매니아 별점</p>
+                </div>
+              </div>
 
-          <div className="ratings">
-            <p className="modal__overview">
-              <span className="average-rating">
-                ☆평균 별점: {programNormalReviewRating}
-              </span>
-              <span className="fan-rating">⭐매니아 별점: {fanRating}</span>
-            </p>
-          </div>
+              <div className="modal__buttons">
+                {/* 찜하기 버튼 */}
+                <div className="heart">
+                  <button
+                    onClick={handleHeart}
+                    className={
+                      isWish ? "heart-button-selected" : "heart-button"
+                    }
+                  >
+                    <img
+                      src={wishSrc}
+                      alt="찜하기"
+                      style={{ width: "40px", height: "40px" }}
+                    />
+                    <p>찜하기</p>
+                  </button>
+                </div>
 
-          <div className="modal__buttons">
-            {/* 찜하기 하트 버튼 */}
-            <button
-              onClick={handleAddToWatchlist}
-              className={
-                isWatchlisted ? "heart-button-selected" : "heart-button"
-              }
-            >
-              <span role="img" aria-label="찜하기">
-                {isWatchlisted ? "💖" : "🤍"}
-              </span>
-            </button>
+                {/* 리뷰하기 버튼 */}
+                <div className="review">
+                  <button onClick={handleReview}>
+                    <img
+                      src={reviewImage}
+                      alt="리뷰하기"
+                      style={{ width: "40px", height: "40px" }}
+                    />
+                    <p>리뷰하기</p>
+                  </button>
+                </div>
 
-            {/* 토론하기 이미지 버튼 */}
-            <button onClick={handleDiscuss}>
-              <img
-                src={debateImage}
-                alt="토론하기"
-                style={{ width: "40px", height: "30px" }}
-              />
-            </button>
-            {/* 관심없어요 이미지 버튼 */}
+                {/* 토론하기 버튼 */}
+                <div className="discussion">
+                  <button onClick={handleDiscuss}>
+                    <img
+                      src={debateImage}
+                      alt="토론하기"
+                      style={{ width: "40px", height: "40px" }}
+                    />
+                    <p>토론하기</p>
+                  </button>
+                </div>
 
-            <button
-              onClick={handleNotInterested}
-              className={
-                showNotInterested
-                  ? "not-interested-button-active"
-                  : "not-interested-button"
-              }
-            >
-              <img
-                src={notInterestedImage}
-                alt="관심없어요"
-                style={{ width: "40px", height: "30px" }}
-              />
-            </button>
-          </div>
-          <div className="modal__content">
-            <h3 className="modal__tagline">{programDetail?.tagline}</h3>
-            <p className="modal__overview">{programDetail?.overview}</p>
-          </div>
+                {/* 관심없어요 버튼 */}
+                <div className="not_interested">
+                  <button
+                    onClick={handleNotInterested}
+                    className={
+                      isNotInterested
+                        ? "not-interested-button-selected"
+                        : "not-interested-button"
+                    }
+                  >
+                    <img
+                      src={notInterestedSrc}
+                      alt="관심없음"
+                      style={{ width: "40px", height: "40px" }}
+                    />
+                    <p>관심없음</p>
+                  </button>
+                </div>
+              </div>
+            </div>
 
-          {/* OTT 정보 테이블 */}
-          <table>
-            <thead>
-              <h2>보러가기</h2>
-              <tr>
-                <th>OTT</th>
-                <th>정액제</th>
-                <th>대여</th>
-                <th>구매</th>
-                <th>가격</th>
-              </tr>
-            </thead>
-            <tbody>
-              {services.map((service, index) => (
-                <tr key={index}>
-                  <td>
-                    <div className="service-box">
-                      <a
-                        href={service.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {service.name}
-                      </a>
-                    </div>
-                  </td>
-                  <td>
-                    <button onClick={() => handleButtonClick("subscription")}>
-                      정액제
-                    </button>
-                  </td>
-                  <td>
-                    <button onClick={() => handleButtonClick("rental")}>
-                      대여
-                    </button>
-                  </td>
-                  <td>
-                    <button onClick={() => handleButtonClick("buy")}>
-                      구매
-                    </button>
-                  </td>
+            <div className="modal__content">
+              <h3 className="modal__tagline">{programDetail?.tagline}</h3>
+              <p className="modal__overview">{programDetail?.overview}</p>
+            </div>
+
+            {/* OTT 정보 테이블 */}
+            <table>
+              <thead>
+                <h2>보러가기</h2>
+                <tr>
+                  <th>OTT</th>
+                  <th>정액제</th>
+                  <th>대여</th>
+                  <th>구매</th>
+                  <th>가격</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          <h2>출연/제작</h2>
-          <Casts castList={cast} />
-          {/* 리뷰 및 출연진 컴포넌트 */}
-          <MyWrite programId={movie.programId} />
+              </thead>
+              <tbody>
+                {services.map((service, index) => (
+                  <tr key={index}>
+                    <td>
+                      <div className="service-box">
+                        <a
+                          href={service.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {service.name}
+                        </a>
+                      </div>
+                    </td>
+                    <td>
+                      <button onClick={() => handleButtonClick("subscription")}>
+                        정액제
+                      </button>
+                    </td>
+                    <td>
+                      <button onClick={() => handleButtonClick("rental")}>
+                        대여
+                      </button>
+                    </td>
+                    <td>
+                      <button onClick={() => handleButtonClick("buy")}>
+                        구매
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <h2>출연/제작</h2>
+            <Casts castList={cast} />
+
+            {/* 리뷰 및 출연진 컴포넌트 */}
+            <MyWrite programId={movie.programId} />
+          </div>
         </div>
       </div>
     </div>

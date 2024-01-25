@@ -19,7 +19,6 @@ const MyWrite = ({ programId }) => {
           `/api/v1/reviews/${programId}/normal/count/4`
         );
         const data = response.data.data;
-        console.log(3, data);
         setAllReviews(data.reviewProgramResponseDtoList);
       } catch (error) {
         console.error("Fetching review failed", error);

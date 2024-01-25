@@ -9,6 +9,7 @@
 .mywrite_page {
   display: flex;
   flex-direction: column;
+  background-color: white;
   margin: 0 auto;
   padding-top: 38px;
   padding-bottom: 30px;
@@ -78,8 +79,8 @@
 /* ReviewItem 요소 스타일 설정 */
 .ReviewItem {
   width: 736px;
-  background-color: var(--neutral2);
   border-radius: 15px;
+  background-color: var(--neutral2);
   height: auto;
   overflow: hidden;
   padding: 24px;
