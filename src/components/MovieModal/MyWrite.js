@@ -1,49 +1,71 @@
-import React, { useState } from 'react';
-import WriteReview from './WriteReview';
-import ReviewList from './ReviewList';
-import './MyCollect.css';
-import img1 from './사진.jpg';
-import ReviewItem from './ReviewItem';
+import React, { useEffect, useState } from "react";
+import WriteReview from "./WriteReview";
+import ReviewList from "./ReviewList";
+import "./MyCollect.css";
+import img1 from "./사진.jpg";
+import ReviewItem from "./ReviewItem";
+import axios from "../../api/axios";
 
-const MyWrite = () => {
+const MyWrite = ({ programId }) => {
   // 기존의 dummyList를 myReviews 상태 변수로 변환합니다.
-  const [myReviews, setMyReviews] = useState([
-    {
-      id: 1,
-      profileimg: {img1},
-      movie: "나폴레옹",
-      tag: ["시간 가는 줄 몰랐어요", "심장질환자 관람유의"],
-      content: "봉준호 영화 중에서 가장 음침하고 불편한 영화인 것 같다. 봉준호 영화 중에서 가장 음침하고 불편한 영화인 것 같다.봉준호 영화 중에서 가장 음침하고 불편한 영화인 것 같다.봉준호 영화 중에서 가장 음침하고 불편한 영화인 것 같다.<마더>에 가득 찬 오해들은 풀리지 못 한다. 오해를 오해로 해결하더니 끝내는 엉뚱한 사람이 갇힌다. 이 영화에서 해결된 것은 없다. 잊으려 애를 쓸 뿐이다. 하지만 그것도 불안하기 짝이 없어 보인다. 가나다라마바사 아자차카파타하.",
-      evaluation: 3.5,
-      created_date: "3달 전",
-      favorite: 120,
-    }, 
-  
-    {
-      id: 2,
-      profileimg: {img1},
-      movie: "나폴레옹",
-      tag: ["시간 가는 줄 몰랐어요", "심장질환자 관람유의"],
-      content: "봉준호 영화 중에서 가장 음침하고 불편한 영화인 것 같다. <마더>에 가득 찬 오해들은 풀리지 못 한다. 오해를 오해로 해결하더니 끝내는 엉뚱한 사람이 갇힌다. 이 영화에서 해결된 것은 없다. 잊으려 애를 쓸 뿐이다. 하지만 그것도 불안하기 짝이 없어 보인다. 가나다라마바사 아자차카파타하.",
-      evaluation: 3.5,
-      created_date: "3달 전",
-      favorite: 120,
-    }, 
-  
-    {
-      id: 3,
-      
-      profileimg: {img1},
-      movie: "나폴레옹",
-      tag: ["시간 가는 줄 몰랐어요", "심장질환자 관람유의"],
-      content: "봉준호 영화 중에서 가장 음침하고 불편한 영화인 것 같다. <마더>에 가득 찬 오해들은 풀리지 못 한다. 오해를 오해로 해결하더니 끝내는 엉뚱한 사람이 갇힌다. 이 영화에서 해결된 것은 없다. 잊으려 애를 쓸 뿐이다. 하지만 그것도 불안하기 짝이 없어 보인다. 가나다라마바사 아자차카파타하.",
-      evaluation: 3.5,
-      created_date: "3달 전",
-      favorite: 120,
-    }
-  
-  ]);
+  // const [myReviews, setMyReviews] = useState([
+  //   {
+  //     id: 1,
+  //     profileimg: { img1 },
+  //     movie: "나폴레옹",
+  //     tag: ["시간 가는 줄 몰랐어요", "심장질환자 관람유의"],
+  //     content:
+  //       "봉준호 영화 중에서 가장 음침하고 불편한 영화인 것 같다. 봉준호 영화 중에서 가장 음침하고 불편한 영화인 것 같다.봉준호 영화 중에서 가장 음침하고 불편한 영화인 것 같다.봉준호 영화 중에서 가장 음침하고 불편한 영화인 것 같다.<마더>에 가득 찬 오해들은 풀리지 못 한다. 오해를 오해로 해결하더니 끝내는 엉뚱한 사람이 갇힌다. 이 영화에서 해결된 것은 없다. 잊으려 애를 쓸 뿐이다. 하지만 그것도 불안하기 짝이 없어 보인다. 가나다라마바사 아자차카파타하.",
+  //     evaluation: 3.5,
+  //     created_date: "3달 전",
+  //     favorite: 120,
+  //   },
+
+  //   {
+  //     id: 2,
+  //     profileimg: { img1 },
+  //     movie: "나폴레옹",
+  //     tag: ["시간 가는 줄 몰랐어요", "심장질환자 관람유의"],
+  //     content:
+  //       "봉준호 영화 중에서 가장 음침하고 불편한 영화인 것 같다. <마더>에 가득 찬 오해들은 풀리지 못 한다. 오해를 오해로 해결하더니 끝내는 엉뚱한 사람이 갇힌다. 이 영화에서 해결된 것은 없다. 잊으려 애를 쓸 뿐이다. 하지만 그것도 불안하기 짝이 없어 보인다. 가나다라마바사 아자차카파타하.",
+  //     evaluation: 3.5,
+  //     created_date: "3달 전",
+  //     favorite: 120,
+  //   },
+
+  //   {
+  //     id: 3,
+
+  //     profileimg: { img1 },
+  //     movie: "나폴레옹",
+  //     tag: ["시간 가는 줄 몰랐어요", "심장질환자 관람유의"],
+  //     content:
+  //       "봉준호 영화 중에서 가장 음침하고 불편한 영화인 것 같다. <마더>에 가득 찬 오해들은 풀리지 못 한다. 오해를 오해로 해결하더니 끝내는 엉뚱한 사람이 갇힌다. 이 영화에서 해결된 것은 없다. 잊으려 애를 쓸 뿐이다. 하지만 그것도 불안하기 짝이 없어 보인다. 가나다라마바사 아자차카파타하.",
+  //     evaluation: 3.5,
+  //     created_date: "3달 전",
+  //     favorite: 120,
+  //   },
+  // ]);
+  const [myReviews, setMyReviews] = useState([]);
+  const [allReviews, setAllReviews] = useState([]);
   const [editReview, setEditReview] = useState(null); // 수정 중인 리뷰 정보를 담는 상태
+
+  useEffect(() => {
+    const fetchReview = async () => {
+      try {
+        const response = await axios.get(
+          `/api/v1/reviews/${programId}/normal/count/4`
+        );
+        const data = response.data.data;
+        console.log(3, data);
+        setAllReviews(data.reviewProgramResponseDtoList);
+      } catch (error) {
+        console.error("Fetching review failed", error);
+      }
+    };
+
+    fetchReview();
+  });
 
   const handleWriteReviewSubmit = (reviewData) => {
     const newReview = {
@@ -81,9 +103,9 @@ const MyWrite = () => {
   };
 
   return (
-    <div className='MyWrite'>
+    <div className="MyWrite">
       <div className="mywrite_page">
-        <div className="mywrite_title"></div>
+        {/* <div className="mywrite_title"></div>
         <WriteReview handleWriteReviewSubmit={handleWriteReviewSubmit} />
         {myReviews.map((review) => (
           <div key={review.id} className="my-review">
@@ -118,10 +140,10 @@ const MyWrite = () => {
               <button onClick={() => handleEditClick(review.id)}>수정</button>
             </div>
           </div>
-        ))}
+        ))} */}
         <div className="all-reviews">
           <h2>모든 리뷰</h2>
-          <ReviewList reviewList={myReviews} />
+          <ReviewList reviewList={allReviews} />
         </div>
       </div>
     </div>

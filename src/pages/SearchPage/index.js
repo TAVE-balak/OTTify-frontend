@@ -24,7 +24,6 @@ export default function SearchPage() {
       fetchSearchMovie(debouncedSearchTerm);
     }
   }, [debouncedSearchTerm]);
-  console.log(1, tvResults);
 
   const fetchSearchMovie = async (searchTerm) => {
     try {

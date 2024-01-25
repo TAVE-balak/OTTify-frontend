@@ -75,7 +75,6 @@ function MovieModal({ setModalOpen, ...movie }) {
           `/api/v1/program/${movie.programId}/details`
         );
         const data = response.data.data;
-        console.log(2, data);
         setCast(data.oaProgramCreditsDto.cast); // 받아온 데이터로 상태 업데이트
         setProgramDetail(data.programDetailResponse);
         setProgramNormalReviewRating(data.programNormalReviewRating);
@@ -227,7 +226,7 @@ function MovieModal({ setModalOpen, ...movie }) {
           <h2>출연/제작</h2>
           <Casts castList={cast} />
           {/* 리뷰 및 출연진 컴포넌트 */}
-          <MyWrite />
+          <MyWrite programId={movie.programId} />
         </div>
       </div>
     </div>
