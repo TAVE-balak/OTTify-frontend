@@ -4,15 +4,13 @@ import ReviewItem from "./ReviewItem";
 const ReviewList = ({ reviewList }) => {
   return (
     <div className="ReviewList">
-      <div>
-        {reviewList.map(
-          (
-            it //각각의 요소
-          ) => (
-            <ReviewItem key={it.id} {...it} /> //별도의 component인 ReviewItem 이용
-          )
-        )}
-      </div>
+      {reviewList.map(
+        (
+          it //각각의 요소
+        ) => (
+          <ReviewItem key={it.id} {...it} /> //별도의 component인 ReviewItem 이용
+        )
+      )}
     </div>
   );
 };

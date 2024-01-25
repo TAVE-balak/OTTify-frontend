@@ -79,14 +79,16 @@ function MovieModal({ setModalOpen, ...movie }) {
         setCast(data.oaProgramCreditsDto.cast); // 받아온 데이터로 상태 업데이트
         setProgramDetail(data.programDetailResponse);
         setProgramNormalReviewRating(data.programNormalReviewRating);
-        setProgramProviders(data.programProviderListResponseDto);
+        if (data.programProviderListResponseDto !== null) {
+          setProgramProviders(data.programProviderListResponseDto);
+        }
       } catch (error) {
         console.error("Fetching cast failed", error);
       }
     };
 
     fetchCast();
-  }); // movieId가 변하지 않는 이상 호출되지 않음
+  });
 
   const handleButtonClick = (priceType) => {
     // 가격 유형 활성화 (정액제, 대여, 구매)
@@ -98,7 +100,6 @@ function MovieModal({ setModalOpen, ...movie }) {
     switch (activePriceType) {
       case "streaming":
         services = programProviders.streaming;
-        console.log(2, services);
         break;
       case "rent":
         services = programProviders.rent;
@@ -113,9 +114,8 @@ function MovieModal({ setModalOpen, ...movie }) {
         <div className="service-box" key={index}>
           <img
             src={`https://image.tmdb.org/t/p/original/${service.logo_path}`}
-            style={{ borderRadius: "20px" }}
           />
-          {service.provider_name}
+          <p>{service.provider_name}</p>
         </div>
       ));
     }
@@ -236,17 +236,42 @@ function MovieModal({ setModalOpen, ...movie }) {
             </div>
 
             {/* OTT 정보 테이블 */}
-            <div>
-              <h2>보러가기</h2>
-              <button onClick={() => handleButtonClick("streaming")}>
-                스트리밍 <span>{programProviders.streamingSize}</span>
-              </button>
-              <button onClick={() => handleButtonClick("rent")}>
-                대여 <span>{programProviders.rentSize}</span>
-              </button>
-              <button onClick={() => handleButtonClick("buy")}>
-                구매 <span>{programProviders.buySize}</span>
-              </button>
+            <div className="modal__ott">
+              <div className="ott_header">
+                <h2>보러가기</h2>
+                <div className="ott_types">
+                  <button
+                    onClick={() => handleButtonClick("streaming")}
+                    className={
+                      activePriceType === "streaming"
+                        ? "streaming-button-selected"
+                        : "streaming-button"
+                    }
+                  >
+                    스트리밍 <span>{programProviders.streamingSize || 0}</span>
+                  </button>
+                  <button
+                    onClick={() => handleButtonClick("rent")}
+                    className={
+                      activePriceType === "rent"
+                        ? "rent-button-selected"
+                        : "rent-button"
+                    }
+                  >
+                    대여 <span>{programProviders.rentSize || 0}</span>
+                  </button>
+                  <button
+                    onClick={() => handleButtonClick("buy")}
+                    className={
+                      activePriceType === "buy"
+                        ? "buy-button-selected"
+                        : "buy-button"
+                    }
+                  >
+                    구매 <span>{programProviders.buySize || 0}</span>
+                  </button>
+                </div>
+              </div>
               {renderProviderSection(activePriceType)}
             </div>
 

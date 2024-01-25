@@ -71,7 +71,7 @@
 /*ReviewList*/
 /* ReviewList 요소의 상단 마진 설정 */
 .ReviewList {
-  margin-top: 16px;
+  margin-top: 0.5rem;
 }
 
 /*ReviewItem*/
@@ -282,6 +282,7 @@ button.selected {
 
 /* 추가한 스타일 */
 button[type="submit"],
+
 /* 이 부분에 버튼 클래스 추가 */
 .custom-button {
   border-radius: 7px;
@@ -301,5 +302,5 @@ button[type="submit"],
 }
 
 .all-reviews {
-  padding: 30px 0;
+  margin: 30px 0;
 }
