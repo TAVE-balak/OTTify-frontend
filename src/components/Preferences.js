@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Preferences.css'; // 스타일시트 임포트
-import PickButton from './PickButton';
+import Pickbutton from './Pickbutton'
 
 const genreOptions = [
   { label: '액션', value: 'action' },
@@ -83,17 +83,18 @@ const Preferences = () => {
         ))}
       </div>
       
+      
       {/* 내가 좋아하는 장르 더 선택하기 */}
       <h3>내가 좋아하는 장르 더 선택하기</h3>
       <div className="genre-buttons">
         {genreOptions.map((genre) => (
-          <PickButton
+         <Pickbutton
             key={genre.value}
             className={"genre-button " + (preferences.includes(genre.value) ? "selected" : "")}
             onClick={handleGenreButtonClick}
           >
             {genre.label}
-          </PickButton>
+          </Pickbutton>
         ))}
       </div>
 
