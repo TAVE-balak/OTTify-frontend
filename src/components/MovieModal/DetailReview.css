@@ -1,7 +1,6 @@
 /*내가 쓴 리뷰 모아보기 제목*/
 /* MyWrite와 MyFavorite 요소의 배경색 설정 */
-.MyWrite,
-.MyFavorite {
+.WriteReview {
   background-color: white;
 }
 
@@ -299,4 +298,8 @@ button[type="submit"],
 
 .reviewFavorite button:hover {
   color: orange;
+}
+
+.all-reviews {
+  padding: 30px 0;
 }

@@ -4,6 +4,7 @@ import useOnClickOutside from "../../hooks/useOnClickOutside";
 import axios from "../../api/axios";
 import Casts from "./Casts";
 import MyWrite from "./MyWrite";
+import AllReviewList from "../../JS/AllReviewList";
 import "./MovieModal.css";
 
 import debateImage from "../MovieModal/my_debate.png"; // 토론 이미지 가져오기
@@ -61,14 +62,13 @@ function MovieModal({ setModalOpen, ...movie }) {
     // 토론 관련 로직
     const programId = movie.programId;
     const title = movie.title;
-    console.log(movie);
     navigate("/DebateOne", { state: { programId, title } });
   };
 
   const handleReview = () => {
     // 리뷰 관련 로직
     const programId = movie.programId;
-    // navigate("/", { state: { programId } });
+    // navigate(`/Detail/${programId}/ReviewWrite`);
   };
 
   const fanRating = 4.5;
@@ -276,7 +276,8 @@ function MovieModal({ setModalOpen, ...movie }) {
             <Casts castList={cast} />
 
             {/* 리뷰 및 출연진 컴포넌트 */}
-            <MyWrite programId={movie.programId} />
+            <AllReviewList programId={movie.programId} />
+            {/* <MyWrite programId={movie.programId} /> */}
           </div>
         </div>
       </div>

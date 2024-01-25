@@ -3,29 +3,27 @@ import WriteReview from "./WriteReview";
 import ReviewList from "./ReviewList";
 import "./DetailReview.css";
 import img1 from "./사진.jpg";
-import Toggle from "./Toggle";
+
 import ReviewItem from "./ReviewItem";
 import axios from "../../api/axios";
 
 const MyWrite = ({ programId }) => {
   const [myReviews, setMyReviews] = useState([]);
-  const [allReviews, setAllReviews] = useState([]);
   const [editReview, setEditReview] = useState(null); // 수정 중인 리뷰 정보를 담는 상태
 
   useEffect(() => {
-    const fetchReview = async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/reviews/${programId}/normal/count/4`
-        );
-        const data = response.data.data;
-        setAllReviews(data.reviewProgramResponseDtoList);
-      } catch (error) {
-        console.error("Fetching review failed", error);
-      }
-    };
-
-    fetchReview();
+    // const fetchReview = async () => {
+    //   try {
+    //     const response = await axios.get(
+    //       `/api/v1/reviews/${programId}/normal/count/4`
+    //     );
+    //     const data = response.data.data;
+    //     setAllReviews(data.reviewProgramResponseDtoList);
+    //   } catch (error) {
+    //     console.error("Fetching review failed", error);
+    //   }
+    // };
+    // fetchReview();
   });
 
   const handleWriteReviewSubmit = (reviewData) => {
@@ -63,19 +61,12 @@ const MyWrite = ({ programId }) => {
     setEditReview(reviewToEdit);
   };
 
-  const [showFanReviews, setShowFanReviews] = useState(false);
-
-  const handleToggleFanReviews = () => {
-    // 매니아 리뷰 표시 여부를 토글하는 함수
-    setShowFanReviews(!showFanReviews);
-  };
-
   return (
     <div className="MyWrite">
       <div className="mywrite_page">
-        {/* <div className="mywrite_title"></div>
+        <div className="mywrite_title"></div>
         <WriteReview handleWriteReviewSubmit={handleWriteReviewSubmit} />
-        {myReviews.map((review) => (
+        {/* {myReviews.map((review) => (
           <div key={review.id} className="my-review">
             <ReviewItem
               author={review.author}
@@ -109,18 +100,6 @@ const MyWrite = ({ programId }) => {
             </div>
           </div>
         ))} */}
-        <div className="all-reviews">
-          <div className="review-header">
-            <h2>모든 리뷰</h2>
-            {/* 매니아 리뷰 토글 스위치 */}
-            <Toggle
-              isOn={showFanReviews}
-              handleToggle={handleToggleFanReviews}
-              text="매니아 리뷰 모아보기"
-            />
-          </div>
-          <ReviewList reviewList={allReviews} />
-        </div>
       </div>
     </div>
   );
