@@ -165,13 +165,6 @@ function MovieModal({ setModalOpen, ...movie }) {
                 style={{ width: "40px", height: "30px" }}
               />
             </button>
-
-            {/* 매니아 리뷰 토글 스위치 */}
-            <Toggle
-              isOn={showFanReviews}
-              handleToggle={handleToggleFanReviews}
-              text="매니아 리뷰"
-            />
           </div>
           <div className="modal__content">
             <h3 className="modal__tagline">{programDetail?.tagline}</h3>

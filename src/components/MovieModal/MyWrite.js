@@ -3,6 +3,7 @@ import WriteReview from "./WriteReview";
 import ReviewList from "./ReviewList";
 import "./DetailReview.css";
 import img1 from "./사진.jpg";
+import Toggle from "./Toggle";
 import ReviewItem from "./ReviewItem";
 import axios from "../../api/axios";
 
@@ -63,6 +64,13 @@ const MyWrite = ({ programId }) => {
     setEditReview(reviewToEdit);
   };
 
+  const [showFanReviews, setShowFanReviews] = useState(false);
+
+  const handleToggleFanReviews = () => {
+    // 매니아 리뷰 표시 여부를 토글하는 함수
+    setShowFanReviews(!showFanReviews);
+  };
+
   return (
     <div className="MyWrite">
       <div className="mywrite_page">
@@ -103,7 +111,15 @@ const MyWrite = ({ programId }) => {
           </div>
         ))} */}
         <div className="all-reviews">
-          <h2>모든 리뷰</h2>
+          <div className="review-header">
+            <h2>모든 리뷰</h2>
+            {/* 매니아 리뷰 토글 스위치 */}
+            <Toggle
+              isOn={showFanReviews}
+              handleToggle={handleToggleFanReviews}
+              text="매니아 리뷰 모아보기"
+            />
+          </div>
           <ReviewList reviewList={allReviews} />
         </div>
       </div>

@@ -86,6 +86,26 @@
   margin-bottom: 16px;
 }
 
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* 수직 가운데 정렬 */
+}
+
+.review-header h2 {
+  margin: 0; /* 기본 마진 제거 */
+}
+
+.review-header label {
+  display: flex;
+  align-items: center; /* 수직 가운데 정렬 */
+}
+
+.review-header label p {
+  margin: 1rem;
+  font-size: 16px;
+}
+
 /* reviewInfo*/
 /* 리뷰 정보를 담는 요소들을 정렬하는 스타일 */
 .reviewInfo {
