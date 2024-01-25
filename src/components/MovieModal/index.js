@@ -46,7 +46,8 @@ function MovieModal({ setModalOpen, ...movie }) {
 
   const handleDiscuss = () => {
     // 토론 관련 로직
-    navigate("/DebateOne");
+    const programId = movie.programId;
+    navigate("/DebateOne", { state: { programId } });
   };
   const handleToggleFanReviews = () => {
     // 매니아 리뷰 표시 여부를 토글하는 함수
