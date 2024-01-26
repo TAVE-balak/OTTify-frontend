@@ -10,7 +10,6 @@
   margin: 50px auto 0 auto; /* 위쪽, 아래쪽, 좌우 마진 순서 */
   display: flex;
   justify-content: center; /* 수직 방향으로 가운데 정렬 */
-  text-align: center;
   padding-top: 5rem;
   padding-bottom: 5rem;
   padding: 0;

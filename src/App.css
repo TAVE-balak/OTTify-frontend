@@ -7,8 +7,8 @@
   --primary: #fd7e14;
   --primary_dark: #ca6510;
   --primary_light: #fecba1;
-  --neutral: #D9D9D9;
-  --neutral2: #EEEEEE;
+  --neutral: #d9d9d9;
+  --neutral2: #eeeeee;
   --gray_100: #f8f9fa;
   --gray_200: #e9ecef;
   --gray_300: #dee2e6;
@@ -27,9 +27,7 @@
   --orange_700: #984c0c;
   --orange_800: #653208;
   --orange_900: #331904;
-  --grey: #7C7C7C;
-  --secondary: #6C757D;
+  --grey: #7c7c7c;
+  --secondary: #6c757d;
+  --danger: #dc3545;
 }
-
-
-
