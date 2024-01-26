@@ -6,7 +6,8 @@ import MainPage from "./pages/MainPage";
 import SearchPage from "./pages/SearchPage";
 import Login from "./components/Login/Login";
 import WriteReview from "../src/components/MovieModal/WriteReview";
-
+import ChooseOTT from "./components/ChooseOtt.js";
+import Preferences from "./components/Preferences.js";
 import Footer from "./JS/Footer.js";
 import ScrollToTop from "./JS/ScrollToTop";
 import Mypage from "./JS/Mypage";
@@ -32,8 +33,10 @@ function App() {
           <Route exact path="/write-review" component={WriteReview} />
           <Route path="search" element={<SearchPage />} />
           <Route path="/Login" element={<Login />} />
-
-          <Route path="/ChangeOTT/:myOTTList" element={<ChangeOTT />} />
+          <Route path = "/login/oauth2/code" element = {<handleGoogleLogin/>} />
+          <Route path="/choose-ott" element={<ChooseOTT />} />
+          <Route path="/preferences" element={<Preferences />} />
+          <Route path="/ChangeOTT" element={<ChangeOTT />} />
           <Route path="/Mypage/:userId" element={<Mypage />} />
           <Route path="/MyWrite/:userId" element={<MyWrite />} />
           <Route path="/MyFavorite/:userId" element={<MyFavorite />} />
