@@ -11,9 +11,6 @@ const OnBoarding = () => {
     "refreshToken"
   );
   const userId = new URL(window.location.href).searchParams.get("userId");
-  console.log(accessToken);
-  console.log(refreshToken);
-  console.log(userId);
   localStorage.setItem("accessToken", accessToken);
   localStorage.setItem("refreshToken", refreshToken);
   localStorage.setItem("userId", userId);
