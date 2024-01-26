@@ -127,11 +127,26 @@ const fetchProgramDiscussion = async (programId) => {
     throw error;
   }
 };
+const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwNjI1NTMyNCwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.aI-cQRP9kBB8_mZCYdGP8mppGq43XwXz0S8pd7hZHJKI_e_o0dL7-OeLZ_g7M85i06cwCD6n4EwLf0HsjMpe0Q"
 
 const createDiscussionSubject = async (formData) => {
   try {
-    const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwNjEyNDUwNSwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.mvhAIdruDSy15aZEuJBeiProtm2L-J5u5DKzUsDNYPEm4C5Fpoqh_TPJXpcw7u2v66vKyW_Fnh8irjvOXOar0w"
     const response = await Wonapi.post('/api/v1/discussion/subject', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating discussion subject:', error);
+    throw error;
+  }
+};
+
+const editDiscussionSubject = async (formData) => {
+  try {
+    const response = await Wonapi.put('/api/v1/discussion/subject', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${accessToken}`,
@@ -148,4 +163,4 @@ const createDiscussionSubject = async (formData) => {
 
 export { Wonapi, fetchUserProfile, fetchMyWrite, fetchMyFavorite, fetchMyHost, fetchMyParticipate,
   fetchSavedGenre, update1stGenre, update2ndGenre, updateMyProfile, fetchSavedOTT, updateOTT,
-  fetchTotalDiscussion, fetchProgramDiscussion, createDiscussionSubject};
+  fetchTotalDiscussion, fetchProgramDiscussion, createDiscussionSubject, editDiscussionSubject};
