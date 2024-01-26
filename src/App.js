@@ -21,6 +21,7 @@ import DebateOne from "./JS/DebateOne";
 import DebateWrite from "./JS/DebateWrite";
 import DebateDetail from "./JS/DebateDetail";
 import DebateEdit from "./JS/DebateEdit";
+import OnBoarding from "./components/Login/OnBoarding";
 
 function App() {
   return (
@@ -31,9 +32,9 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path=":movieId" element={<DetailPage />} />
           <Route exact path="/write-review" component={WriteReview} />
-          <Route path="search" element={<SearchPage />} />
+          <Route path="search" element={<SearchPage />} c />
           <Route path="/Login" element={<Login />} />
-          <Route path = "/login/oauth2/code" element = {<handleGoogleLogin/>} />
+          <Route path="/login/oauth2/code" element={<OnBoarding />} />
           <Route path="/choose-ott" element={<ChooseOTT />} />
           <Route path="/preferences" element={<Preferences />} />
           <Route path="/ChangeOTT" element={<ChangeOTT />} />

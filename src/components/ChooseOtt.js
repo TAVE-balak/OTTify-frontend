@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import '../App.css';
-import '../CSS/ChangeOTT.css';
-import { fetchSavedOTT } from '../JS/WonAPI';
-import PickOTTColor from '../JS/PickOTTColor';
-import close_gray from '../img/close_gray.png';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import "../App.css";
+import "../CSS/ChangeOTT.css";
+import { fetchSavedOTT } from "../JS/WonAPI";
+import PickOTTColor from "../JS/PickOTTColor";
+import close_gray from "../img/close_gray.png";
 
 // ChooseOTT 컴포넌트
 const ChooseOTT = () => {
@@ -26,9 +26,9 @@ const ChooseOTT = () => {
           sessionStorage.setItem(`ottPick`, JSON.stringify(fetchedOTTData));
         }
         setOTTPick(fetchedOTTData);
-        setMyOTTArray(myOTTList?.split(',') || []);
+        setMyOTTArray(myOTTList?.split(",") || []);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
     fetchData();
@@ -44,20 +44,24 @@ const ChooseOTT = () => {
     if (isSelected) {
       setMyOTTArray((prevArray) => [...prevArray, idAsString]);
     } else {
-      setMyOTTArray((prevArray) => prevArray.filter((itemId) => itemId !== idAsString));
+      setMyOTTArray((prevArray) =>
+        prevArray.filter((itemId) => itemId !== idAsString)
+      );
     }
   };
 
   const handleApplyChoose = () => {
     // 선택된 OTT를 sessionStorage에 저장하고 /preferences로 이동
-    sessionStorage.setItem('selectedOTT', JSON.stringify(myOTTArray));
-    navigate('/preferences'); // 'preferences.js'로 가정함
+    sessionStorage.setItem("selectedOTT", JSON.stringify(myOTTArray));
+    navigate("/preferences"); // 'preferences.js'로 가정함
   };
 
   return (
     <div className="change_ott">
       <div className="ott_title">
-        <h1>구독 중인 <span>OTT</span>를 선택해 주세요</h1>
+        <h1>
+          구독 중인 <span>OTT</span>를 선택해 주세요
+        </h1>
       </div>
       <div className="choose_ott">
         {ottPick?.data?.ottList.map((ott) => (
@@ -69,7 +73,11 @@ const ChooseOTT = () => {
             myOTTArray={myOTTArray}
             onToggleOTT={handleToggleOTT}
           >
-            <img src={ott.subscribeLogoPath} className="logo_img" alt="OTT Logo" />
+            <img
+              src={ott.subscribeLogoPath}
+              className="logo_img"
+              alt="OTT Logo"
+            />
             <span className="logo_name">{ott.name}</span>
           </PickOTTColor>
         ))}
@@ -80,7 +88,9 @@ const ChooseOTT = () => {
         <span className="delete_word">전체 취소하기</span>
       </button>
 
-      <button className="apply_button" onClick={handleApplyChoose}>적용</button>
+      <button className="apply_button" onClick={handleApplyChoose}>
+        적용
+      </button>
     </div>
   );
 };

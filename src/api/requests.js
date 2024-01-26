@@ -12,6 +12,7 @@ const requests = {
   fetchSearch: "/api/v1/program/search",
   fetchTv: "/api/v1/tv/search",
   fetchMovie: "/api/v1/movie/search",
+  fetchSaveSignUpInfo: "/api/v1/oauth/info",
 };
 
 export default requests;
