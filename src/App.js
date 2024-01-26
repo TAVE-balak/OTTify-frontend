@@ -32,7 +32,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path=":movieId" element={<DetailPage />} />
           <Route exact path="/write-review" component={WriteReview} />
-          <Route path="search" element={<SearchPage />} c />
+          <Route path="search" element={<SearchPage />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/login/oauth2/code" element={<OnBoarding />} />
           <Route path="/choose-ott" element={<ChooseOTT />} />
