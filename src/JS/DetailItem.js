@@ -7,9 +7,9 @@ import thumb_orange from '../img/thumb_up_orange.png';
 import chat from '../img/chat.png';
 import more from '../img/more.png';
 
-const DetailItem = ({debateTitle, movie, poster, content, created_date, comment, favorite, id}) =>{
-  const imgClassName = poster.poster ? 'debateImg' : 'withoutImg';
-  const MainClassName = poster.poster ? 'debateImgMain' : 'debateMain';
+const DetailItem = ({debateTitle, movie, poster, content, created_date, comment, favorite, id, subjectId, imageUrl}) =>{
+  const imgClassName = poster ? 'debateImg' : 'withoutImg';
+  const MainClassName = poster ? 'debateImgMain' : 'debateMain';
 
   const navigate = useNavigate();
 
@@ -20,12 +20,15 @@ const DetailItem = ({debateTitle, movie, poster, content, created_date, comment,
   };
 
   const goToDebateEdit = () =>{
-    console.log(debateTitle)
+    console.log(subjectId)
+    console.log(imageUrl)
     navigate(`/DebateEdit/${id}`, {
       state: {
         debateTitle,
         content,
-        posterUrl: poster.poster,
+        posterUrl: poster,
+        subjectId: subjectId,
+        imageUrl: imageUrl
       },
     });
   }
@@ -52,7 +55,7 @@ const DetailItem = ({debateTitle, movie, poster, content, created_date, comment,
       </div>
 
       <div className={`${MainClassName}`}>
-        <img src = {poster.poster} className={`${imgClassName}`}></img>
+        <img src = {poster} className={`${imgClassName}`}></img>
         <div className='debateContent'>{content}</div>  
       </div>
 
