@@ -1,8 +1,12 @@
 import axios from 'axios';
 
 const Wonapi = axios.create({
-  baseURL: 'http://52.79.200.90:8080', 
+  baseURL: 'http://52.79.200.90:8080'
 });
+
+const getAccessToken = () => {
+  return localStorage.getItem('accessToken');
+};
 
 const fetchUserProfile = async (userId) => {
   try {
@@ -127,9 +131,9 @@ const fetchProgramDiscussion = async (programId) => {
     throw error;
   }
 };
-const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwNjI1NTMyNCwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.aI-cQRP9kBB8_mZCYdGP8mppGq43XwXz0S8pd7hZHJKI_e_o0dL7-OeLZ_g7M85i06cwCD6n4EwLf0HsjMpe0Q"
 
 const createDiscussionSubject = async (formData) => {
+  const accessToken = getAccessToken();
   try {
     const response = await Wonapi.post('/api/v1/discussion/subject', formData, {
       headers: {
@@ -139,12 +143,13 @@ const createDiscussionSubject = async (formData) => {
     });
     return response.data;
   } catch (error) {
-    console.error('Error creating discussion subject:', error);
+    console.error('Error creating discussion subject:', error.response);
     throw error;
   }
 };
 
 const editDiscussionSubject = async (formData) => {
+  const accessToken = getAccessToken();
   try {
     const response = await Wonapi.put('/api/v1/discussion/subject', formData, {
       headers: {
