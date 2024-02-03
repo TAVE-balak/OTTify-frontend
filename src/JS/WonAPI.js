@@ -164,8 +164,24 @@ const editDiscussionSubject = async (formData) => {
   }
 };
 
+const deleteDiscussionSubject = async (subjectId) => {
+  const accessToken = getAccessToken();
+  try {
+    const response = await Wonapi.delete(`/api/v1/discussion/subject/${subjectId}`,{
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating discussion subject:', error);
+    throw error;
+  }
+};
+
 
 
 export { Wonapi, fetchUserProfile, fetchMyWrite, fetchMyFavorite, fetchMyHost, fetchMyParticipate,
   fetchSavedGenre, update1stGenre, update2ndGenre, updateMyProfile, fetchSavedOTT, updateOTT,
-  fetchTotalDiscussion, fetchProgramDiscussion, createDiscussionSubject, editDiscussionSubject};
+  fetchTotalDiscussion, fetchProgramDiscussion, 
+  createDiscussionSubject, editDiscussionSubject, deleteDiscussionSubject};
