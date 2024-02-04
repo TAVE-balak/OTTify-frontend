@@ -1,5 +1,5 @@
-import {useRef, useCallback, useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useRef, useEffect, useState} from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import '../CSS/MyDebate.css';
 import '../CSS/DebateDetail.css';
@@ -9,8 +9,12 @@ import back from '../img/back.png';
 import CommentList from './CommentList';
 import CommentEditor from './CommentEditor';
 
+import { fetchDiscussionEach } from './WonAPI';
+
 const DebateDetail = () =>{
   const navigate = useNavigate();  
+  const location = useLocation();
+  const debateItem = location.state?.debateItem;
 
   const [comment, setComment] = useState([]); //일기 데이터 빈 배열로 시작
 
@@ -42,6 +46,51 @@ const DebateDetail = () =>{
       it.id === targetId ? {...it, content: newContent} : it) //일치하면 원본대상 + 내용수정함 / 아니면 원본대상
     )
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const subjectId = debateItem.id; // 변경 필요
+        const discussionData = await fetchDiscussionEach(subjectId);
+
+        const transformedData = discussionData.data.commentListsDTOList.map(comment => {
+          const targetDate = new Date(comment.createdAt);
+          const currentDate = new Date();
+          const timeDiff = currentDate - targetDate;
+          // 밀리초를 일로 변환
+          const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        
+          let displayDate;
+          if (daysDiff < 30) {
+            displayDate = `${daysDiff}일 전`;
+          } else if (daysDiff < 365) {
+            const monthsDiff = Math.floor(daysDiff / 30);
+            displayDate = `${monthsDiff}달 전`;
+          } else {
+            const yearsDiff = Math.floor(daysDiff / 365);
+            displayDate = `${yearsDiff}년 전`;
+          }
+        
+          return {
+            id: comment.commentId,
+            author: comment.nickName,
+            content: comment.content,
+            favorite: comment.likeCount,
+            profile: comment.profile,
+            created_date: displayDate,
+          };
+        });
+  
+        setComment(transformedData); // 변환된 데이터를 사용
+
+      } catch (error) {
+        console.error('Error fetching discussion data:', error);
+      }
+    };
+
+    fetchData();
+  }, [debateItem]);
+
 
   return (
     <div className='DebateDetail'>

@@ -179,9 +179,25 @@ const deleteDiscussionSubject = async (subjectId) => {
   }
 };
 
+const fetchDiscussionEach = async (subjectId) => {
+  // const accessToken = getAccessToken();
+  const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwNzAzNjQ1NiwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.3ZbBjMEfajiOXdmcpWZ67-TfunSvApnmlDTW0wZs4BRj6JsTVuZxsE0m6GCWy7uMucELmaXMOWFYhmcgnRHayA"
+  try {
+    const response = await Wonapi.get(`/api/v1/discussion/${subjectId}`,{
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating discussion subject:', error);
+    throw error;
+  }
+};
+
 
 
 export { Wonapi, fetchUserProfile, fetchMyWrite, fetchMyFavorite, fetchMyHost, fetchMyParticipate,
   fetchSavedGenre, update1stGenre, update2ndGenre, updateMyProfile, fetchSavedOTT, updateOTT,
   fetchTotalDiscussion, fetchProgramDiscussion, 
-  createDiscussionSubject, editDiscussionSubject, deleteDiscussionSubject};
+  createDiscussionSubject, editDiscussionSubject, deleteDiscussionSubject, fetchDiscussionEach};
