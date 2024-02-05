@@ -108,7 +108,7 @@ const DebateDetail = () =>{
 
         <div className='comments'>
           <CommentEditor onCreate = {onCreate}/>
-          <CommentList onEditComment = {onEditComment} onDelete={onDelete} commentList = {comment}/>
+          <CommentList onEditComment = {onEditComment} onDelete={onDelete} commentList = {comment} subjectId={debateItem.id}/>
         </div>
         
       </div>

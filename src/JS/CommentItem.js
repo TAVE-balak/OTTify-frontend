@@ -2,12 +2,14 @@ import {useState, useRef} from 'react';
 import '../CSS/DebateDetail.css';
 import CommentReplyList from './CommentReplyList';
 
+import { deleteDiscussionComment } from './WonAPI';
+
 import more from '../img/more.png';
 import thumb from '../img/thumb_up.png';
 import CommentReplyEditor from './CommentReplyEditor';
 
 
-const CommentItem = ({onEditComment, onDelete, author, content, favorite, profile, created_date, id}) =>{
+const CommentItem = ({onEditComment, onDelete, author, content, favorite, profile, created_date, id, subjectId}) =>{
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -71,6 +73,12 @@ const CommentItem = ({onEditComment, onDelete, author, content, favorite, profil
     }
   }
 
+  //댓글 삭제 api 연결
+  const deleteComment = async() =>{
+    deleteDiscussionComment(subjectId, id);
+    onDelete(id)
+  }
+
 
   return (
     <div className = "CommentItem">
@@ -90,7 +98,7 @@ const CommentItem = ({onEditComment, onDelete, author, content, favorite, profil
                 <div className='menu_delete' 
                     onClick={() =>{
                       if(window.confirm("댓글을 삭제하시겠습니까?")){
-                        onDelete(id);
+                        deleteComment()
                       }
                     }}>
                   댓글 삭제</div>
