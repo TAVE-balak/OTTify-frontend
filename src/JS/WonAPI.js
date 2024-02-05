@@ -194,9 +194,23 @@ const fetchDiscussionEach = async (subjectId) => {
   }
 };
 
-
+const createDiscussionComment = async (replyCommentCreateDTO ) => {
+  const accessToken = getAccessToken();
+  try {
+    const response = await Wonapi.post('/api/v1/discussion/comment', replyCommentCreateDTO , {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating discussion subject:', error.response);
+    throw error;
+  }
+};
 
 export { Wonapi, fetchUserProfile, fetchMyWrite, fetchMyFavorite, fetchMyHost, fetchMyParticipate,
   fetchSavedGenre, update1stGenre, update2ndGenre, updateMyProfile, fetchSavedOTT, updateOTT,
   fetchTotalDiscussion, fetchProgramDiscussion, 
-  createDiscussionSubject, editDiscussionSubject, deleteDiscussionSubject, fetchDiscussionEach};
+  createDiscussionSubject, editDiscussionSubject, deleteDiscussionSubject, fetchDiscussionEach,
+  createDiscussionComment};
