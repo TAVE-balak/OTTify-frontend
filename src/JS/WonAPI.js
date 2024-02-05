@@ -180,7 +180,8 @@ const deleteDiscussionSubject = async (subjectId) => {
 };
 
 const fetchDiscussionEach = async (subjectId) => {
-  const accessToken = getAccessToken();
+  //const accessToken = getAccessToken();
+  const accessToken="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwNzE0NTAwNywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.b5jO1IhfbuCvRjqg6PLyd-8sOdwDtdbdZOm9S3RiLW9re7D81xpLnRuTfrJhKhZSfsFQpuvS9s4kONUxPuo4LQ"
   try {
     const response = await Wonapi.get(`/api/v1/discussion/${subjectId}`,{
       headers: {
@@ -195,9 +196,25 @@ const fetchDiscussionEach = async (subjectId) => {
 };
 
 const createDiscussionComment = async (replyCommentCreateDTO ) => {
-  const accessToken = getAccessToken();
+  //const accessToken = getAccessToken();
+  const accessToken="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwNzE0NTAwNywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.b5jO1IhfbuCvRjqg6PLyd-8sOdwDtdbdZOm9S3RiLW9re7D81xpLnRuTfrJhKhZSfsFQpuvS9s4kONUxPuo4LQ"
   try {
     const response = await Wonapi.post('/api/v1/discussion/comment', replyCommentCreateDTO , {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating discussion subject:', error.response);
+    throw error;
+  }
+};
+
+const deleteDiscussionComment = async (subjectId, commentId) => {
+  const accessToken = getAccessToken();
+  try {
+    const response = await Wonapi.delete(`/api/v1/discussion/comment/${subjectId}/${commentId}`,{
       headers: {
         'Authorization': `Bearer ${accessToken}`,
       },
@@ -213,4 +230,4 @@ export { Wonapi, fetchUserProfile, fetchMyWrite, fetchMyFavorite, fetchMyHost, f
   fetchSavedGenre, update1stGenre, update2ndGenre, updateMyProfile, fetchSavedOTT, updateOTT,
   fetchTotalDiscussion, fetchProgramDiscussion, 
   createDiscussionSubject, editDiscussionSubject, deleteDiscussionSubject, fetchDiscussionEach,
-  createDiscussionComment};
+  createDiscussionComment, deleteDiscussionComment};
