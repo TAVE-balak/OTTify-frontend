@@ -212,8 +212,7 @@ const createDiscussionComment = async (replyCommentCreateDTO ) => {
 };
 
 const deleteDiscussionComment = async (subjectId, commentId) => {
-  //const accessToken = getAccessToken();
-  const accessToken="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwNzE0NTAwNywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.b5jO1IhfbuCvRjqg6PLyd-8sOdwDtdbdZOm9S3RiLW9re7D81xpLnRuTfrJhKhZSfsFQpuvS9s4kONUxPuo4LQ"
+  const accessToken = getAccessToken();
   try {
     const response = await Wonapi.delete(`/api/v1/discussion/comment/${subjectId}/${commentId}`,{
       headers: {
