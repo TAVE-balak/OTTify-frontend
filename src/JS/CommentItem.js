@@ -2,7 +2,7 @@ import {useState, useRef} from 'react';
 import '../CSS/DebateDetail.css';
 import CommentReplyList from './CommentReplyList';
 
-import { deleteDiscussionComment } from './WonAPI';
+import { deleteDiscussionComment, editDiscussionComment } from './WonAPI';
 
 import more from '../img/more.png';
 import thumb from '../img/thumb_up.png';
@@ -61,15 +61,26 @@ const CommentItem = ({onEditComment, onDelete, author, content, favorite, profil
     setLocalContent(content);
   }
 
-  const handleEdit = () =>{
+  const handleEdit = async() =>{
     if(localContent.length < 5){
       localContentInput.current.focus();
       return;
     }
 
     if(window.confirm("수정하시겠습니까?")){
-      onEditComment(id, localContent);
-      toggleIsEdit();
+      try{
+        const replyCommentEditDTO = {
+          subjectId: subjectId,
+          commentId: id,
+          comment: localContent
+        };
+        const editCommentData = await editDiscussionComment(replyCommentEditDTO);
+        console.log(editCommentData)
+        onEditComment(id, localContent);
+        toggleIsEdit();
+      }catch(error){
+        console.log('Error editing comment:', error)
+      }
     }
   }
 
