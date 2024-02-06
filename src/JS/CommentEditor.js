@@ -3,7 +3,7 @@ import '../CSS/DebateDetail.css';
 
 import { createDiscussionComment, fetchDiscussionEach } from './WonAPI';
 
-const CommentEditor = ({ onCreate }) => {
+const CommentEditor = ({ onCreate, subjectId }) => {
   const commentInput = useRef();
   const handleResizeHeight = useCallback(() => {
     commentInput.current.style.height = commentInput.current.scrollHeight + "px";
@@ -37,14 +37,14 @@ const CommentEditor = ({ onCreate }) => {
 
     try {
       const replyCommentCreateDTO = {
-        subjectId: 74,
+        subjectId: subjectId,
         comment: state.content
       };
 
       const CommentData = await createDiscussionComment(replyCommentCreateDTO);
       console.log(CommentData);
 
-      const CommentListData = await fetchDiscussionEach(74);
+      const CommentListData = await fetchDiscussionEach(subjectId);
       const testhyun = CommentListData.data.commentListsDTOList;
       const lastComment = testhyun && testhyun[testhyun.length - 1];
       console.log(lastComment);
@@ -84,7 +84,7 @@ const CommentEditor = ({ onCreate }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const CommentListData = await fetchDiscussionEach(74);
+        const CommentListData = await fetchDiscussionEach(subjectId);
         const testhyun = CommentListData.data.commentListsDTOList;
         const lastComment = testhyun && testhyun[testhyun.length - 1];
 
