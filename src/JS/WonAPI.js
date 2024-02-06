@@ -180,8 +180,7 @@ const deleteDiscussionSubject = async (subjectId) => {
 };
 
 const fetchDiscussionEach = async (subjectId) => {
-  //const accessToken = getAccessToken();
-  const accessToken="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwNzE0NTAwNywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.b5jO1IhfbuCvRjqg6PLyd-8sOdwDtdbdZOm9S3RiLW9re7D81xpLnRuTfrJhKhZSfsFQpuvS9s4kONUxPuo4LQ"
+  const accessToken = getAccessToken();
   try {
     const response = await Wonapi.get(`/api/v1/discussion/${subjectId}`,{
       headers: {
@@ -196,8 +195,7 @@ const fetchDiscussionEach = async (subjectId) => {
 };
 
 const createDiscussionComment = async (replyCommentCreateDTO ) => {
-  //const accessToken = getAccessToken();
-  const accessToken="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwNzE0NTAwNywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.b5jO1IhfbuCvRjqg6PLyd-8sOdwDtdbdZOm9S3RiLW9re7D81xpLnRuTfrJhKhZSfsFQpuvS9s4kONUxPuo4LQ"
+  const accessToken = getAccessToken();
   try {
     const response = await Wonapi.post('/api/v1/discussion/comment', replyCommentCreateDTO , {
       headers: {
