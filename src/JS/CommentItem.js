@@ -94,14 +94,13 @@ const CommentItem = ({onEditComment, onDelete, author, content, favorite, profil
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const commentData = await fetchDiscussionEach(1);
+        const commentData = await fetchDiscussionEach(subjectId);
         const commentLists = commentData.data.commentListsDTOList;
         // commentId와 일치하는 comment을 찾음
         const targetComment = commentLists.find(comment => comment.commentId === id);
         if (targetComment && targetComment.replyListsDTOList) {
           const replyLists = targetComment.replyListsDTOList;
-          console.log(replyLists)
-          
+        
           const updatedCommentReply = replyLists.map(reply => {
             const targetDate = new Date(reply.createdAt);
             const currentDate = new Date();
@@ -128,9 +127,9 @@ const CommentItem = ({onEditComment, onDelete, author, content, favorite, profil
               created_date: displayDate,
             };
           });
-
-          setCommentReply(updatedCommentReply);
-          // replyLists를 사용하여 작업을 수행할 수 있음
+        
+          const sortedData = updatedCommentReply.slice(0).sort((a, b) => b.id - a.id);
+          setCommentReply(sortedData);
         }
 
       } catch (error) {
@@ -140,16 +139,6 @@ const CommentItem = ({onEditComment, onDelete, author, content, favorite, profil
 
     fetchData();
   }, []);
-
-  // const recommentList = [
-  //   {
-  //     author: "나",
-  //     content: "내용",
-  //     favorite: 120,
-  //     created_date: "1달 전",
-  //     id: 300
-  //   }
-  // ]
 
   return (
     <div className = "CommentItem">
@@ -203,7 +192,7 @@ const CommentItem = ({onEditComment, onDelete, author, content, favorite, profil
       <div className='comments_reaction'>
         <img src = {thumb} className='comment_thumb'></img>
         <span className='commentThumbNum'>{favorite}</span>
-        <CommentReplyEditor onCreate = {onCreate}/>
+        <CommentReplyEditor onCreate = {onCreate} subjectId={subjectId} commentId = {id}/>
       </div>
 
       <div className='CommentReplyList'>
