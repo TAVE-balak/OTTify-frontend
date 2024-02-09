@@ -1,8 +1,9 @@
-import {useState, useRef} from 'react';
+import {useState, useEffect, useRef} from 'react';
+import {useLocation} from 'react-router-dom'
 import '../CSS/DebateDetail.css';
 import CommentReplyList from './CommentReplyList';
 
-import { deleteDiscussionComment, editDiscussionComment } from './WonAPI';
+import { deleteDiscussionComment, editDiscussionComment, fetchDiscussionEach } from './WonAPI';
 
 import more from '../img/more.png';
 import thumb from '../img/thumb_up.png';
@@ -10,7 +11,6 @@ import CommentReplyEditor from './CommentReplyEditor';
 
 
 const CommentItem = ({onEditComment, onDelete, author, content, favorite, profile, created_date, id, subjectId}) =>{
-  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuClick = () => {
@@ -90,6 +90,66 @@ const CommentItem = ({onEditComment, onDelete, author, content, favorite, profil
     onDelete(id)
   }
 
+  //대댓글 조회
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const commentData = await fetchDiscussionEach(1);
+        const commentLists = commentData.data.commentListsDTOList;
+        // commentId와 일치하는 comment을 찾음
+        const targetComment = commentLists.find(comment => comment.commentId === id);
+        if (targetComment && targetComment.replyListsDTOList) {
+          const replyLists = targetComment.replyListsDTOList;
+          console.log(replyLists)
+          
+          const updatedCommentReply = replyLists.map(reply => {
+            const targetDate = new Date(reply.createdAt);
+            const currentDate = new Date();
+            const timeDiff = currentDate - targetDate;
+            // 밀리초를 일로 변환
+            const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+          
+            let displayDate;
+            if (daysDiff < 30) {
+              displayDate = `${daysDiff}일 전`;
+            } else if (daysDiff < 365) {
+              const monthsDiff = Math.floor(daysDiff / 30);
+              displayDate = `${monthsDiff}달 전`;
+            } else {
+              const yearsDiff = Math.floor(daysDiff / 365);
+              displayDate = `${yearsDiff}년 전`;
+            }
+          
+            return {
+              id: reply.recommentId,
+              author: reply.nickName,
+              content: reply.content,
+              favorite: reply.likeCount,
+              created_date: displayDate,
+            };
+          });
+
+          setCommentReply(updatedCommentReply);
+          // replyLists를 사용하여 작업을 수행할 수 있음
+        }
+
+      } catch (error) {
+        console.error('Error fetching discussion data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // const recommentList = [
+  //   {
+  //     author: "나",
+  //     content: "내용",
+  //     favorite: 120,
+  //     created_date: "1달 전",
+  //     id: 300
+  //   }
+  // ]
 
   return (
     <div className = "CommentItem">
