@@ -76,12 +76,13 @@ const DebateDetail = () =>{
             author: comment.nickName,
             content: comment.content,
             favorite: comment.likeCount,
-            profile: comment.profile,
+            profile: comment.profileUrl,
             created_date: displayDate,
           };
         });
   
-        setComment(transformedData); // 변환된 데이터를 사용
+        const sortedData = transformedData.slice(0).sort((a, b) => b.id - a.id);
+        setComment(sortedData);
 
       } catch (error) {
         console.error('Error fetching discussion data:', error);
@@ -106,8 +107,8 @@ const DebateDetail = () =>{
 
 
         <div className='comments'>
-          <CommentEditor onCreate = {onCreate}/>
-          <CommentList onEditComment = {onEditComment} onDelete={onDelete} commentList = {comment}/>
+          <CommentEditor onCreate = {onCreate} subjectId={debateItem.id}/>
+          <CommentList onEditComment = {onEditComment} onDelete={onDelete} commentList = {comment} subjectId={debateItem.id}/>
         </div>
         
       </div>

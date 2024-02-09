@@ -2,12 +2,14 @@ import {useState, useRef} from 'react';
 import '../CSS/DebateDetail.css';
 import CommentReplyList from './CommentReplyList';
 
+import { deleteDiscussionComment, editDiscussionComment } from './WonAPI';
+
 import more from '../img/more.png';
 import thumb from '../img/thumb_up.png';
 import CommentReplyEditor from './CommentReplyEditor';
 
 
-const CommentItem = ({onEditComment, onDelete, author, content, favorite, profile, created_date, id}) =>{
+const CommentItem = ({onEditComment, onDelete, author, content, favorite, profile, created_date, id, subjectId}) =>{
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -59,16 +61,33 @@ const CommentItem = ({onEditComment, onDelete, author, content, favorite, profil
     setLocalContent(content);
   }
 
-  const handleEdit = () =>{
+  const handleEdit = async() =>{
     if(localContent.length < 5){
       localContentInput.current.focus();
       return;
     }
 
     if(window.confirm("수정하시겠습니까?")){
-      onEditComment(id, localContent);
-      toggleIsEdit();
+      try{
+        const replyCommentEditDTO = {
+          subjectId: subjectId,
+          commentId: id,
+          comment: localContent
+        };
+        const editCommentData = await editDiscussionComment(replyCommentEditDTO);
+        console.log(editCommentData)
+        onEditComment(id, localContent);
+        toggleIsEdit();
+      }catch(error){
+        console.log('Error editing comment:', error)
+      }
     }
+  }
+
+  //댓글 삭제 api 연결
+  const deleteComment = async() =>{
+    deleteDiscussionComment(subjectId, id);
+    onDelete(id)
   }
 
 
@@ -90,7 +109,7 @@ const CommentItem = ({onEditComment, onDelete, author, content, favorite, profil
                 <div className='menu_delete' 
                     onClick={() =>{
                       if(window.confirm("댓글을 삭제하시겠습니까?")){
-                        onDelete(id);
+                        deleteComment()
                       }
                     }}>
                   댓글 삭제</div>
