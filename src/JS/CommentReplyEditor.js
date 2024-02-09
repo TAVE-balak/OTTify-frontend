@@ -1,9 +1,12 @@
-import {useState, useRef} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import Wonmodal from './Wonmodal';
 
 import close_gray from '../img/close_gray.png';
 
-const CommentReplyEditor = ({onCreate}) =>{
+import {createDiscussionReComment, fetchDiscussionEach} from './WonAPI';
+
+const CommentReplyEditor = ({onCreate, subjectId, commentId}) =>{
+  const [forRecomment, setForRecomment] = useState();
 
   // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
   const [modalOpen, setModalOpen] = useState(false)
@@ -25,10 +28,10 @@ const CommentReplyEditor = ({onCreate}) =>{
   const commentReplyInput = useRef();
 
   const [state, setState] = useState({
-    author: "김영리",
+    author: "",
     content: "",
-    favorite: "120",
-    created_date: "3달 전"
+    favorite: "",
+    created_date: ""
   })
 
   const handleChangeState = (e)=>{
@@ -38,19 +41,85 @@ const CommentReplyEditor = ({onCreate}) =>{
     });
   };
 
-  const handleSubmit = () => { //저장할 때
-    onCreate(state.author, state.content, state.favorite, state.created_date); //onCreate 함수 호출
-    setState({ //저장 후 리셋
-      author: "김영리",
-      content: "",
-      favorite: "120",
-      created_date: "3달 전"
-    })
+  const handleSubmit = async() => { //저장할 때
+    try {
+      const replyRecommentCreateDTO = {
+        subjectId: subjectId,
+        commentId: commentId,
+        content: state.content
+      };
+
+      const recommentData = await createDiscussionReComment(replyRecommentCreateDTO);
+      console.log(recommentData)
+      
+      const CommentListData = await fetchDiscussionEach(subjectId);
+      const testhyun = CommentListData.data.commentListsDTOList;
+      const specificComment = testhyun.filter(comment => comment.commentId === replyRecommentCreateDTO.commentId);
+      const retesthyun = specificComment[0].replyListsDTOList;
+      const lastComment = retesthyun && retesthyun[retesthyun.length - 1];
+      console.log(lastComment);
+ 
+      const targetDate = new Date(lastComment.createdAt);
+      const currentDate = new Date();
+      const timeDiff = currentDate - targetDate;
+      const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+      let displayDate;
+      if (daysDiff < 30) {
+        displayDate = `${daysDiff}일 전`;
+      } else if (daysDiff < 365) {
+        const monthsDiff = Math.floor(daysDiff / 30);
+        displayDate = `${monthsDiff}달 전`;
+      } else {
+        const yearsDiff = Math.floor(daysDiff / 365);
+        displayDate = `${yearsDiff}년 전`;
+      }
+
+      setState((prev) => ({
+        ...prev,
+        author: lastComment.nickName,
+        content: lastComment.comment,
+        favorite: lastComment.likeCount,
+        created_date: displayDate,
+      }));
+
+      onCreate(lastComment.nickName, lastComment.content, lastComment.likeCount, displayDate);
+      setContentArea("");
+    } catch (error) {
+      console.log('Error creating comment:', error);
+    }
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const CommentListData = await fetchDiscussionEach(subjectId);
+        const testhyun = CommentListData.data.commentListsDTOList;
+        const specificComment = testhyun.filter(comment => comment.commentId === forRecomment);
+        if(specificComment.length > 0){
+          const retesthyun = specificComment[0].replyListsDTOList;
+          const lastComment = retesthyun && retesthyun[retesthyun.length - 1];
+
+          setState((prev) => ({
+            ...prev,
+            author: lastComment.nickName,
+            content: lastComment.comment,
+            favorite: lastComment.likeCount,
+            created_date: lastComment.createdAt,
+          }));
+        }
+        
+      } catch (error) {
+      }
+    };
+
+    fetchData(); // 컴포넌트가 처음 마운트될 때 한 번만 데이터를 불러오도록 설정
+  }, []);
+
 
   return(
     <div>
-      <span className='comment_comment' onClick={openModal}>대댓글</span>
+      <span className='comment_comment' onClick={()=>{openModal(); setForRecomment(commentId)}}>대댓글</span>
       <Wonmodal open={modalOpen} close={closeModal} className="comment_modal">
         <div className='modal_comment_title'>
           <img src = {close_gray} className="modal_close" onClick={closeModal}></img>
