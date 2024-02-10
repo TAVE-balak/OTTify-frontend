@@ -62,7 +62,7 @@ const CommentItem = ({onEditComment, onDelete, author, content, favorite, profil
   }
 
   const handleEdit = async() =>{
-    if(localContent.length < 5){
+    if(localContent.length < 1){
       localContentInput.current.focus();
       return;
     }
@@ -196,8 +196,8 @@ const CommentItem = ({onEditComment, onDelete, author, content, favorite, profil
       </div>
 
       <div className='CommentReplyList'>
-        <CommentReplyList onEdit = {onEdit} onDelete = {onDeleteReply} commentReplyList = {commentreply}/>
-        
+        <CommentReplyList onEdit = {onEdit} onDelete = {onDeleteReply} commentReplyList = {commentreply} 
+                          subjectId = {subjectId} commentId = {id}/>
       </div>
     </div>
   )

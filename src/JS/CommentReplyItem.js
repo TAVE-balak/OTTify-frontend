@@ -3,12 +3,14 @@ import Wonmodal from './Wonmodal';
 import '../CSS/Wonmodal.css';
 import '../CSS/DebateDetail.css';
 
+import {editDiscussionReComment} from './WonAPI';
+
 import commentreply_img from '../img/second_comment_vector.png';
 import more from '../img/more.png';
 import thumb from '../img/thumb_up.png';
 import close_gray from '../img/close_gray.png';
 
-const CommentReplyItem = ({onEdit, onDelete, author, content, favorite, created_date, id}) =>{
+const CommentReplyItem = ({onEdit, onDelete, author, content, favorite, created_date, id, subjectId, commentId}) =>{
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuClick = () => {
@@ -38,15 +40,29 @@ const CommentReplyItem = ({onEdit, onDelete, author, content, favorite, created_
     setLocalContent(content);
   }
 
-  const handleEdit = () =>{
-    if(localContent.length < 5){
+  const handleEdit = async() =>{
+    if(localContent.length < 1){
       localContentInput.current.focus();
       return;
     }
 
     if(window.confirm("댓글을 수정하시겠습니까?")){
-      onEdit(id, localContent);
-      toggleIsEdit();
+      try{
+        const replyRecommentEditDTO = {
+          subjectId: subjectId,
+          commentId: commentId,
+          recommentId: id,
+          content: localContent
+        };
+        console.log(localContent)
+        console.log(replyRecommentEditDTO)
+        const editCommentData = await editDiscussionReComment(replyRecommentEditDTO);
+        console.log(editCommentData)
+        onEdit(id, localContent);
+        toggleIsEdit();
+      }catch(error){
+        console.log('Error editing comment:', error)
+      }
     }
   }
 
