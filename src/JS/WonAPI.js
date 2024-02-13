@@ -8,9 +8,15 @@ const getAccessToken = () => {
   return localStorage.getItem('accessToken');
 };
 
-const fetchUserProfile = async (userId) => {
+const fetchUserProfile = async () => {
+  const accessToken = getAccessToken();
+  // const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwNzgzNDEyOCwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ._skXDEFxKhBZzND4HA-HrAzfTthJrWG7DwgVn6lvYL1ZJK6W129IJnZb6uuvA23iPuXikg5d2_E5f6llbeMd0Q"
   try {
-    const response = await Wonapi.get(`/api/v1/users/${userId}`);
+    const response = await Wonapi.get(`/api/v1/users/`,{
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Error fetching users from API:', error);
