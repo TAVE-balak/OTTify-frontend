@@ -3,7 +3,7 @@ import Wonmodal from './Wonmodal';
 import '../CSS/Wonmodal.css';
 import '../CSS/DebateDetail.css';
 
-import {editDiscussionReComment} from './WonAPI';
+import {editDiscussionReComment, deleteDiscussionReComment} from './WonAPI';
 
 import commentreply_img from '../img/second_comment_vector.png';
 import more from '../img/more.png';
@@ -66,6 +66,15 @@ const CommentReplyItem = ({onEdit, onDelete, author, content, favorite, created_
     }
   }
 
+  //대댓글 삭제 api 연결
+  const deleteReComment = async() =>{
+    const deleteData = await deleteDiscussionReComment(id)
+    console.log(id)
+    console.log(deleteData)
+    onDelete(id);
+  }
+
+
   return (
     <div className = "CommentReplyItem">
       <img src = {commentreply_img} className='commentreply_img'></img>
@@ -96,7 +105,7 @@ const CommentReplyItem = ({onEdit, onDelete, author, content, favorite, created_
                 <div className='menu_delete'
                       onClick={()=>{
                         if(window.confirm("댓글을 삭제하시겠습니까?")){
-                          onDelete(id);
+                          deleteReComment()
                         }
                       }}>댓글 삭제</div>
               </div>
