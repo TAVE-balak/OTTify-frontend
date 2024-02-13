@@ -7,10 +7,15 @@ import profile from "../img/사진.jpg";
 import search from "../img/search.png";
 import Login from "./Login/Login";
 
+const getUserId = () =>{
+  return localStorage.getItem('userId');
+}
+
 const Nav = () => {
   const [searchValue, setSearchValue] = useState("");
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false); // 로그인 모달 표시 여부 상태
   const navigate = useNavigate();
+
 
   const handleChange = (e) => {
     setSearchValue(e.target.value);
@@ -22,7 +27,8 @@ const Nav = () => {
   };
 
   const goToMypage = async () => {
-    const userId = 10;
+    const userId = getUserId();
+    console.log("userId는", userId)
     navigate(`/Mypage/${userId}`);
   };
   const goToDebate = () => {
