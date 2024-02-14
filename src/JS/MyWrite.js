@@ -24,7 +24,7 @@ const MyWrite = () =>{
           MyReviewData = JSON.parse(storedMyWrite);
         } else {
           // 세션 스토리지에 사용자 정보가 없으면 API 호출하여 가져오기
-          MyReviewData = await fetchMyWrite(userId);
+          MyReviewData = await fetchMyWrite();
           // 가져온 정보를 세션 스토리지에 저장
           sessionStorage.setItem(`myWriteData_${userId}`, JSON.stringify(MyReviewData));
         }

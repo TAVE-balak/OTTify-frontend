@@ -10,7 +10,7 @@ const getAccessToken = () => {
 
 const fetchUserProfile = async () => {
   const accessToken = getAccessToken();
-  // const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwNzgzNDEyOCwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ._skXDEFxKhBZzND4HA-HrAzfTthJrWG7DwgVn6lvYL1ZJK6W129IJnZb6uuvA23iPuXikg5d2_E5f6llbeMd0Q"
+  // const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwNzkxNzc0NywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.H4EN_7R-LMB5EgutIcNCEc38Q7D--TkXsWG2FfpLcbXM_LQ3TQ0jq6_A3IHTnfPHH8uOfltKU-Cgo7v5pDkDKw"
   try {
     const response = await Wonapi.get(`/api/v1/users/`,{
       headers: {
@@ -23,9 +23,15 @@ const fetchUserProfile = async () => {
   }
 };
 
-const fetchMyWrite = async (userId) => {
+const fetchMyWrite = async () => {
+  const accessToken = getAccessToken();
+  // const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGci/OiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwNzkxNzc0NywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.H4EN_7R-LMB5EgutIcNCEc38Q7D--TkXsWG2FfpLcbXM_LQ3TQ0jq6_A3IHTnfPHH8uOfltKU-Cgo7v5pDkDKw"
   try {
-    const response = await Wonapi.get(`/api/v1/users/${userId}/reviews`);
+    const response = await Wonapi.get(`/api/v1/users/reviews`,{
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Error fetching users from API:', error);
