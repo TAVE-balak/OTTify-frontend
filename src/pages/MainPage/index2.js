@@ -150,9 +150,11 @@ const MainPage = () => {
             *추천 기준은 찜(50%), 별점(50%) 기준으로 산정됩니다.{" "}
           </span>
         </h2>
-        <p style={{ fontSize: "smaller", color: "lightgrey" }}>
-    로그인 하시면 제공되는 기능입니다.
-  </p>
+        <div style={{ textAlign: "center" }}>
+      <p style={{ fontSize: "larger", color: "lightgrey" }}>
+        로그인 하시면 제공되는 기능입니다.
+      </p>
+    </div>
       </div>
     </div>
   );
