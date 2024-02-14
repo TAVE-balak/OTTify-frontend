@@ -28,7 +28,6 @@ const Nav = () => {
 
   const goToMypage = async () => {
     const userId = getUserId();
-    console.log("userId는", userId)
     navigate(`/Mypage/${userId}`);
   };
   const goToDebate = () => {
