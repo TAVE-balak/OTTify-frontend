@@ -10,7 +10,7 @@ const getAccessToken = () => {
 
 const fetchUserProfile = async () => {
   const accessToken = getAccessToken();
-  // const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODA0MTQyNCwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.Yxt6xAoHXvIoNdpGotmSP-uJVOxWRktSrqFIvR5PCxEaADYzvZHnzrWkTwq4fJP25_EsKN7rnTDazKyc_zKdiQ"
+  // const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODA0MjQ5OCwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.6dSd_Ker-4OdCUUgrJcpcFREmUMrmR5q2JfVhZEmYIIjIQEHKDyZHK2KX0lnJeB6Z-19TgR6pBe_3RbbidNKrA"
   try {
     const response = await Wonapi.get(`/api/v1/users/`,{
       headers: {
@@ -38,9 +38,15 @@ const fetchMyWrite = async () => {
   }
 };
 
-const fetchMyFavorite = async (userId) => {
+const fetchMyFavorite = async () => {
+  const accessToken = getAccessToken();
+  // const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODA0MjQ5OCwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.6dSd_Ker-4OdCUUgrJcpcFREmUMrmR5q2JfVhZEmYIIjIQEHKDyZHK2KX0lnJeB6Z-19TgR6pBe_3RbbidNKrA"
   try {
-    const response = await Wonapi.get(`/api/v1/users/${userId}/likedReviews`);
+    const response = await Wonapi.get(`/api/v1/users/likedReviews`,{
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Error fetching users from API:', error);
