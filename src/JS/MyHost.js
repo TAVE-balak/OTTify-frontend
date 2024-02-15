@@ -5,7 +5,6 @@ import { fetchMyHost } from "./WonAPI";
 import '../CSS/MyDebate.css'
 
 import back from '../img/back.png';
-import poster from '../img/debate_poster.png';
 
 const MyHost = () =>{
   const {userId} = useParams();
@@ -23,7 +22,7 @@ const MyHost = () =>{
           MyDiscussionHostData = JSON.parse(storedMyHost);
         } else {
           // 세션 스토리지에 사용자 정보가 없으면 API 호출하여 가져오기
-          MyDiscussionHostData = await fetchMyHost(userId);
+          MyDiscussionHostData = await fetchMyHost();
           // 가져온 정보를 세션 스토리지에 저장
           sessionStorage.setItem(`myHostData_${userId}`, JSON.stringify(MyDiscussionHostData));
         }
@@ -38,7 +37,7 @@ const MyHost = () =>{
   }, [userId]);
 
 
-  const dummyList = myHostData ? myHostData.data.map(item => {
+  const dummyList = myHostData ? myHostData.data.discussionList.map(item => {
     const targetDate = new Date(item.createdDate);
     const currentDate = new Date();
     const timeDiff = currentDate - targetDate;
