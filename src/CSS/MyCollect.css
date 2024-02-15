@@ -100,7 +100,7 @@
 
 /*포스터, 제목, 별점, 태그, 내용, 좋아요 수*/
 .reviewMain{
-  margin: 16px 0;
+  margin: 16px 0 0 0;
   padding-bottom: 8px;
 }
 

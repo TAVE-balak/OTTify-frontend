@@ -11,7 +11,6 @@ const MyWrite = () =>{
   const {userId} = useParams();
   const [myWriteData, setMyWriteData] = useState(null);
   const navigate = useNavigate();
-  console.log("test");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,7 +38,7 @@ const MyWrite = () =>{
   }, [userId]);
 
   //내가 쓴 리뷰 list
-  const dummyList = myWriteData ? myWriteData.data.map(item => {
+  const dummyList = myWriteData ? myWriteData.data.reviewList.map(item => {
     const tagList = item.reviewTags ? item.reviewTags.map(tag => tag.name) : [];
 
     const targetDate = new Date(item.createdDate);
