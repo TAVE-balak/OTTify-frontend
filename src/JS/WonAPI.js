@@ -9,8 +9,8 @@ const getAccessToken = () => {
 };
 
 const fetchUserProfile = async () => {
-  // const accessToken = getAccessToken();
-  const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODA0MTQyNCwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.Yxt6xAoHXvIoNdpGotmSP-uJVOxWRktSrqFIvR5PCxEaADYzvZHnzrWkTwq4fJP25_EsKN7rnTDazKyc_zKdiQ"
+  const accessToken = getAccessToken();
+  // const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODA0MTQyNCwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.Yxt6xAoHXvIoNdpGotmSP-uJVOxWRktSrqFIvR5PCxEaADYzvZHnzrWkTwq4fJP25_EsKN7rnTDazKyc_zKdiQ"
   try {
     const response = await Wonapi.get(`/api/v1/users/`,{
       headers: {
@@ -24,8 +24,8 @@ const fetchUserProfile = async () => {
 };
 
 const fetchMyWrite = async () => {
-  // const accessToken = getAccessToken();
-  const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODA0MTQyNCwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.Yxt6xAoHXvIoNdpGotmSP-uJVOxWRktSrqFIvR5PCxEaADYzvZHnzrWkTwq4fJP25_EsKN7rnTDazKyc_zKdiQ"
+  const accessToken = getAccessToken();
+  // const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODA0MTQyNCwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.Yxt6xAoHXvIoNdpGotmSP-uJVOxWRktSrqFIvR5PCxEaADYzvZHnzrWkTwq4fJP25_EsKN7rnTDazKyc_zKdiQ"
   try {
     const response = await Wonapi.get(`/api/v1/users/reviews`,{
       headers: {
