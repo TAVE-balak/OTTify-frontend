@@ -17,7 +17,7 @@ const MyHost = () =>{
         let storedMyHost = sessionStorage.getItem(`myHostData_${userId}`);
         let MyDiscussionHostData;
 
-        if (storedMyHost) {
+        if (storedMyHost == undefined) {
           // 세션 스토리지에 사용자 정보가 있으면 가져오기
           MyDiscussionHostData = JSON.parse(storedMyHost);
         } else {
