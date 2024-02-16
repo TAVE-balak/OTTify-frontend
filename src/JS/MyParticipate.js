@@ -5,7 +5,6 @@ import { fetchMyParticipate } from "./WonAPI";
 import '../CSS/MyDebate.css'
 
 import back from '../img/back.png';
-import poster from '../img/debate_poster.png';
 
 const MyParticipate = () =>{
   const {userId} = useParams();
@@ -17,13 +16,12 @@ const MyParticipate = () =>{
       try {
         let storedMyParticipate = sessionStorage.getItem(`myParticipateData_${userId}`);
         let MyDiscussionParticipateData;
-
-        if (storedMyParticipate) {
+        if (storedMyParticipate == undefined) {
           // 세션 스토리지에 사용자 정보가 있으면 가져오기
           MyDiscussionParticipateData = JSON.parse(storedMyParticipate);
         } else {
           // 세션 스토리지에 사용자 정보가 없으면 API 호출하여 가져오기
-          MyDiscussionParticipateData = await fetchMyParticipate(userId);
+          MyDiscussionParticipateData = await fetchMyParticipate();
           // 가져온 정보를 세션 스토리지에 저장
           sessionStorage.setItem(`myParticipateData_${userId}`, JSON.stringify(MyDiscussionParticipateData));
         }
@@ -37,7 +35,7 @@ const MyParticipate = () =>{
     }
   }, [userId]);
 
-  const dummyList = myParticipateData ? myParticipateData.data.map(item => {
+  const dummyList = myParticipateData ? myParticipateData.data.discussionList.map(item => {
     const targetDate = new Date(item.createdDate);
     const currentDate = new Date();
     const timeDiff = currentDate - targetDate;
