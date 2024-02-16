@@ -9,8 +9,8 @@ const getAccessToken = () => {
 };
 
 const fetchUserProfile = async () => {
-  // const accessToken = getAccessToken();
-  const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODA0NTA0MiwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.C25WFIf_FmLisbpm68ORC3ga4O2mxYwtDf5PliSJfjIEdMp7JXFMbk4jfnPAd5TnH15AtRNvD5z_cmLbxFjmNw"
+  const accessToken = getAccessToken();
+  // const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODA0NTA0MiwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.C25WFIf_FmLisbpm68ORC3ga4O2mxYwtDf5PliSJfjIEdMp7JXFMbk4jfnPAd5TnH15AtRNvD5z_cmLbxFjmNw"
   try {
     const response = await Wonapi.get(`/api/v1/users/`,{
       headers: {
@@ -54,8 +54,8 @@ const fetchMyFavorite = async () => {
 };
 
 const fetchMyHost = async () => {
-  // const accessToken = getAccessToken();
-  const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODA0NTA0MiwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.C25WFIf_FmLisbpm68ORC3ga4O2mxYwtDf5PliSJfjIEdMp7JXFMbk4jfnPAd5TnH15AtRNvD5z_cmLbxFjmNw"
+  const accessToken = getAccessToken();
+  // const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODA0NTA0MiwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.C25WFIf_FmLisbpm68ORC3ga4O2mxYwtDf5PliSJfjIEdMp7JXFMbk4jfnPAd5TnH15AtRNvD5z_cmLbxFjmNw"
   try {
     const response = await Wonapi.get(`/api/v1/users/discussion/hosting`,{
       headers: {
@@ -69,8 +69,8 @@ const fetchMyHost = async () => {
 };
 
 const fetchMyParticipate = async () => {
-  // const accessToken = getAccessToken();
-  const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODA0NTA0MiwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.C25WFIf_FmLisbpm68ORC3ga4O2mxYwtDf5PliSJfjIEdMp7JXFMbk4jfnPAd5TnH15AtRNvD5z_cmLbxFjmNw"
+  const accessToken = getAccessToken();
+  // const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODA0NTA0MiwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.C25WFIf_FmLisbpm68ORC3ga4O2mxYwtDf5PliSJfjIEdMp7JXFMbk4jfnPAd5TnH15AtRNvD5z_cmLbxFjmNw"
   try {
     const response = await Wonapi.get(`/api/v1/users/discussion/participating`,{
       headers: {

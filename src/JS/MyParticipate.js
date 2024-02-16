@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import {useEffect, useState} from 'react';
 import DebateList from './DebateList';
 import { fetchMyParticipate } from "./WonAPI";
@@ -8,6 +8,8 @@ import back from '../img/back.png';
 
 const MyParticipate = () =>{
   const {userId} = useParams();
+  const {state} = useLocation();
+  const disableClick = state && state.disableClick ? state.disableClick : true;
   const [myParticipateData, setMyParticipateData] = useState(null);
   const navigate = useNavigate();
 
@@ -73,7 +75,9 @@ const MyParticipate = () =>{
           <img src = {back} className = "myparticipate_back" alt = "뒤로 가기" onClick={() => navigate(-1)}/>
           <h2>내가 참여한 토론 보기</h2>
         </div>
-        <DebateList debateList={dummyList}/>
+        <div className = {(disableClick ? 'disable-click' : '')}>
+          <DebateList debateList={dummyList} />
+        </div>
       </div>
     </div>
   )
