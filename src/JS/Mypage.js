@@ -236,11 +236,11 @@ const Mypage = () => {
   };
 
   const goToParticipate = () => {
-    navigate(`/MyParticipate/${userId}`);
+    navigate(`/MyParticipate/${userId}`, { state: { disableClick: false } });
   };
 
   const goToHost = () => {
-    navigate(`/MyHost/${userId}`);
+    navigate(`/MyHost/${userId}`, { state: { disableClick: false } });
   };
 
   //내 리뷰 평점 그래프

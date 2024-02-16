@@ -127,3 +127,7 @@
   margin-left: 2px;
   padding-bottom: 3px;
 }
+
+.disable-click {
+  pointer-events: none;
+}
