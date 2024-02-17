@@ -18,7 +18,7 @@ const MyParticipate = () =>{
       try {
         let storedMyParticipate = sessionStorage.getItem(`myParticipateData_${userId}`);
         let MyDiscussionParticipateData;
-        if (storedMyParticipate == undefined) {
+        if (storedMyParticipate) {
           // 세션 스토리지에 사용자 정보가 있으면 가져오기
           MyDiscussionParticipateData = JSON.parse(storedMyParticipate);
         } else {
