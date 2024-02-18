@@ -10,7 +10,7 @@ const getAccessToken = () => {
 
 const fetchUserProfile = async () => {
   const accessToken = getAccessToken();
-  //const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODE5NDk5OCwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.raWVcLVGLDeiEzMPY9ryfQekb2aIWGbsNauNp2dZSfnB71AiEl5cWaj3UYW1O7nHR0xL_fl0r_usiCma6qyLUA"
+  //const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODI3NTk3MSwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.V56m-GelCcRXzMkZWtJJKbCZF1NIwsgk2ZXp7XfuQj-ITvKyOTKgu0VHmhi5TRrW8KzxliZdAzfZNPPZLq6sWw"
   try {
     const response = await Wonapi.get(`/api/v1/users/`,{
       headers: {
@@ -110,11 +110,14 @@ const update2ndGenre = async (updateRequestDto, userId) => {
   }
 };
 
-const updateMyProfile = async (formData, userId) => {
+const updateMyProfile = async (nickName, formData) => {
+  const accessToken = getAccessToken();
+  //const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODI3NTk3MSwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.V56m-GelCcRXzMkZWtJJKbCZF1NIwsgk2ZXp7XfuQj-ITvKyOTKgu0VHmhi5TRrW8KzxliZdAzfZNPPZLq6sWw"
   try {
-    const response = await Wonapi.patch(`/api/v1/users/${userId}/profile`, formData, {
+    const response = await Wonapi.patch(`/api/v1/users/profile?nickName=${nickName}`, formData, {
       headers: {
-        "Content-Type": "multipart/form-data"
+        "Content-Type": "multipart/form-data",
+        "Authorization": `Bearer ${accessToken}`
       },
     });
     return response.data;

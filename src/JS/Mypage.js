@@ -33,49 +33,41 @@ const Mypage = () => {
   const [hateData, setHateData] = useState([]);
   const [secondGenres, setSecondGenres] = useState([]);
 
-  // 파일 입력 요소
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [editImgSrc, setEditImgSrc] = useState(null);
-  const fileInput = React.useRef(null);
-  //프로필 변경
-  const [nickname, setNickname] = useState(
-    userProfile ? userProfile.data.nickName : ""
-  );
-
-  const handleButtonClick = (e) => {
-    fileInput.current.click();
-  };
-
-  const handleChange = (event) => {
-    // 파일 선택 시 호출되는 이벤트 핸들러
-    const selectedFile = event.target.files[0];
-
-    // 선택된 파일을 상태에 업데이트
-    setSelectedImage(selectedFile);
-
-    // 선택된 파일을 미리보기로 표시
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setEditImgSrc(reader.result);
-    };
-    reader.readAsDataURL(selectedFile);
-  };
-
-  const [editNickName, setEditNickName] = useState(userProfile?.data.nickName);
-  const [editProfileImage, setEditProfileImage] = useState(
-    userProfile?.data.profilePhoto
-  );
+  //프로필 닉네임
+  const editNick = JSON.parse(sessionStorage.getItem("editNickName").replace(/'/g, " "))
+  const [nickname, setNickname] = useState(userProfile?.data.nickName)
+  const [editNickName, setEditNickName] = useState("");
   useEffect(() => {
-    const storedUpdatednick = sessionStorage.getItem("editNickName");
-    if (storedUpdatednick) {
-      setEditNickName(JSON.parse(storedUpdatednick));
-    }
+    setNickname(userProfile?.data.nickName);
+  }, [userProfile?.data.nickName]);
 
-    const storedUpdatedImage = sessionStorage.getItem("editProfileImage");
-    if (storedUpdatedImage) {
-      setEditProfileImage(JSON.parse(storedUpdatedImage));
-    }
-  }, []);
+  //프로필 이미지
+  const editUrl = sessionStorage.getItem("editProfile")
+  const [profile, setProfile] = useState(userProfile?.data.profilePhoto);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [editImage, setEditImage] = useState(null);
+  const fileInput = React.useRef(null);
+  useEffect(() => {
+    setProfile(userProfile?.data.profilePhoto);
+  }, [userProfile?.data.profilePhoto]);
+
+  const handleImageChange = (e) =>{
+    const imageFile = e.target.files[0];
+    setEditImage(imageFile);
+    const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedImage(reader.result); // base64 문자열로 변환된 이미지를 상태에 저장
+      }
+      reader.readAsDataURL(imageFile); // 파일을 base64로 읽어옴
+  }
+
+  const handleNickChange = (e)=>{
+    setEditNickName(e.target.value);
+  }
+
+  const handleButtonClick = (e)=>{
+    fileInput.current.click();
+  }
 
   const handleImageNicknameChange = async () => {
     // 서버에 이미지 업로드 요청 등을 수행
@@ -83,24 +75,25 @@ const Mypage = () => {
       // FormData 객체 생성
       const formData = new FormData();
 
-      // 변경
-      formData.append("userId", userId);
-      formData.append(
-        "nickName",
-        nickname !== "" ? nickname : userProfile.data.nickName
-      );
-      formData.append(
-        "profilePhoto",
-        selectedImage === null ? "" : selectedImage
-      );
-
-      // 서버에 이미지 업로드 요청
-      const updatedProfile = await updateMyProfile(formData, userId);
-      sessionStorage.setItem("editNickName", JSON.stringify(nickname));
+      // 닉네임
+      const nickName = (editNickName? editNickName : userProfile?.data.nickName)
+      sessionStorage.setItem("editNickName", JSON.stringify(nickName));
       setEditNickName(nickname);
 
-      sessionStorage.setItem("editProfileImage", JSON.stringify(selectedImage));
-      setEditProfileImage(selectedImage);
+      //이미지
+      formData.append("profilePhoto", selectedImage? editImage: userProfile?.data.profilePhoto); 
+      
+      const updatedProfile = await updateMyProfile(nickName, formData);
+      console.log(updatedProfile)
+
+      if (selectedImage){
+        const fetchchangeImg = await fetchUserProfile()
+        sessionStorage.setItem("editProfile", fetchchangeImg?.data.profilePhoto);
+      }
+
+      setModalOpen(false);
+      setEditNickName("");
+
     } catch (error) {
       console.error("Error updating profile:", error);
     }
@@ -194,7 +187,7 @@ const Mypage = () => {
     if (storedUpdatedGenre) {
       setUpdatedGenre(JSON.parse(storedUpdatedGenre));
     }
-  }, []); // 컴포넌트가 처음 마운트될 때만 실행
+  }, []); // 컴포넌트가 처음 마운트될 때만 실행 
 
   const handleGenreChange = async (e) => {
     try {
@@ -291,6 +284,8 @@ const Mypage = () => {
   };
   const closeModal = () => {
     setModalOpen(false);
+    setEditNickName("");
+    setSelectedImage("");
   };
 
   return (
@@ -299,11 +294,7 @@ const Mypage = () => {
         <>
           <div className="my_profile">
             <img
-              src={
-                selectedImage === null
-                  ? userProfile?.data.profilePhoto
-                  : URL.createObjectURL(selectedImage)
-              }
+              src={selectedImage? selectedImage : (editUrl? editUrl : profile)}
               className="profile_img"
               alt="profile"
             ></img>
@@ -311,9 +302,9 @@ const Mypage = () => {
               <div className="profile_info">
                 <div className="info_nickname">
                   <span className="name">
-                    {nickname !== ""
-                      ? editNickName
-                      : userProfile?.data.nickName}
+                    {editNickName === ""
+                      ? (editNick? editNick : nickname)
+                      :  editNickName}
                   </span>
                   {userProfile.data.grade == "GENERAL" ? (
                     <img></img>
@@ -335,25 +326,13 @@ const Mypage = () => {
                       onClick={closeModal}
                     ></img>
                     <div className="modal_img" onClick={handleButtonClick}>
-                      {editImgSrc ? (
-                        <img
-                          src={editImgSrc}
-                          className="edit_img"
-                          alt="Selected Image"
-                        />
-                      ) : (
-                        <img
-                          src={userProfile.data.profilePhoto}
-                          className="edit_img"
-                          alt="Default Image"
-                        />
-                      )}
+                      <img className = "edit_img" src = {selectedImage ? selectedImage : (editUrl? editUrl : profile) }/>
                       <input
                         type="file"
                         ref={fileInput}
                         accept="image/*"
-                        onChange={handleChange}
                         style={{ display: "none" }}
+                        onChange={handleImageChange}
                       />
                       <img
                         src={change_img}
@@ -365,18 +344,16 @@ const Mypage = () => {
                     <div className="modal_nickname">
                       <input
                         className="nickname_input"
-                        defaultValue={
-                          nickname !== ""
-                            ? editNickName
-                            : userProfile?.data.nickName
-                        }
-                        onChange={(e) => setNickname(e.target.value)}
+                        defaultValue=
+                        {editNickName === ""
+                        ? (editNick? editNick : nickname)
+                        :  editNickName}
+                        onChange={handleNickChange}
                       ></input>
                       <button
                         className="nickname_btn"
                         onClick={(e) => {
                           handleImageNicknameChange(e);
-                          closeModal(e);
                         }}
                       >
                         변경
