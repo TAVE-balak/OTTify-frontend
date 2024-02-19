@@ -34,7 +34,7 @@ const Mypage = () => {
   const [secondGenres, setSecondGenres] = useState([]);
 
   //프로필 닉네임
-  const editNick = JSON.parse(sessionStorage.getItem("editNickName").replace(/'/g, " "))
+  const editNick = sessionStorage.getItem("editNickName")
   const [nickname, setNickname] = useState(userProfile?.data.nickName)
   const [editNickName, setEditNickName] = useState("");
   useEffect(() => {
@@ -77,7 +77,7 @@ const Mypage = () => {
 
       // 닉네임
       const nickName = (editNickName? editNickName : userProfile?.data.nickName)
-      sessionStorage.setItem("editNickName", JSON.stringify(nickName));
+      sessionStorage.setItem("editNickName", nickName);
       setEditNickName(nickname);
 
       //이미지
