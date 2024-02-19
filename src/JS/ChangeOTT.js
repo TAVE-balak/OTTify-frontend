@@ -14,12 +14,6 @@ const ChangeOTT = () => {
   const [ottPick, setOTTPick] = useState([]);
   const [myOTTArray, setMyOTTArray] = useState([]);
   const { myOTTList } = useParams();
-  const { state } = useLocation();
-  const userId = state?.userId || 0;
-
-  const handleAllDelete = () => {
-    setResetStyles(!resetStyles);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,7 +75,7 @@ const ChangeOTT = () => {
         ottList: myOTTArray.map(Number), // myOTTArray의 각 원소를 정수로 변환
       };
 
-      const updatedOTTData = await updateOTT(updateRequestDto, userId);
+      const updatedOTTData = await updateOTT(updateRequestDto);
       sessionStorage.setItem('updatedOTT', JSON.stringify(updateRequestDto.ottList.map(String)));
       console.log("updated successfully", updatedOTTData);
       setMyOTTArray(updateRequestDto.ottList.map(String));
@@ -113,11 +107,6 @@ const ChangeOTT = () => {
           </PickOTTColor>
         ))}
       </div>
-
-      <button className="all_delete" onClick={handleAllDelete}>
-        <img src={close_gray} className="delete_close" alt="Close Icon" />
-        <span className="delete_word">전체 취소하기</span>
-      </button>
 
       <button className="apply_button" onClick={handleApplyChanges}>적용</button>
     </div>

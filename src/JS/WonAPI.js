@@ -9,8 +9,8 @@ const getAccessToken = () => {
 };
 
 const fetchUserProfile = async () => {
-  const accessToken = getAccessToken();
-  //const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODMyOTQxMiwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ._ui35qCDPQb8Og9FYVZE1pnq_A_6rif0J2onSJcjnCbseOq_pBtey7653Avg4BJ2TLfa11w2RpHyijARF-0T8Q"
+  //const accessToken = getAccessToken();
+  const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODMzMTM0NywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.pr5BZA84F9eI0eaARR2doWSfSc8GYRn7znfn0pzkKc2f2DQAcjlMfQ7qlWaqtVrPnQqv80ybEuSQNKv-tFyO1A"
   try {
     const response = await Wonapi.get(`/api/v1/users/`,{
       headers: {
@@ -112,7 +112,7 @@ const update2ndGenre = async (updateRequestDto, userId) => {
 
 const updateMyProfile = async (nickName, formData) => {
   const accessToken = getAccessToken();
-  //const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODMyOTQxMiwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ._ui35qCDPQb8Og9FYVZE1pnq_A_6rif0J2onSJcjnCbseOq_pBtey7653Avg4BJ2TLfa11w2RpHyijARF-0T8Q"
+  //const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODMzMTM0NywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.pr5BZA84F9eI0eaARR2doWSfSc8GYRn7znfn0pzkKc2f2DQAcjlMfQ7qlWaqtVrPnQqv80ybEuSQNKv-tFyO1A"
   try {
     const response = await Wonapi.patch(`/api/v1/users/profile?nickName=${nickName}`, formData, {
       headers: {
@@ -135,9 +135,15 @@ const fetchSavedOTT = async () => {
   }
 };
 
-const updateOTT = async (updateRequestDto, userId) => {
+const updateOTT = async (updateRequestDto) => {
+  //const accessToken = getAccessToken();
+  const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODMzMTM0NywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.pr5BZA84F9eI0eaARR2doWSfSc8GYRn7znfn0pzkKc2f2DQAcjlMfQ7qlWaqtVrPnQqv80ybEuSQNKv-tFyO1A"
   try {
-    const response = await Wonapi.patch(`/api/v1/users/${userId}/otts`, updateRequestDto);
+    const response = await Wonapi.patch(`/api/v1/users/otts`, updateRequestDto, {
+      headers: {
+        "Authorization": `Bearer ${accessToken}`
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Error fetching users from API:', error);

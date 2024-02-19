@@ -37,7 +37,7 @@ function App() {
           <Route path="/login/oauth2/code" element={<OnBoarding />} />
           <Route path="/choose-ott" element={<ChooseOTT />} />
           <Route path="/preferences" element={<Preferences />} />
-          <Route path="/ChangeOTT" element={<ChangeOTT />} />
+          <Route path="/ChangeOTT/:myOTTList" element={<ChangeOTT />} />
           <Route path="/Mypage/:userId" element={<Mypage />} />
           <Route path="/MyWrite/:userId" element={<MyWrite />} />
           <Route path="/MyFavorite/:userId" element={<MyFavorite />} />
