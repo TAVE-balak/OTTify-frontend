@@ -32,6 +32,8 @@ const Mypage = () => {
   const [likeData, setLikeData] = useState([]);
   const [hateData, setHateData] = useState([]);
   const [secondGenres, setSecondGenres] = useState([]);
+  const ottData = JSON.parse(sessionStorage.getItem('updatedOTTPicks')) || userProfile?.data.ott.ottList;
+  const newOTT = sessionStorage.getItem('updatedOTTPicks') ? "newImg" : "";
 
   //프로필 닉네임
   const editNick = sessionStorage.getItem("editNickName")
@@ -216,8 +218,7 @@ const Mypage = () => {
   const navigate = useNavigate();
   const goToOTT = () => {
     const myOTTList = userProfile?.data?.ott.ottList.map(ott => ott.id).join(',');
-    const userId = userId;
-    navigate(`/ChangeOTT/${myOTTList}`, {state: {userId}});
+    navigate(`/ChangeOTT/${myOTTList}`);
   }
 
   const goToWrite = () => {
@@ -374,20 +375,27 @@ const Mypage = () => {
                   ></img>
                 </div>
                 <div className="ott_imgs">
-                  {userProfile.data.ott.ottList
+                  {ottData
                     .slice(0, 3)
                     .map((ott, index) => (
                       <img
                         key={index}
                         src={ott.logoPath}
-                        className="ott_logo"
+                        className={`ott_logo ${newOTT}`}
                         alt={`ott_logo_${index}`}
                       />
                     ))}
-                  {userProfile.data.ott.ottList.length > 3 && (
-                    <span className="ott_more">
-                      +{userProfile.data.ott.ottList.length - 3}
-                    </span>
+                  {(
+                    ottData
+                      .length > 3 && (
+                      <span className="ott_more">
+                        +{
+                          (
+                            ottData
+                          ).length - 3
+                        }
+                      </span>
+                    )
                   )}
                 </div>
               </div>
