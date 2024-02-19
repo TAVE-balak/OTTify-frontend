@@ -6,11 +6,9 @@ import '../CSS/ChangeOTT.css'
 import { fetchSavedOTT, updateOTT } from './WonAPI';
 
 import PickOTTColor from './PickOTTColor';
-import close_gray from '../img/close_gray.png';
 
 // ChangeOTT 컴포넌트
 const ChangeOTT = () => {
-  const [resetStyles, setResetStyles] = useState(false);
   const [ottPick, setOTTPick] = useState([]);
   const [myOTTArray, setMyOTTArray] = useState([]);
   const { myOTTList } = useParams();
@@ -39,7 +37,7 @@ const ChangeOTT = () => {
     fetchData();
   }, []);
 
-
+  
   const handleToggleOTT = (id, isSelected) => {
     const idAsString = String(id); // 선택된 아이디를 문자열로 변환
   
@@ -80,6 +78,18 @@ const ChangeOTT = () => {
       console.log("updated successfully", updatedOTTData);
       setMyOTTArray(updateRequestDto.ottList.map(String));
 
+      const updatedOTTPicks = ottPick.data.ottList.filter(ott => myOTTArray.includes(String(ott.id)));
+      
+      // 업데이트된 OTT를 담은 새로운 배열을 만듭니다.
+      const updatedOTTPicksArray = updatedOTTPicks.map(ott => ({
+        id: ott.id,
+        name: ott.name,
+        logoPath: ott.subscribeLogoPath
+      }));
+
+      // 업데이트된 OTT 목록을 세션 스토리지에 저장합니다.
+      sessionStorage.setItem('updatedOTTPicks', JSON.stringify(updatedOTTPicksArray));
+
       // 성공적으로 API 호출되면 메시지 출력
       console.log('Changes applied successfully!');
     } catch (error) {
@@ -98,7 +108,6 @@ const ChangeOTT = () => {
             key = {ott.id}
             id={String(ott.id)}
             className="ott_pick_logo"
-            resetStyles={resetStyles}
             myOTTArray={myOTTArray} // 배열 형태로 전달
             onToggleOTT={handleToggleOTT}
           >

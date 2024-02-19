@@ -101,7 +101,7 @@
 .ott_imgs{
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 7px;
 }
 
 .ott_logo{
@@ -120,6 +120,15 @@
   font-size: 14px;
   font-weight: 600;
   color: var(--gray_500);
+}
+
+.newImg{
+  width: 55px;
+  height: 55px;
+  padding: 10px;
+  margin-right: 3px;
+  background-color: var(--gray_100);
+  object-fit: scale-down;
 }
 
 /*내 리뷰 평균 평점*/
