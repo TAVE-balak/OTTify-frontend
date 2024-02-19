@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useParams, useLocation  } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../App.css';
 import '../CSS/ChangeOTT.css'
 
@@ -12,6 +12,7 @@ const ChangeOTT = () => {
   const [ottPick, setOTTPick] = useState([]);
   const [myOTTArray, setMyOTTArray] = useState([]);
   const { myOTTList } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,6 +93,8 @@ const ChangeOTT = () => {
 
       // 성공적으로 API 호출되면 메시지 출력
       console.log('Changes applied successfully!');
+
+      navigate(-1)
     } catch (error) {
       console.error('Error applying changes:', error);
     }
