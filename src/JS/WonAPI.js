@@ -9,8 +9,8 @@ const getAccessToken = () => {
 };
 
 const fetchUserProfile = async () => {
-  //const accessToken = getAccessToken();
-  const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODMzNTI4NywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.dGPMpLX-b6VhKa_3kDJx8eNlLjtsJx6ofzk6gRsPG5t9sAjhDA7u8vkxA1wtKHCDwspIgc6-RyDcAuW3R_xo3w"
+  const accessToken = getAccessToken();
+  //const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODMzOTIyNywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.g6ij-K7efrQt_tpCVLji2SPGk78iF4hiUfwTy17FDjeeeVtTzWnibGqeRwVWRkFm28CvpEDofkBCsWZkoBY4hA"
   try {
     const response = await Wonapi.get(`/api/v1/users/`,{
       headers: {
@@ -112,7 +112,7 @@ const update2ndGenre = async (updateRequestDto, userId) => {
 
 const updateMyProfile = async (nickName, formData) => {
   const accessToken = getAccessToken();
-  //const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODMzNTI4NywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.dGPMpLX-b6VhKa_3kDJx8eNlLjtsJx6ofzk6gRsPG5t9sAjhDA7u8vkxA1wtKHCDwspIgc6-RyDcAuW3R_xo3w"
+  //const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODMzOTIyNywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.g6ij-K7efrQt_tpCVLji2SPGk78iF4hiUfwTy17FDjeeeVtTzWnibGqeRwVWRkFm28CvpEDofkBCsWZkoBY4hA"
   try {
     const response = await Wonapi.patch(`/api/v1/users/profile?nickName=${nickName}`, formData, {
       headers: {
@@ -136,8 +136,8 @@ const fetchSavedOTT = async () => {
 };
 
 const updateOTT = async (updateRequestDto) => {
-  //const accessToken = getAccessToken();
-  const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODMzNTI4NywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.dGPMpLX-b6VhKa_3kDJx8eNlLjtsJx6ofzk6gRsPG5t9sAjhDA7u8vkxA1wtKHCDwspIgc6-RyDcAuW3R_xo3w"
+  const accessToken = getAccessToken();
+  //const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODMzOTIyNywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.g6ij-K7efrQt_tpCVLji2SPGk78iF4hiUfwTy17FDjeeeVtTzWnibGqeRwVWRkFm28CvpEDofkBCsWZkoBY4hA"
   try {
     const response = await Wonapi.patch(`/api/v1/users/otts`, updateRequestDto, {
       headers: {
