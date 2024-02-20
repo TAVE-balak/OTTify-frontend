@@ -2,14 +2,16 @@ import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import DebateEdit from './DebateEdit';
 
+import { deleteDiscussionSubject } from './WonAPI';
+
 import thumb from '../img/thumb_up.png';
 import thumb_orange from '../img/thumb_up_orange.png';
 import chat from '../img/chat.png';
 import more from '../img/more.png';
 
-const DetailItem = ({debateTitle, movie, poster, content, created_date, comment, favorite, id}) =>{
-  const imgClassName = poster.poster ? 'debateImg' : 'withoutImg';
-  const MainClassName = poster.poster ? 'debateImgMain' : 'debateMain';
+const DetailItem = ({debateTitle, movie, poster, content, created_date, comment, favorite, id, subjectId, imageUrl}) =>{
+  const imgClassName = poster ? 'debateImg' : 'withoutImg';
+  const MainClassName = poster ? 'debateImgMain' : 'debateMain';
 
   const navigate = useNavigate();
 
@@ -20,14 +22,33 @@ const DetailItem = ({debateTitle, movie, poster, content, created_date, comment,
   };
 
   const goToDebateEdit = () =>{
-    console.log(debateTitle)
+    console.log(subjectId)
+    console.log(imageUrl)
     navigate(`/DebateEdit/${id}`, {
       state: {
         debateTitle,
         content,
-        posterUrl: poster.poster,
+        posterUrl: poster,
+        subjectId: subjectId,
+        imageUrl: imageUrl
       },
     });
+  }
+
+  const deleteDebate = async()=>{
+    try{
+      const userConfirmed = window.confirm("토론을 삭제하시겠습니까?");
+      if (userConfirmed) {
+        // 사용자가 확인을 눌렀을 때만 삭제 작업 수행
+        const deleteData = await deleteDiscussionSubject(id);
+        navigate(-1);
+        console.log(deleteData);
+      }else{
+        handleMenuClick()
+      }
+    }catch (error) {
+      console.error("Error deleting discussion:", error);
+    }
   }
 
   return (
@@ -44,7 +65,7 @@ const DetailItem = ({debateTitle, movie, poster, content, created_date, comment,
               <div className='menu_list_debate'>
                 <div className='menu_edit' onClick={goToDebateEdit}>
                     토론 수정</div>
-                <div className='menu_delete'>
+                <div className='menu_delete' onClick={deleteDebate}>
                    토론 삭제</div>
               </div>
             )}
@@ -52,7 +73,7 @@ const DetailItem = ({debateTitle, movie, poster, content, created_date, comment,
       </div>
 
       <div className={`${MainClassName}`}>
-        <img src = {poster.poster} className={`${imgClassName}`}></img>
+        <img src = {poster} className={`${imgClassName}`}></img>
         <div className='debateContent'>{content}</div>  
       </div>
 

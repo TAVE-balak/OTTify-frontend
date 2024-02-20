@@ -11,7 +11,6 @@ const MyWrite = () =>{
   const {userId} = useParams();
   const [myWriteData, setMyWriteData] = useState(null);
   const navigate = useNavigate();
-  console.log("test");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +23,7 @@ const MyWrite = () =>{
           MyReviewData = JSON.parse(storedMyWrite);
         } else {
           // 세션 스토리지에 사용자 정보가 없으면 API 호출하여 가져오기
-          MyReviewData = await fetchMyWrite(userId);
+          MyReviewData = await fetchMyWrite();
           // 가져온 정보를 세션 스토리지에 저장
           sessionStorage.setItem(`myWriteData_${userId}`, JSON.stringify(MyReviewData));
         }
@@ -39,7 +38,7 @@ const MyWrite = () =>{
   }, [userId]);
 
   //내가 쓴 리뷰 list
-  const dummyList = myWriteData ? myWriteData.data.map(item => {
+  const dummyList = myWriteData ? myWriteData.data.reviewList.map(item => {
     const tagList = item.reviewTags ? item.reviewTags.map(tag => tag.name) : [];
 
     const targetDate = new Date(item.createdDate);

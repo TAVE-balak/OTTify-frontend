@@ -5,7 +5,6 @@ import { fetchMyFavorite } from "./WonAPI";
 import '../CSS/MyCollect.css'
 
 import back from '../img/back.png';
-import img1 from '../img/사진.jpg';
 
 const MyFavorite = () =>{
   const {userId} = useParams();
@@ -23,7 +22,7 @@ const MyFavorite = () =>{
           MyReviewFavoriteData = JSON.parse(storedMyFavorite);
         } else {
           // 세션 스토리지에 사용자 정보가 없으면 API 호출하여 가져오기
-          MyReviewFavoriteData = await fetchMyFavorite(userId);
+          MyReviewFavoriteData = await fetchMyFavorite();
           // 가져온 정보를 세션 스토리지에 저장
           sessionStorage.setItem(`myFavoriteData_${userId}`, JSON.stringify(MyReviewFavoriteData));
         }
@@ -37,7 +36,7 @@ const MyFavorite = () =>{
     }
   }, [userId]);
 
-  const dummyList = myFavoriteData ? myFavoriteData.data.map(item => {
+  const dummyList = myFavoriteData ? myFavoriteData.data.reviewList.map(item => {
     const tagList = item.reviewTags ? item.reviewTags.map(tag => tag.name) : [];
 
     const targetDate = new Date(item.createdDate);

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import axios from "../../api/axios";
 import Casts from "./Casts";
-import MyWrite from "./MyWrite";
 import AllReviewList from "../../JS/AllReviewList";
 import "./MovieModal.css";
 
@@ -13,6 +12,8 @@ import likeClickedImage from "./heart_clicked.png";
 import notInterestedImage from "./hate.png";
 import notInterestedClickedImage from "./hate_clicked.png";
 import reviewImage from "./review.png";
+import WriteReview from "./WriteReview";
+import MyWrite from "./MyWrite"; // MyWrite 컴포넌트 import
 
 function MovieModal({ setModalOpen, ...movie }) {
   const navigate = useNavigate();
@@ -42,10 +43,9 @@ function MovieModal({ setModalOpen, ...movie }) {
   };
 
   const handleReview = () => {
-    // 리뷰 관련 로직
-    const programId = movie.programId;
-    // navigate(`/Detail/${programId}/ReviewWrite`);
-  };
+    // 리뷰하기 클릭 시 WriteReview 컴포넌트 불러오기
+    navigate(`/Detail/${movie.programId}/WriteReview`);
+   };
 
   const fanRating = 4.5;
   useOnClickOutside(ref, () => {
@@ -88,7 +88,7 @@ function MovieModal({ setModalOpen, ...movie }) {
     };
 
     fetchCast();
-  });
+  }, [movie.programId]);
 
   const handleButtonClick = (priceType) => {
     // 가격 유형 활성화 (정액제, 대여, 구매)
@@ -185,17 +185,7 @@ function MovieModal({ setModalOpen, ...movie }) {
                   </button>
                 </div>
 
-                {/* 리뷰하기 버튼 */}
-                <div className="review">
-                  <button onClick={handleReview}>
-                    <img
-                      src={reviewImage}
-                      alt="리뷰하기"
-                      style={{ width: "40px", height: "40px" }}
-                    />
-                    <p>리뷰하기</p>
-                  </button>
-                </div>
+                <WriteReview programId={movie.programId} />
 
                 {/* 토론하기 버튼 */}
                 <div className="discussion">
@@ -280,7 +270,10 @@ function MovieModal({ setModalOpen, ...movie }) {
 
             {/* 리뷰 및 출연진 컴포넌트 */}
             <AllReviewList programId={movie.programId} />
-            {/* <MyWrite programId={movie.programId} /> */}
+           
+
+            {/* 이전에 작성한 리뷰 리스트
+            <MyWrite programId={movie.programId} /> */}
           </div>
         </div>
       </div>

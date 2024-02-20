@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios"; // axios 라이브러리 import
 import "./DetailReview.css";
 
 const WriteReview = ({ handleWriteReviewSubmit }) => {
@@ -18,9 +19,7 @@ const WriteReview = ({ handleWriteReviewSubmit }) => {
 
   const handleTagSelection = (tag) => {
     if (selectedTags.includes(tag)) {
-      setSelectedTags(
-        selectedTags.filter((selectedTag) => selectedTag !== tag)
-      );
+      setSelectedTags(selectedTags.filter((selectedTag) => selectedTag !== tag));
     } else {
       if (selectedTags.length < 3) {
         setSelectedTags([...selectedTags, tag]);
@@ -32,20 +31,29 @@ const WriteReview = ({ handleWriteReviewSubmit }) => {
     setStarRating(rating);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const reviewData = {
-      watchedDate: watchedDate,
-      reviewContent: reviewContent,
-      selectedTags: selectedTags,
-      starRating: starRating,
-    };
-    handleWriteReviewSubmit(reviewData);
-    setWatchedDate("");
-    setReviewContent("");
-    setSelectedTags([]);
-    setStarRating(0);
-    setShowModal(false);
+    try {
+      const reviewData = {
+        watchedDate: watchedDate,
+        reviewContent: reviewContent,
+        selectedTags: selectedTags,
+        starRating: starRating,
+      };
+      // 리뷰 작성 API 호출
+      const response = await axios.post("http://52.79.200.90:8080/api/v1/review", reviewData);
+      console.log("Review submitted:", response.data);
+      // 리뷰 작성 완료 후 상태 초기화 및 모달 닫기
+      setWatchedDate("");
+      setReviewContent("");
+      setSelectedTags([]);
+      setStarRating(0);
+      setShowModal(false);
+      // 리뷰 작성 완료 후 부모 컴포넌트로 콜백 호출
+      handleWriteReviewSubmit(response.data);
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
   };
   const WriteIcon = () => (
     <svg
@@ -83,12 +91,12 @@ const WriteReview = ({ handleWriteReviewSubmit }) => {
 
   return (
     <div>
-      <h2>리뷰 작성하기</h2>
       <button
         className="write-review-button"
         onClick={() => setShowModal(true)}
       >
         <WriteIcon />
+        <p>리뷰하기</p>
       </button>
       {showModal && (
         <div className="modal display-block">

@@ -1,14 +1,16 @@
-import {useState, useRef} from 'react';
+import {useState, useEffect, useRef} from 'react';
+import {useLocation} from 'react-router-dom'
 import '../CSS/DebateDetail.css';
 import CommentReplyList from './CommentReplyList';
+
+import { deleteDiscussionComment, editDiscussionComment, fetchDiscussionEach } from './WonAPI';
 
 import more from '../img/more.png';
 import thumb from '../img/thumb_up.png';
 import CommentReplyEditor from './CommentReplyEditor';
 
 
-const CommentItem = ({onEditComment, onDelete, author, content, favorite, profile, created_date, id}) =>{
-  
+const CommentItem = ({onEditComment, onDelete, author, content, favorite, profile, created_date, id, subjectId}) =>{
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuClick = () => {
@@ -59,18 +61,84 @@ const CommentItem = ({onEditComment, onDelete, author, content, favorite, profil
     setLocalContent(content);
   }
 
-  const handleEdit = () =>{
-    if(localContent.length < 5){
+  const handleEdit = async() =>{
+    if(localContent.length < 1){
       localContentInput.current.focus();
       return;
     }
 
     if(window.confirm("수정하시겠습니까?")){
-      onEditComment(id, localContent);
-      toggleIsEdit();
+      try{
+        const replyCommentEditDTO = {
+          subjectId: subjectId,
+          commentId: id,
+          comment: localContent
+        };
+        const editCommentData = await editDiscussionComment(replyCommentEditDTO);
+        console.log(editCommentData)
+        onEditComment(id, localContent);
+        toggleIsEdit();
+      }catch(error){
+        console.log('Error editing comment:', error)
+      }
     }
   }
 
+  //댓글 삭제 api 연결
+  const deleteComment = async() =>{
+    deleteDiscussionComment(subjectId, id);
+    onDelete(id)
+  }
+
+  //대댓글 조회
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const commentData = await fetchDiscussionEach(subjectId);
+        const commentLists = commentData.data.commentListsDTOList;
+        // commentId와 일치하는 comment을 찾음
+        const targetComment = commentLists.find(comment => comment.commentId === id);
+        if (targetComment && targetComment.replyListsDTOList) {
+          const replyLists = targetComment.replyListsDTOList;
+        
+          const updatedCommentReply = replyLists.map(reply => {
+            const targetDate = new Date(reply.createdAt);
+            const currentDate = new Date();
+            const timeDiff = currentDate - targetDate;
+            // 밀리초를 일로 변환
+            const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+          
+            let displayDate;
+            if (daysDiff < 30) {
+              displayDate = `${daysDiff}일 전`;
+            } else if (daysDiff < 365) {
+              const monthsDiff = Math.floor(daysDiff / 30);
+              displayDate = `${monthsDiff}달 전`;
+            } else {
+              const yearsDiff = Math.floor(daysDiff / 365);
+              displayDate = `${yearsDiff}년 전`;
+            }
+          
+            return {
+              id: reply.recommentId,
+              author: reply.nickName,
+              content: reply.content,
+              favorite: reply.likeCount,
+              created_date: displayDate,
+            };
+          });
+        
+          const sortedData = updatedCommentReply.slice(0).sort((a, b) => b.id - a.id);
+          setCommentReply(sortedData);
+        }
+
+      } catch (error) {
+        console.error('Error fetching discussion data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className = "CommentItem">
@@ -90,7 +158,7 @@ const CommentItem = ({onEditComment, onDelete, author, content, favorite, profil
                 <div className='menu_delete' 
                     onClick={() =>{
                       if(window.confirm("댓글을 삭제하시겠습니까?")){
-                        onDelete(id);
+                        deleteComment()
                       }
                     }}>
                   댓글 삭제</div>
@@ -124,12 +192,12 @@ const CommentItem = ({onEditComment, onDelete, author, content, favorite, profil
       <div className='comments_reaction'>
         <img src = {thumb} className='comment_thumb'></img>
         <span className='commentThumbNum'>{favorite}</span>
-        <CommentReplyEditor onCreate = {onCreate}/>
+        <CommentReplyEditor onCreate = {onCreate} subjectId={subjectId} commentId = {id}/>
       </div>
 
       <div className='CommentReplyList'>
-        <CommentReplyList onEdit = {onEdit} onDelete = {onDeleteReply} commentReplyList = {commentreply}/>
-        
+        <CommentReplyList onEdit = {onEdit} onDelete = {onDeleteReply} commentReplyList = {commentreply} 
+                          subjectId = {subjectId} commentId = {id}/>
       </div>
     </div>
   )

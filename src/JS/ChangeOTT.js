@@ -1,25 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import { useParams, useLocation  } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../App.css';
 import '../CSS/ChangeOTT.css'
 
 import { fetchSavedOTT, updateOTT } from './WonAPI';
 
 import PickOTTColor from './PickOTTColor';
-import close_gray from '../img/close_gray.png';
 
 // ChangeOTT 컴포넌트
 const ChangeOTT = () => {
-  const [resetStyles, setResetStyles] = useState(false);
   const [ottPick, setOTTPick] = useState([]);
   const [myOTTArray, setMyOTTArray] = useState([]);
   const { myOTTList } = useParams();
-  const { state } = useLocation();
-  const userId = state?.userId || 0;
-
-  const handleAllDelete = () => {
-    setResetStyles(!resetStyles);
-  };
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +38,7 @@ const ChangeOTT = () => {
     fetchData();
   }, []);
 
-
+  
   const handleToggleOTT = (id, isSelected) => {
     const idAsString = String(id); // 선택된 아이디를 문자열로 변환
   
@@ -81,13 +74,27 @@ const ChangeOTT = () => {
         ottList: myOTTArray.map(Number), // myOTTArray의 각 원소를 정수로 변환
       };
 
-      const updatedOTTData = await updateOTT(updateRequestDto, userId);
+      const updatedOTTData = await updateOTT(updateRequestDto);
       sessionStorage.setItem('updatedOTT', JSON.stringify(updateRequestDto.ottList.map(String)));
       console.log("updated successfully", updatedOTTData);
       setMyOTTArray(updateRequestDto.ottList.map(String));
 
+      const updatedOTTPicks = ottPick.data.ottList.filter(ott => myOTTArray.includes(String(ott.id)));
+      
+      // 업데이트된 OTT를 담은 새로운 배열을 만듭니다.
+      const updatedOTTPicksArray = updatedOTTPicks.map(ott => ({
+        id: ott.id,
+        name: ott.name,
+        logoPath: ott.subscribeLogoPath
+      }));
+
+      // 업데이트된 OTT 목록을 세션 스토리지에 저장합니다.
+      sessionStorage.setItem('updatedOTTPicks', JSON.stringify(updatedOTTPicksArray));
+
       // 성공적으로 API 호출되면 메시지 출력
       console.log('Changes applied successfully!');
+
+      navigate(-1)
     } catch (error) {
       console.error('Error applying changes:', error);
     }
@@ -104,7 +111,6 @@ const ChangeOTT = () => {
             key = {ott.id}
             id={String(ott.id)}
             className="ott_pick_logo"
-            resetStyles={resetStyles}
             myOTTArray={myOTTArray} // 배열 형태로 전달
             onToggleOTT={handleToggleOTT}
           >
@@ -113,11 +119,6 @@ const ChangeOTT = () => {
           </PickOTTColor>
         ))}
       </div>
-
-      <button className="all_delete" onClick={handleAllDelete}>
-        <img src={close_gray} className="delete_close" alt="Close Icon" />
-        <span className="delete_word">전체 취소하기</span>
-      </button>
 
       <button className="apply_button" onClick={handleApplyChanges}>적용</button>
     </div>
