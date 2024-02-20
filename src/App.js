@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import "./App.css";
 import Nav from "./components/Nav";
 import DetailPage from "./pages/DetailPage";
 import MainPage from "./pages/MainPage";
+import MainPage2 from "./pages/MainPage/index2.js";
 import SearchPage from "./pages/SearchPage";
 import Login from "./components/Login/Login";
 import WriteReview from "../src/components/MovieModal/WriteReview";
@@ -24,13 +26,15 @@ import DebateEdit from "./JS/DebateEdit";
 import OnBoarding from "./components/Login/OnBoarding";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태를 나타내는 상태
+
   return (
     <BrowserRouter>
       <ScrollToTop>
         <Nav />
         <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path=":movieId" element={<DetailPage />} />
+         <Route path="/" element={isLoggedIn ? <MainPage /> : <MainPage2 />} />
+         <Route path=":movieId" element={<DetailPage />} />
           <Route exact path="/write-review" component={WriteReview} />
           <Route path="search" element={<SearchPage />} />
           <Route path="/Login" element={<Login />} />
