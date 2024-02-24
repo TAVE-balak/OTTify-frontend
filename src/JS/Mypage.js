@@ -202,8 +202,7 @@ const Mypage = () => {
         genreId: selectedGenre.id,
       };
 
-      const updatedData = await update1stGenre(updatedRequestDto, userId);
-      console.log(updatedRequestDto, userId);
+      const updatedData = await update1stGenre(updatedRequestDto);
       console.log("1stGenre updated successfully:", updatedData);
 
       // 세션 스토리지에 값 저장
