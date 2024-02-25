@@ -17,17 +17,14 @@ function PickButton({ genre, userId, userProfileGenres, children }) {
     }
   }, [userProfileGenres]);
 
-
   // 각 버튼의 독립적 상태 관리 위해 useState 이용
-  const data = JSON.parse(sessionStorage.getItem('userProfileGenres'));
   const [buttonState, setButtonState] = useState(
-    data.some(userGenre => userGenre === genre.name)
+    sessionData.some(userGenre => userGenre === genre.name)
   );
   const [backgroundColor, setBackgroudColor] = useState(
     buttonState ? '#ffA500' : '#EEEEEE'
   );
   const [textColor, setTextColor] = useState(buttonState ? '#FFFFFF' : '#000000');
-
 
   // 버튼 클릭 이벤트 핸들러 함수
   const handleBtnClick = async () => {
