@@ -7,7 +7,6 @@ import {
   fetchUserProfile,
   fetchSavedGenre,
   update1stGenre,
-  update2ndGenre,
   updateMyProfile,
 } from "./WonAPI";
 

@@ -10,7 +10,7 @@ const getAccessToken = () => {
 
 const fetchUserProfile = async () => {
   const accessToken = getAccessToken();
-  //const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODc1OTk3NCwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.-ZOfYcJqHJJbFd08_PTLDgLN-947kcq0XFpAf2-8ZluHWJior2T1jo_xLbXfX72kmdvE2o2LaOOpCJA2d3pYCw"
+  //const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODg0NDI4NCwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.uju19MtWa6QEtdqg7gw15fw7uEjWdcXLwNDull9zFzZTew9gKb1G9maEzXSRycECMdM-ceEysyZkORn1L4nsDQ"
   try {
     const response = await Wonapi.get(`/api/v1/users/`,{
       headers: {
@@ -107,15 +107,20 @@ const update1stGenre = async (updateRequestDto) => {
   }
 };
 
-const update2ndGenre = async (updateRequestDto, userId) => {
+const update2ndGenre = async (updateRequestDTO) => {
+  const accessToken = getAccessToken();
+  //const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODg0NDI4NCwiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.uju19MtWa6QEtdqg7gw15fw7uEjWdcXLwNDull9zFzZTew9gKb1G9maEzXSRycECMdM-ceEysyZkORn1L4nsDQ"
   try {
-    const response = await Wonapi.patch(`/api/v1/users/${userId}/2ndGenre`, updateRequestDto);
+    const response = await Wonapi.patch(`/api/v1/users/2ndGenre`, updateRequestDTO, {
+      headers: {
+        "Authorization": `Bearer ${accessToken}`
+      }
+    });
     return response.data;
   } catch (error) {
     console.error('Error fetching users from API:', error);
   }
 };
-
 const updateMyProfile = async (nickName, formData) => {
   const accessToken = getAccessToken();
   //const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwODMzOTIyNywiZW1haWwiOiJoeXVuYXdvbjQxN0BnbWFpbC5jb20ifQ.g6ij-K7efrQt_tpCVLji2SPGk78iF4hiUfwTy17FDjeeeVtTzWnibGqeRwVWRkFm28CvpEDofkBCsWZkoBY4hA"
