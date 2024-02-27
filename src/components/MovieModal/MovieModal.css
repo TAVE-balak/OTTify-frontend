@@ -168,7 +168,8 @@
 .ott_header {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* 수직 가운데 정렬 */
+  align-items: center;
+  /* 수직 가운데 정렬 */
 }
 
 .ott_header h2 {
@@ -183,7 +184,8 @@
   padding: 1rem;
   margin: 0 0 10px 0;
   display: flex;
-  align-items: center; /* 수직 가운데 정렬 */
+  align-items: center;
+  /* 수직 가운데 정렬 */
 }
 
 .service-box img {

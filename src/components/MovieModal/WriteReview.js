@@ -1,13 +1,29 @@
-import React, { useState } from "react";
-import axios from "axios"; // axios 라이브러리 import
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./DetailReview.css";
 
-const WriteReview = ({ handleWriteReviewSubmit }) => {
+const WriteReview = ({ handleWriteReviewSubmit, programId = 1  }) => {
   const [watchedDate, setWatchedDate] = useState("");
   const [reviewContent, setReviewContent] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const [starRating, setStarRating] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [tags, setTags] = useState([]);
+
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 태그를 가져오는 함수 호출
+    fetchTags();
+  }, []);
+
+  const fetchTags = async () => {
+    try {
+      const response = await axios.get("http://52.79.200.90:8080/api/v1/reviewTag/list");
+      // 객체의 값을 배열로 변환하여 설정
+      setTags(Object.values(response.data));
+    } catch (error) {
+      console.error("Error fetching tags:", error);
+    }
+  };
 
   const handleWatchedDateChange = (e) => {
     setWatchedDate(e.target.value);
@@ -18,14 +34,16 @@ const WriteReview = ({ handleWriteReviewSubmit }) => {
   };
 
   const handleTagSelection = (tag) => {
-    if (selectedTags.includes(tag)) {
-      setSelectedTags(selectedTags.filter((selectedTag) => selectedTag !== tag));
+    const tagId = tag.id; // Use tag ID
+    if (selectedTags.includes(tagId)) {
+      setSelectedTags(selectedTags.filter((selectedTagId) => selectedTagId !== tagId));
     } else {
       if (selectedTags.length < 3) {
-        setSelectedTags([...selectedTags, tag]);
+        setSelectedTags([...selectedTags, tagId]);
       }
     }
   };
+  
 
   const handleStarRating = (rating) => {
     setStarRating(rating);
@@ -34,12 +52,14 @@ const WriteReview = ({ handleWriteReviewSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Adjust the review data structure to match the expected format
       const reviewData = {
-        watchedDate: watchedDate,
-        reviewContent: reviewContent,
-        selectedTags: selectedTags,
-        starRating: starRating,
+        contents: reviewContent,
+        programId: programId,
+        rating: starRating,
+        reviewTagIdDtoList: selectedTags.map(tag => ({tagId: tag})), // Assuming selectedTags holds tag IDs
       };
+
       // 리뷰 작성 API 호출
       const response = await axios.post("http://52.79.200.90:8080/api/v1/review", reviewData);
       console.log("Review submitted:", response.data);
@@ -55,6 +75,7 @@ const WriteReview = ({ handleWriteReviewSubmit }) => {
       console.error("Error submitting review:", error);
     }
   };
+
   const WriteIcon = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -69,21 +90,6 @@ const WriteReview = ({ handleWriteReviewSubmit }) => {
       />
     </svg>
   );
-  const tags = [
-    "시간 가는 줄 몰랐어요 ⏱",
-    "심장질환자 관람유의 🫀",
-    "보호자 동반 필요 👨‍👦",
-    "노잼이에요 🤦‍♂",
-    "극장에서 또 보고 싶어요 ☝",
-    "반전이 있어요 😮",
-    "연기가 좋아요 🙆",
-    "손수건 필요 😥",
-    "OST가 좋아요 🎼",
-    "돈이 아까워요 💸",
-    "팝콘 필수에요 🍿",
-    "스토리 내용이 개연성 있어요 😲",
-    "연인이랑 같이 보기 좋아요 💕👥",
-  ];
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -150,18 +156,19 @@ const WriteReview = ({ handleWriteReviewSubmit }) => {
               {/* 태그 선택 부분 */}
               <div className="tag-selector">
                 <p>최대 3개의 태그를 선택하세요:</p>
-                {tags.map((tag, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    className={`tag-button ${
-                      selectedTags.includes(tag) ? "tag-button-selected" : ""
-                    }`}
-                    onClick={() => handleTagSelection(tag)}
-                  >
-                    {tag} {selectedTags.includes(tag) && "✔️"}
-                  </button>
-                ))}
+                {tags.map((tag) => (
+  <button
+    key={tag.id}
+    type="button"
+    className={`tag-button ${
+      selectedTags.includes(tag.id) ? "tag-button-selected" : ""
+    }`}
+    onClick={() => handleTagSelection(tag)}
+  >
+    {tag.name} {selectedTags.includes(tag.id) && "✔️"}
+  </button>
+))}
+
               </div>
 
               {/* 리뷰 제출 버튼 */}
