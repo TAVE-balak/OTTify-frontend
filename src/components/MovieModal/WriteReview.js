@@ -2,29 +2,34 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./DetailReview.css";
 
-const WriteReview = ({ handleWriteReviewSubmit, programId = 1  }) => {
+const WriteReview = ({ handleWriteReviewSubmit }) => {
   const [watchedDate, setWatchedDate] = useState("");
   const [reviewContent, setReviewContent] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const [starRating, setStarRating] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [tags, setTags] = useState([]);
-
+  const [selectedTagIds, setSelectedTagIds] = useState([]);
   useEffect(() => {
     // 컴포넌트가 마운트될 때 태그를 가져오는 함수 호출
     fetchTags();
   }, []);
-
   const fetchTags = async () => {
     try {
       const response = await axios.get("http://52.79.200.90:8080/api/v1/reviewTag/list");
-      // 객체의 값을 배열로 변환하여 설정
-      setTags(Object.values(response.data));
+      const tagData = response.data.data.reviewTagInfoList;
+      if (Array.isArray(tagData)) {
+        setTags(tagData);
+      } else {
+        console.error('Received data is not an array', tagData);
+        setTags([]); // Ensure tags is always an array
+      }
     } catch (error) {
       console.error("Error fetching tags:", error);
+      setTags([]); // Handling error by resetting tags to an empty array
     }
   };
-
+  
   const handleWatchedDateChange = (e) => {
     setWatchedDate(e.target.value);
   };
@@ -33,17 +38,15 @@ const WriteReview = ({ handleWriteReviewSubmit, programId = 1  }) => {
     setReviewContent(e.target.value);
   };
 
-  const handleTagSelection = (tag) => {
-    const tagId = tag.id; // Use tag ID
-    if (selectedTags.includes(tagId)) {
-      setSelectedTags(selectedTags.filter((selectedTagId) => selectedTagId !== tagId));
+  const handleTagSelection = (tagId) => {
+    if (selectedTagIds.includes(tagId)) {
+      // 이미 선택된 태그를 다시 클릭한 경우, 해당 태그를 제거한다.
+      setSelectedTagIds(selectedTagIds.filter(id => id !== tagId));
     } else {
-      if (selectedTags.length < 3) {
-        setSelectedTags([...selectedTags, tagId]);
-      }
+      // 선택되지 않은 태그를 클릭한 경우, 해당 태그를 추가한다.
+      setSelectedTagIds([...selectedTagIds, tagId]);
     }
   };
-  
 
   const handleStarRating = (rating) => {
     setStarRating(rating);
@@ -52,21 +55,23 @@ const WriteReview = ({ handleWriteReviewSubmit, programId = 1  }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Adjust the review data structure to match the expected format
       const reviewData = {
-        contents: reviewContent,
-        programId: programId,
-        rating: starRating,
-        reviewTagIdDtoList: selectedTags.map(tag => ({tagId: tag})), // Assuming selectedTags holds tag IDs
+        watchedDate: watchedDate,
+        reviewContent: reviewContent,
+        selectedTags: selectedTagIds, // 수정된 부분: selectedTagIds를 사용
+        starRating: starRating,
       };
-
       // 리뷰 작성 API 호출
-      const response = await axios.post("http://52.79.200.90:8080/api/v1/review", reviewData);
+      const response = await axios.post("http://52.79.200.90:8080/api/v1/review", reviewData, {
+        headers: {
+          Authorization: `Bearer ${"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwOTgyNzEzNywiZW1haWwiOiJtYXR0bmF2ZXJAZ21haWwuY29tIn0.7r9d94rHGENqdYDOpWB2k3Dm7KBeseza_iHmwTVyLYJfz-PIfab--wL1WqScKmubyBrmf-mrEfwsUQN_NyA1PQ"}` // 여기에 accessToken을 사용
+        }
+      });
       console.log("Review submitted:", response.data);
       // 리뷰 작성 완료 후 상태 초기화 및 모달 닫기
       setWatchedDate("");
       setReviewContent("");
-      setSelectedTags([]);
+      setSelectedTagIds([]); // 상태 초기화 수정: selectedTags -> setSelectedTagIds
       setStarRating(0);
       setShowModal(false);
       // 리뷰 작성 완료 후 부모 컴포넌트로 콜백 호출
@@ -75,6 +80,7 @@ const WriteReview = ({ handleWriteReviewSubmit, programId = 1  }) => {
       console.error("Error submitting review:", error);
     }
   };
+  
 
   const WriteIcon = () => (
     <svg
@@ -155,21 +161,18 @@ const WriteReview = ({ handleWriteReviewSubmit, programId = 1  }) => {
 
               {/* 태그 선택 부분 */}
               <div className="tag-selector">
-                <p>최대 3개의 태그를 선택하세요:</p>
-                {tags.map((tag) => (
-  <button
-    key={tag.id}
-    type="button"
-    className={`tag-button ${
-      selectedTags.includes(tag.id) ? "tag-button-selected" : ""
-    }`}
-    onClick={() => handleTagSelection(tag)}
-  >
-    {tag.name} {selectedTags.includes(tag.id) && "✔️"}
-  </button>
-))}
-
-              </div>
+  <p>최대 3개의 태그를 선택하세요:</p>
+  {tags.map((tag) => (
+    <button
+      key={tag.id}
+      type="button"
+      className={`tag-button ${selectedTagIds.includes(tag.id) ? "tag-button-selected" : ""}`}
+      onClick={() => handleTagSelection(tag.id)}
+    >
+      {tag.name} {selectedTagIds.includes(tag.id) && "✔️"}
+    </button>
+  ))}
+</div>
 
               {/* 리뷰 제출 버튼 */}
               <button type="submit">리뷰 제출</button>
