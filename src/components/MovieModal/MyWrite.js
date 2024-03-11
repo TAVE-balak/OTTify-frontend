@@ -45,16 +45,23 @@ const MyWrite = ({ programId }) => {
     setMyReviews([...myReviews, newReview]); // 이전 리뷰 배열에 새로운 리뷰 추가
   };
 
-  // 리뷰를 삭제하는 함수
-const handleDeleteReview = async (id) => {
-  try {
-    await axios.delete(`http://52.79.200.90:8080/api/v1/review/${id}`);
-    const updatedReviews = myReviews.filter((review) => review.id !== id);
-    setMyReviews(updatedReviews); // 삭제된 리뷰를 제외한 나머지 리뷰로 상태 업데이트
-  } catch (error) {
-    console.error("Deleting review failed", error);
-  }
-};
+  const handleDeleteReview = async (id) => {
+    try {
+      const userConfirmed = window.confirm("리뷰를 삭제하시겠습니까?");
+      
+      if (userConfirmed) {
+        // 사용자가 확인을 눌렀을 때만 삭제 작업 수행
+        await axios.delete(`http://52.79.200.90:8080/api/v1/review/${id}`);
+        const updatedReviews = myReviews.filter((review) => review.id !== id);
+        setMyReviews(updatedReviews); // 삭제된 리뷰를 제외한 나머지 리뷰로 상태 업데이트
+      } else {
+        console.log("User canceled deletion.");
+      }
+    } catch (error) {
+      console.error("Deleting review failed", error);
+    }
+  };
+  
 
   // 리뷰를 수정하기 위해 편집 상태로 변경하는 함수
   const handleEditClick = (id) => {
@@ -64,6 +71,7 @@ const handleDeleteReview = async (id) => {
 
  // 수정 중인 리뷰를 저장하고 편집 상태를 종료하는 함수
 const handleEditReview = async (id, editedReview) => {
+  // const accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwOTk3NjQ3MCwiZW1haWwiOiJtYXR0bmF2ZXJAZ21haWwuY29tIn0.kWUZjTMbqP6YzKsfnkJJvR_Dt0JkgX6-5uixemDDsPszzY1WbispSlo898lFTNnJqoTkzV_IEhm6IWjb0nnAJA";
   try {
     // API 요청을 통해 리뷰 수정
     await axios.put(`http://52.79.200.90:8080/api/v1/review/${id}`, {
@@ -92,40 +100,43 @@ const handleEditReview = async (id, editedReview) => {
         <WriteReview handleWriteReviewSubmit={handleWriteReviewSubmit} />
         
         {/* 이전에 작성한 리뷰 리스트 */}
-        {myReviews.map((review) => (
-          <div key={review.id} className="my-review">
-            <ReviewItem
-              author={review.author}
-              profileimg={review.profileimg}
-              movie={review.movie}
-              tag={review.tag}
-              content={editReview && editReview.id === review.id ? (
-                <div>
-                  <input
-                    type="text"
-                    value={editReview.content}
-                    onChange={(e) =>
-                      setEditReview({ ...editReview, content: e.target.value })
-                    }
-                  />
-                  <button onClick={() => handleEditReview(editReview.id, editReview)}>
-                    저장
-                  </button>
-                </div>
-              ) : (
-                review.content
-              )}
-              created_date={review.created_date}
-              evaluation={review.evaluation}
-              favorite={review.favorite}
-              id={review.id}
+        // 리뷰 항목을 렌더링하는 부분
+{myReviews.map((review) => (
+  <div key={review.id} className="my-review">
+    <ReviewItem
+      author={review.author}
+      profileimg={review.profileimg}
+      movie={review.movie}
+      tag={review.tag}
+      content={
+        editReview && editReview.id === review.id ? (
+          <div>
+            <textarea
+              value={editReview.content}
+              onChange={(e) =>
+                setEditReview({ ...editReview, content: e.target.value })
+              }
             />
-            <div className="review-buttons">
-              <button onClick={() => handleDeleteReview(review.id)}>삭제</button>
-              <button onClick={() => handleEditClick(review.id)}>수정</button>
-            </div>
+            <button onClick={() => handleEditReview(editReview.id, editReview)}>
+              저장
+            </button>
           </div>
-        ))}
+        ) : (
+          review.content
+        )
+      }
+      created_date={review.created_date}
+      evaluation={review.evaluation}
+      favorite={review.favorite}
+      id={review.id}
+    />
+    <div className="review-buttons">
+      <button onClick={() => handleDeleteReview(review.id)}>삭제</button>
+      <button onClick={() => handleEditClick(review.id)}>수정</button>
+    </div>
+  </div>
+))}
+
       </div>
     </div>
   );
