@@ -28,9 +28,9 @@ jobs: # Job 설정
 
       - name: Generate Environment Variables File for Production # Github Repository Secrets를 통해 환경 변수 파일을 생성합니다.
         run: |
-          echo "REACT_APP_MOVIE_DB_API_KEY=$REACT_APP_MOVIE_DB_API_KEY" >> .env
-        env:
-          REACT_APP_MOVIE_DB_API_KEY: ${{ secrets.REACT_APP_MOVIE_DB_API_KEY }}
+          touch .env
+          echo "REACT_APP_MOVIE_DB_API_KEY=${{ secrets.REACT_APP_MOVIE_DB_API_KEY }}" >> .env
+          echo "REACT_APP_OTTIFY_URL=${{secrets.REACT_APP_DEV_OTTIFY_URL}}" >> .env
 
       - name: Configure AWS credentials # AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
         uses: aws-actions/configure-aws-credentials@v1

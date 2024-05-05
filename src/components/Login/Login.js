@@ -30,7 +30,7 @@ const Login = () => {
 
   const OAUTH2_GOOGLE_REDIRECT_URI =
     "http://ottify.kro.kr:8080/login/oauth2/code/google";
-  const OAUTH2_NAVER_REDIRECT_URI = `http://${process.env.REACT_APP_PROD_OTTIFY_URL}:8080/login/oauth2/code/naver`;
+  const OAUTH2_NAVER_REDIRECT_URI = `http://${process.env.REACT_APP_OTTIFY_URL}:8080/login/oauth2/code/naver`;
 
   const GOOGLE_AUTH_URL =
     API_BASE_URL +
