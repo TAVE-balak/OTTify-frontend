@@ -26,21 +26,20 @@ const Login = () => {
     }
   };
 
-  const API_BASE_URL = "http://ottify.kro.kr:8080";
+   const API_BASE_URL = "http://ottify.kro.kr:8080";
+   
 
-  const OAUTH2_GOOGLE_REDIRECT_URI =
-    "http://ottify.kro.kr:8080/login/oauth2/code/google";
-  const OAUTH2_NAVER_REDIRECT_URI = `http://${process.env.REACT_APP_OTTIFY_URL}:8080/login/oauth2/code/naver`;
+
 
   const GOOGLE_AUTH_URL =
     API_BASE_URL +
     "/oauth2/authorization/google?redirect_uri=" +
-    OAUTH2_GOOGLE_REDIRECT_URI;
+    window.location.href;
 
   const NAVER_AUTH_URL =
     API_BASE_URL +
     "/oauth2/authorization/naver?redirect_uri=" +
-    OAUTH2_NAVER_REDIRECT_URI;
+    window.location.href;
 
   const loginGoogle = () => {
     window.location.href = GOOGLE_AUTH_URL;
